@@ -23,6 +23,8 @@
       "error",
       "windows"
     ],
+    "no-unused-vars": "off",
+    "arrow-body-style": "off",
     "no-prototype-builtins": "off",
     "no-underscore-dangle": "off",
     "no-shadow": "off",

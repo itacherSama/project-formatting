@@ -40,3 +40,13 @@
   width: auto;
   height: 100%;
 }
+
+.thumbsText {
+  text-align: center;
+}
+
+.DropzoneWrapper {
+  margin-bottom: 30px;
+}
+
+.blockButton {}
