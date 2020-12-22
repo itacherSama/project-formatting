@@ -15,12 +15,13 @@ function FirstPage() {
 
       </div>
       <div className='blockButton'>
-        <Link to='/resize'>
-          <Button
-            color='primary' disabled={ disableBtnNext }
-            variant='contained'
-          >Далее</Button>
-        </Link>
+
+        <Button
+          color='primary' disabled={ disableBtnNext }
+          variant='contained'
+        >
+          <Link to='/resize'>Далее</Link>
+        </Button>
       </div>
 
     </>

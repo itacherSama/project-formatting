@@ -18,6 +18,5 @@ export const setFiles = (acceptedFiles, oldFiles, setImages) => {
   }));
 
   const connectedFiles = prevFiles.concat(newFiles);
-  // imageUpload(connectedFiles);
   setImages(connectedFiles);
 };

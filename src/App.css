@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.thumbsContainer {
+.blockImgContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -17,36 +17,46 @@
   align-self: flex-start;
 }
 
-.thumb {
+.blockImg {
   display: inline-flex;
   border-radius: 2px;
-  border: 1px solid #eaeaea;
   margin-bottom: 8px;
   margin-right: 8px;
-  width: 100px;
-  height: 100px;
+  width: 100%;
   padding: 4px;
   box-sizing: border-box;
 }
 
-.thumbInner {
+.blockImgInList {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #eaeaea;
+}
+
+.blockImgInner {
   display: flex;
   min-width: 0px;
   overflow: hidden;
 }
 
-.thumbInner img {
+.blockImgSolo {
+  max-height: 300px; 
+}
+
+.blockImgSolo .blockImgInner {
+  justify-content: center;
+}
+
+.blockImgInner img {
   display: block;
   width: auto;
   height: 100%;
 }
 
-.thumbsText {
+.blockImgText {
   text-align: center;
 }
 
 .DropzoneWrapper {
   margin-bottom: 30px;
 }
-
-.blockButton {}

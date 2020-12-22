@@ -1,22 +1,16 @@
 import React from 'react';
+import BlockImg from '../../BlockImg';
 
 const DropzonePreview = ({ images }) => {
-  const thumbs = images.map((file, idx) => (
-    <div className={ 'thumb' } key={ `${file.name}_${idx}` }>
-      <div className={ 'thumbInner' }>
-        <img
-          alt={ `${file.name}_${idx}` }
-          src={ file.preview }
-        />
-      </div>
-    </div>
+  const blockImgs = images.map((file, idx) => (
+    <BlockImg file={ file } key={ `${file.name}_${idx}` } />
   ));
 
   if (!images.length) {
-    return (<p className={ 'thumbsText' }>Drag &apos;n drop some files here, or click to select files</p>);
+    return (<p className={ 'blockImgText' }>Drag &apos;n drop some files here, or click to select files</p>);
   }
-  return (<aside className={ 'thumbsContainer' }>
-    {thumbs}
+  return (<aside className={ 'blockImgContainer' }>
+    {blockImgs}
   </aside>);
 };
 
