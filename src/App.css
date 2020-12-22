@@ -60,3 +60,8 @@
 .DropzoneWrapper {
   margin-bottom: 30px;
 }
+
+.grid-image img {
+  max-width: 160px;
+  max-height: 160px;
+}

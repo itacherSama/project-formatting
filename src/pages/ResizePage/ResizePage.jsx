@@ -1,12 +1,14 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { $currentImage, setCurrentImage } from '../../effector';
+import { $currentImage, setCurrentImage, $images } from '../../effector';
 import BlockImg from '../../components/BlockImg';
+import Gallery from '../../components/Gallery';
 
 const ResizePage = () => {
   const image = useStore($currentImage);
-
+  const images = useStore($images);
+  console.log(images);
   return (
     <>
       <div>
@@ -15,7 +17,9 @@ const ResizePage = () => {
       {!!image && <BlockImg file={ image } isImgSolo />}
 
       <div className="kitImages">
-        много картинок
+        {images.length
+        && <Gallery images={ images } />
+      }
       </div>
 
       <Button
