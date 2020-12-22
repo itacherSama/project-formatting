@@ -63,5 +63,8 @@
 
 .grid-image img {
   max-width: 160px;
-  max-height: 160px;
+  /* max-height: 160px; */
+  text-align: center;
+  margin: 0 auto;
+
 }

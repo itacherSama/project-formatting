@@ -4,9 +4,9 @@ import Masonry from 'react-masonry-component';
 const masonryOptions = {
   transitionDuration: 0,
   itemSelector: '.grid-image',
-  gutter: 10,
+  gutter: 4,
   fitWidth: true,
-
+  // columnWidth: 80,
 };
 
 function Gallery({ images }) {
