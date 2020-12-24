@@ -1,10 +1,10 @@
- .container {
-   width: 860px;
-   min-width: 300px;
-   margin: 0 auto;
- }
- 
- .dropzone {
+.container {
+  width: 860px;
+  min-width: 300px;
+  margin: 0 auto;
+}
+
+.dropzone {
   background-color: rgba(128, 128, 128, 0.09);
   text-align: center;
 }
@@ -40,7 +40,7 @@
 }
 
 .blockImgSolo {
-  max-height: 300px; 
+  max-height: 300px;
 }
 
 .blockImgSolo .blockImgInner {
@@ -61,10 +61,27 @@
   margin-bottom: 30px;
 }
 
-.grid-image img {
-  max-width: 160px;
-  /* max-height: 160px; */
-  text-align: center;
+.grid {
   margin: 0 auto;
+}
 
+.grid-image {
+  margin-right: 5px;
+}
+
+.grid-image img {
+  width: inherit;
+  height: inherit;
+}
+
+.grid-item--default {
+  width: 180px;
+  height: 160px;
+}
+
+.grid-item--width2 {
+  width: 180px;
+}
+.grid-item--height2 {
+  height: 160px;
 }

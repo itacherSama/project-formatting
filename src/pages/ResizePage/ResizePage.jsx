@@ -8,7 +8,7 @@ import Gallery from '../../components/Gallery';
 const ResizePage = () => {
   const image = useStore($currentImage);
   const images = useStore($images);
-  console.log(images);
+
   return (
     <>
       <div>
@@ -18,7 +18,7 @@ const ResizePage = () => {
 
       <div className="kitImages">
         {images.length
-        && <Gallery images={ images } />
+        && <Gallery files={ images } />
       }
       </div>
 

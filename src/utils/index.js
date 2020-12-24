@@ -20,3 +20,26 @@ export const setFiles = (acceptedFiles, oldFiles, setImages) => {
   const connectedFiles = prevFiles.concat(newFiles);
   setImages(connectedFiles);
 };
+
+export const getWidthAndHeightFromFile = (file) => {
+  const imageObj = new Image();
+  imageObj.src = file.preview;
+  const imgWidth = imageObj.width;
+  const imgHeight = imageObj.height;
+  return { imgWidth, imgHeight };
+};
+
+export const calcProportion = (firstArg, necessarySize, secondArg) => {
+  const propotion = Math.round(firstArg * (necessarySize / secondArg));
+  return propotion;
+};
+
+export const getTypeByPropotion = (proportionWidth, proportionHeight, types) => {
+  if ((Math.round(proportionWidth / proportionHeight)) > 1) {
+    return types[1];
+  } else if ((proportionHeight / proportionWidth) > 1) {
+    return types[2];
+  } else {
+    return types[0];
+  }
+};
