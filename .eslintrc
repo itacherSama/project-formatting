@@ -37,6 +37,7 @@
     "no-else-return": "off",
     "no-debugger": "off",
     //react
+    "react/jsx-no-duplicate-props": "off",
     "react/prop-types": "off",
     "react/forbid-prop-types": "off",
     "react/no-multi-comp": [

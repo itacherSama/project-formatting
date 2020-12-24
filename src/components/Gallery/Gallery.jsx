@@ -1,17 +1,23 @@
 import * as React from 'react';
 import Masonry from 'react-masonry-component';
 import cn from 'classnames';
+import IconButton from '@material-ui/core/IconButton';
+import AddIcon from '@material-ui/icons/Add';
+
 import { getWidthAndHeightFromFile, calcProportion, getTypeByPropotion } from '../../utils';
-
-const masonryOptions = {
-  itemSelector: '.grid-image',
-
-  columnWidth: 1,
-};
+import useStyles from './styles';
 
 const typesBlock = ['normal', 'width', 'height'];
 
 function Gallery({ files }) {
+  const styles = useStyles();
+
+  const masonryOptions = {
+    itemSelector: `.${styles.gridImage}`,
+    horizontalOrder: true,
+    columnWidth: 1,
+  };
+
   const childElements = files.map((file, idx) => {
     const { imgWidth, imgHeight } = getWidthAndHeightFromFile(file);
 
@@ -23,23 +29,30 @@ function Gallery({ files }) {
     return (
       <li
         className={ cn(
-          'grid-image',
+          styles.gridImage,
           {
-            'grid-item--default': currentType === typesBlock[0],
-            'grid-item--width2': currentType === typesBlock[1],
-            'grid-item--height2': currentType === typesBlock[2],
+            [styles.gridItemDefault]: currentType === typesBlock[0],
+            [styles.gridItemWidth]: currentType === typesBlock[1],
+            [styles.gridItemHeight]: currentType === typesBlock[2],
           },
         ) } key={ idx }
       >
-        <img src={ file.preview } />
+        <img className={ styles.gridItemImg } src={ file.preview } />
       </li>
     );
   });
 
   return (
     <>
-      <Masonry className="grid" elementType="ul" options={ masonryOptions }>
+      <Masonry className={ styles.grid } elementType="ul" options={ masonryOptions }>
         {childElements}
+        <li className={ cn(styles.gridImage, styles.gridItemAdd) }>
+          <IconButton
+            aria-label="add" className={ styles.iconButton } color='primary'
+          >
+            <AddIcon fontSize='large' />
+          </IconButton>
+        </li>
       </Masonry>
     </>
   );

@@ -60,28 +60,3 @@
 .DropzoneWrapper {
   margin-bottom: 30px;
 }
-
-.grid {
-  margin: 0 auto;
-}
-
-.grid-image {
-  margin-right: 5px;
-}
-
-.grid-image img {
-  width: inherit;
-  height: inherit;
-}
-
-.grid-item--default {
-  width: 180px;
-  height: 160px;
-}
-
-.grid-item--width2 {
-  width: 180px;
-}
-.grid-item--height2 {
-  height: 160px;
-}
