@@ -22,3 +22,13 @@
 .gridItemHeight {
   height: 160px;
 }
+
+.gridItemAdd {
+  width: 100px;
+  height: 100px;
+}
+
+.iconButton {
+  height: inherit;
+  width: inherit;
+}
