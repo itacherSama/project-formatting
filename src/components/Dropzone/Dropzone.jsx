@@ -18,11 +18,11 @@ const Dropzone = ({ images }) => {
     onDrop: (acceptedFiles) => setFiles(acceptedFiles, images, setImages),
   });
 
-  const classes = useStyles({ isDragActive, isDragAccept, isDragReject });
+  const styles = useStyles({ isDragActive, isDragAccept, isDragReject });
 
   return (
     <div
-      className={ classes.container }
+      className={ styles.container }
       { ...getRootProps() }
     >
       <input { ...getInputProps() } />

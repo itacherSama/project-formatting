@@ -1,0 +1,35 @@
+.blockImg {
+  display: inline-flex;
+  border-radius: 2px;
+  margin-bottom: 8px;
+  margin-right: 8px;
+  width: 100%;
+  padding: 4px;
+  box-sizing: border-box;
+}
+
+.blockImgInList {
+  width: 100px;
+  height: 100px;
+  border: 1px solid #eaeaea;
+}
+
+.blockImgSolo {
+  max-height: 300px;
+}
+
+.blockImgSolo .blockImgInner {
+  justify-content: center;
+}
+
+.blockImgInner {
+  display: flex;
+  min-width: 0px;
+  overflow: hidden;
+}
+
+.blockImgInner img {
+  display: block;
+  width: auto;
+  height: 100%;
+}

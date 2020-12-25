@@ -4,17 +4,18 @@ import Button from '@material-ui/core/Button';
 import { useStore } from 'effector-react';
 import Dropzone from '../../components/Dropzone';
 import { $images } from '../../effector';
+import styles from './FirstPage.module.css';
 
 function FirstPage() {
   const images = useStore($images);
   const disableBtnNext = !images.length;
   return (
     <>
-      <div className='DropzoneWrapper'>
+      <div className={ styles.DropzoneWrapper }>
         <Dropzone images={ images } />
 
       </div>
-      <div className='blockButton'>
+      <div className={ styles.blockButton }>
 
         <Button
           color='primary' disabled={ disableBtnNext }

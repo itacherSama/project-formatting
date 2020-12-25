@@ -5,13 +5,11 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
 import { getWidthAndHeightFromFile, calcProportion, getTypeByPropotion } from '../../utils';
-import useStyles from './styles';
+import styles from './Gallery.module.css';
 
 const typesBlock = ['normal', 'width', 'height'];
 
 function Gallery({ files }) {
-  const styles = useStyles();
-
   const masonryOptions = {
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,

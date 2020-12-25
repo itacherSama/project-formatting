@@ -4,6 +4,7 @@ import Button from '@material-ui/core/Button';
 import { $currentImage, setCurrentImage, $images } from '../../effector';
 import BlockImg from '../../components/BlockImg';
 import Gallery from '../../components/Gallery';
+import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
   const image = useStore($currentImage);
@@ -16,7 +17,7 @@ const ResizePage = () => {
       </div>
       {!!image && <BlockImg file={ image } isImgSolo />}
 
-      <div className="kitImages">
+      <div className={ styles.kitImages }>
         {images.length
         && <Gallery files={ images } />
       }

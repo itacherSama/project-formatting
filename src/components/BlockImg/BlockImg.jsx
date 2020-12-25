@@ -1,14 +1,15 @@
 import React from 'react';
 import cn from 'classnames';
+import styles from './BlockImg.module.css';
 
 const BlockImg = ({ file, isImgSolo = false }) => {
   return (
     <div className={ cn(
-      'blockImg',
-      isImgSolo ? 'blockImgSolo' : 'blockImgInList',
+      styles.blockImg,
+      isImgSolo ? styles.blockImgSolo : styles.blockImgInList,
     ) }
     >
-      <div className={ 'blockImgInner' }>
+      <div className={ styles.blockImgInner }>
         <img
           alt={ file.name }
           src={ file.preview }

@@ -1,0 +1,11 @@
+.blockImgContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  margin-top: 16px;
+  align-self: flex-start;
+}
+
+.blockImgText {
+  text-align: center;
+}
