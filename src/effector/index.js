@@ -1,27 +1,32 @@
 import { createStore, createEvent } from 'effector';
+import { getLocalImage } from '../utils';
 
 const images = localStorage.getItem('fileBase64');
 // console.log(images);
 export const setImages = createEvent();
-export const setCurrentImage = createEvent();
+export const setCurrentCropIdx = createEvent();
+export const setCurrentCropImage = createEvent();
+export const setNextImage = createEvent();
+export const setPreviousImage = createEvent();
+export const setLengthKitsImages = createEvent();
+export const setKitImages = createEvent();
 
-fetch(images)
-  .then((res) => res.blob())
-  .then((blob) => {
-    const file = new File([blob], 'File name', { type: 'image/png' });
-    const newFiles = [file].map((file) => Object.assign(file, {
-      preview: URL.createObjectURL(file),
-    }));
-    setImages([...newFiles, ...newFiles]);
-  });
+getLocalImage(images, setImages);
 
 export const $images = createStore([])
   .on(setImages, (state, images) => [...images]);
 
-export const $currentImage = createStore(null)
-  .on(setCurrentImage, (state, image) => image);
+export const $currentCropImage = createStore(null)
+  .on(setCurrentCropImage, (state, image) => image);
+
+// export const $kitsImages = createStore(null)
+//   .on(setLengthKitsImages, (state, length) => new Array(length))
+//   .on(setKitImages, (state, kitImages, idx) => {
+//     console.log(idx);
+//     return [...state, kitImages];
+//   });
 
 $images.watch((state) => {
-  const firstFile = state[0];
-  setCurrentImage(firstFile);
+  setCurrentCropImage(state[0]);
+  setLengthKitsImages(state.length);
 });

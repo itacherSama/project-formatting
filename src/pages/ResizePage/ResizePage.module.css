@@ -13,3 +13,9 @@
 .kitImages {
   margin-bottom: 10px;
 }
+
+.crop {
+  width: 500px;
+  position: relative;
+  border: 1px solid blue;
+}

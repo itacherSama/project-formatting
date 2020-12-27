@@ -43,3 +43,15 @@ export const getTypeByPropotion = (proportionWidth, proportionHeight, types) => 
     return types[0];
   }
 };
+
+export const getLocalImage = (images, setImages) => {
+  fetch(images)
+    .then((res) => res.blob())
+    .then((blob) => {
+      const file = new File([blob], 'File name', { type: 'image/png' });
+      const newFiles = [file].map((file) => Object.assign(file, {
+        preview: URL.createObjectURL(file),
+      }));
+      setImages([...newFiles, ...newFiles]);
+    });
+};
