@@ -96,3 +96,14 @@ export const getCroppedImg = (image, crop, fileName) => {
     }, 'image/jpeg');
   });
 };
+
+export const doIfInteger = (value, setFunc, prop, oldProp) => {
+  const parsedInt = parseInt(value);
+
+  if (parsedInt) {
+    setFunc({
+      ...oldProp,
+      [prop]: parseInt(value),
+    });
+  }
+};

@@ -3,11 +3,15 @@ import ReactCrop from 'react-image-crop';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getCroppedImg } from '../../utils';
 
-const Crop = ({ addCropedImg, src }) => {
+const Crop = ({ addCropedImg, src, mySizeCrop }) => {
   const [imageRef, setImageRef] = React.useState(null);
   const [crop, setCrop] = React.useState({
     unit: 'px',
   });
+
+  React.useEffect(() => {
+    setCrop({ ...crop, ...mySizeCrop });
+  }, [mySizeCrop]);
 
   const onCropChange = (crop) => {
     setCrop(crop);
