@@ -36,6 +36,7 @@
     "import/no-extraneous-dependencies": "off",
     "no-else-return": "off",
     "no-debugger": "off",
+    "no-param-reassign": "off",
     //react
     "react/jsx-no-duplicate-props": "off",
     "react/prop-types": "off",

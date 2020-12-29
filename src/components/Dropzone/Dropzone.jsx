@@ -1,6 +1,6 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
-import { setImages } from '../../effector';
+import { setImages } from '../../effector/event';
 import DropzonePreview from './DropzonePreview';
 import { setFiles } from '../../utils';
 

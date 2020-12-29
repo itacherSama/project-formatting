@@ -19,3 +19,12 @@
   position: relative;
   border: 1px solid blue;
 }
+
+.blockImg {
+  display: flex;
+  justify-content: center;
+}
+
+.blockImg img {
+  max-width: 500px;
+}

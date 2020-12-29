@@ -2,18 +2,22 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $currentCropImage, setCurrentCropImage, $images, setKitImages,
-} from '../../effector';
+  $currentCropImage, $images, $kitsImages,
+} from '../../effector/store';
+import {
+  setCurrentCropImage, setKitImages,
+} from '../../effector/event';
 import BlockImg from '../../components/BlockImg';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
-
 import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
   const images = useStore($images);
   const image = useStore($currentCropImage);
+  // const kitsImages = useStore($kitsImages);
   const [imageIdx, setImageIdx] = React.useState(0);
+  const [kitImages, setKitImages] = React.useState([]);
 
   const onChangeImg = (newIdx) => {
     const img = images[newIdx];
@@ -33,20 +37,27 @@ const ResizePage = () => {
     onChangeImg(newIdx);
   };
 
+  const addCropedImg = (img) => {
+    setKitImages([...kitImages, img]);
+  };
+
   return (
     <>
       <div>
         ResizePage
       </div>
-      {!!image && <BlockImg file={ image } isImgSolo />}
+      {!!image
+        && <div className={ styles.blockImg }>
+          <img src={ image.preview } />
+        </div>}
 
       <div className={ styles.kitImages }>
-        {images.length
-        && <Gallery files={ images } />
+        {kitImages.length
+        && <Gallery files={ kitImages } />
       }
       </div>
       <div className={ styles.crop }>
-        <Crop />
+        <Crop addCropedImg={ addCropedImg } src={ image.preview } />
       </div>
       <div className="buttons">
         <Button
