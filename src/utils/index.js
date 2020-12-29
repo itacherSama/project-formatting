@@ -23,10 +23,10 @@ export const setFiles = (acceptedFiles, oldFiles, setImages) => {
 };
 
 export const getWidthAndHeightFromFile = (file) => {
-  const imageObj = new Image();
-  imageObj.src = file.preview;
-  const imgWidth = imageObj.width;
-  const imgHeight = imageObj.height;
+  const img = new Image();
+  img.src = file.preview;
+  const imgWidth = img.width;
+  const imgHeight = img.height;
   return { imgWidth, imgHeight };
 };
 
@@ -36,12 +36,10 @@ export const calcProportion = (firstArg, necessarySize, secondArg) => {
 };
 
 export const getTypeByPropotion = (proportionWidth, proportionHeight, types) => {
-  if ((Math.round(proportionWidth / proportionHeight)) > 1) {
-    return types[1];
-  } else if ((proportionHeight / proportionWidth) > 1) {
-    return types[2];
-  } else {
+  if ((proportionWidth / proportionHeight) > 1) {
     return types[0];
+  } else {
+    return types[1];
   }
 };
 
@@ -65,7 +63,6 @@ export const toBase64 = (file) => new Promise((resolve, reject) => {
 });
 
 export const getCroppedImg = (image, crop, fileName) => {
-  debugger;
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;

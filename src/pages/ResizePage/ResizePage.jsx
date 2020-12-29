@@ -51,14 +51,15 @@ const ResizePage = () => {
           <img src={ image.preview } />
         </div>}
 
-      <div className={ styles.kitImages }>
-        {kitImages.length
-        && <Gallery files={ kitImages } />
-      }
-      </div>
-      <div className={ styles.crop }>
+      {kitImages.length
+        && <div className={ styles.kitImages }>
+          <Gallery files={ kitImages } />
+        </div>}
+      {image.preview
+      && <div className={ styles.crop }>
         <Crop addCropedImg={ addCropedImg } src={ image.preview } />
-      </div>
+      </div>}
+
       <div className="buttons">
         <Button
           color='primary'

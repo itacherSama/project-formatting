@@ -20,7 +20,7 @@ const Crop = ({ addCropedImg, src }) => {
         crop,
         `newFile${Math.random()}.jpeg`,
       );
-      addCropedImg({ preview: croppedImageUrl });
+      addCropedImg({ preview: croppedImageUrl, imgWidth: crop.width, imgHeight: crop.height });
     }
   };
 

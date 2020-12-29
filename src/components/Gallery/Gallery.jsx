@@ -4,10 +4,10 @@ import cn from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-import { getWidthAndHeightFromFile, calcProportion, getTypeByPropotion } from '../../utils';
+import { calcProportion, getTypeByPropotion } from '../../utils';
 import styles from './Gallery.module.css';
 
-const typesBlock = ['normal', 'width', 'height'];
+const typesBlock = ['width', 'height'];
 
 function Gallery({ files }) {
   const masonryOptions = {
@@ -17,22 +17,19 @@ function Gallery({ files }) {
   };
 
   const childElements = files.map((file, idx) => {
-    const { imgWidth, imgHeight } = getWidthAndHeightFromFile(file);
-
-    const proportionWidth = calcProportion(imgWidth, 160, imgHeight);
-    const proportionHeight = calcProportion(imgHeight, 180, imgWidth);
+    const proportionWidth = calcProportion(file.imgWidth, 160, file.imgHeight);
+    const proportionHeight = calcProportion(file.imgHeight, 180, file.imgWidth);
 
     const currentType = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
-
     return (
       <li
         className={ cn(
           styles.gridImage,
           {
-            [styles.gridItemDefault]: currentType === typesBlock[0],
-            [styles.gridItemWidth]: currentType === typesBlock[1],
-            [styles.gridItemHeight]: currentType === typesBlock[2],
+            [styles.gridItemWidth]: currentType === typesBlock[0],
+            [styles.gridItemHeight]: currentType === typesBlock[1],
           },
+
         ) } key={ idx }
       >
         <img className={ styles.gridItemImg } src={ file.preview } />
