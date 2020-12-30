@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import TextField from '@material-ui/core/TextField';
 import {
   $currentCropImage, $images, $kitsImages,
 } from '../../effector/store';
@@ -11,7 +10,6 @@ import {
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import styles from './ResizePage.module.css';
-import { doIfInteger } from '../../utils';
 
 const ResizePage = () => {
   const images = useStore($images);
@@ -19,17 +17,6 @@ const ResizePage = () => {
   // const kitsImages = useStore($kitsImages);
   const [imageIdx, setImageIdx] = React.useState(0);
   const [kitImages, setKitImages] = React.useState([]);
-  const [mySizeCrop, setMySizeCrop] = React.useState(null);
-
-  const setCropHeight = (e) => {
-    const { value } = e.target;
-    doIfInteger(value, setMySizeCrop, 'height', mySizeCrop);
-  };
-
-  const setCropWidth = (e) => {
-    const { value } = e.target;
-    doIfInteger(value, setMySizeCrop, 'width', mySizeCrop);
-  };
 
   const onChangeImg = (newIdx) => {
     const img = images[newIdx];
@@ -55,9 +42,6 @@ const ResizePage = () => {
 
   return (
     <>
-      <div>
-        ResizePage
-      </div>
       {!!image
         && <div className={ styles.blockImg }>
           <img src={ image.preview } />
@@ -71,16 +55,8 @@ const ResizePage = () => {
       && <div className={ styles.crop }>
         <Crop
           addCropedImg={ addCropedImg }
-          mySizeCrop={ mySizeCrop }
           src={ image.preview }
         />
-        <div className="controlSize">
-          <form autoComplete="off" className={ styles.form } noValidate>
-            <TextField label="Height" onChange={ setCropHeight } />
-            <TextField label="Width" onChange={ setCropWidth } />
-
-          </form>
-        </div>
       </div>}
 
       <div className="buttons">

@@ -18,7 +18,6 @@ export const setFiles = (acceptedFiles, oldFiles, setImages) => {
   }));
 
   const connectedFiles = prevFiles.concat(newFiles);
-  console.log(JSON.stringify(connectedFiles[0]));
   setImages(connectedFiles);
 };
 
@@ -85,25 +84,11 @@ export const getCroppedImg = (image, crop, fileName) => {
   return new Promise((resolve, reject) => {
     canvas.toBlob((blob) => {
       if (!blob) {
-        // reject(new Error('Canvas is empty'));
-        console.error('Canvas is empty');
         return;
       }
       blob.name = fileName;
-      // window.URL.revokeObjectURL(this.fileUrl);
       const fileUrl = window.URL.createObjectURL(blob);
       resolve(fileUrl);
     }, 'image/jpeg');
   });
-};
-
-export const doIfInteger = (value, setFunc, prop, oldProp) => {
-  const parsedInt = parseInt(value);
-
-  if (parsedInt) {
-    setFunc({
-      ...oldProp,
-      [prop]: parseInt(value),
-    });
-  }
 };

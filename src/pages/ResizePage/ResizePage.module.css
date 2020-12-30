@@ -29,3 +29,9 @@
 .blockImg img {
   max-width: 100px;
 }
+
+.form {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
