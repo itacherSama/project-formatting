@@ -2,10 +2,11 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $currentCropImage, $images, $kitsImages,
+  $images, $kitsImages, $currentIdxKitImages,
 } from '../../effector/store';
 import {
   setCurrentCropImage, setKitImages,
+  nextKitImages, previousKitImages,
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
@@ -13,49 +14,42 @@ import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
   const images = useStore($images);
-  const image = useStore($currentCropImage);
-  // const kitsImages = useStore($kitsImages);
-  const [imageIdx, setImageIdx] = React.useState(0);
-  const [kitImages, setKitImages] = React.useState([]);
+  const kitsImages = useStore($kitsImages);
+  const currentIdxKitImages = useStore($currentIdxKitImages);
+  const currentKitImg = kitsImages[currentIdxKitImages.idx];
+  const currentImg = images[currentIdxKitImages.idx];
+  React.useEffect(() => {
+    setCurrentCropImage(kitsImages[currentIdxKitImages]);
+  }, [currentIdxKitImages]);
 
-  const onChangeImg = (newIdx) => {
-    const img = images[newIdx];
-    if (!img) return;
-
-    setCurrentCropImage(img);
-    setImageIdx(newIdx);
-  };
-
-  const onNextImage = () => {
-    const newIdx = imageIdx + 1;
-    onChangeImg(newIdx);
+  const onAddCropedImg = (img) => {
+    setKitImages({ kitImages: [...currentKitImg, img], idx: currentIdxKitImages.idx });
   };
 
   const onPreviousImage = () => {
-    const newIdx = imageIdx - 1;
-    onChangeImg(newIdx);
+    previousKitImages();
   };
 
-  const addCropedImg = (img) => {
-    setKitImages([...kitImages, img]);
+  const onNextImage = () => {
+    nextKitImages();
   };
 
   return (
     <>
-      {!!image
+      {currentImg
         && <div className={ styles.blockImg }>
-          <img src={ image.preview } />
+          <img src={ currentImg.preview } />
         </div>}
 
-      {kitImages.length
+      {!!currentKitImg
         && <div className={ styles.kitImages }>
-          <Gallery files={ kitImages } />
+          <Gallery files={ currentKitImg } />
         </div>}
-      {image.preview
+      {currentImg.preview
       && <div className={ styles.crop }>
         <Crop
-          addCropedImg={ addCropedImg }
-          src={ image.preview }
+          addCropedImg={ onAddCropedImg }
+          src={ currentImg.preview }
         />
       </div>}
 

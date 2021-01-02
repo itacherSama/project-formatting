@@ -37,6 +37,7 @@
     "no-else-return": "off",
     "no-debugger": "off",
     "no-param-reassign": "off",
+    "no-extra-boolean-cast": "off",
     //react
     "react/jsx-no-duplicate-props": "off",
     "react/prop-types": "off",

@@ -7,3 +7,7 @@ export const setNextImage = createEvent();
 export const setPreviousImage = createEvent();
 export const setLengthKitsImages = createEvent();
 export const setKitImages = createEvent();
+export const addCroppedImg = createEvent();
+export const nextKitImages = createEvent();
+export const previousKitImages = createEvent();
+export const setCurrentIdx = createEvent();
