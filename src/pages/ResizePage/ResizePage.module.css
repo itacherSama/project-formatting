@@ -18,6 +18,8 @@
   width: 500px;
   position: relative;
   border: 1px solid blue;
+  margin: 0 auto;
+  background-color: #fff;
 }
 
 .blockImg {

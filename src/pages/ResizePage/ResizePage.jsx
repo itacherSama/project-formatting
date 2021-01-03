@@ -2,14 +2,15 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $images, $kitsImages, $currentIdxKitImages,
+  $images, $kitsImages, $currentIdxKitImages, $modalState,
 } from '../../effector/store';
 import {
   setCurrentCropImage, setKitImages,
-  nextKitImages, previousKitImages,
+  nextKitImages, previousKitImages, activeModal, disableModal,
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
+import ModalCrop from '../../components/ModalCrop';
 import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
@@ -18,6 +19,8 @@ const ResizePage = () => {
   const currentIdxKitImages = useStore($currentIdxKitImages);
   const currentKitImg = kitsImages[currentIdxKitImages.idx];
   const currentImg = images[currentIdxKitImages.idx];
+  const modalState = useStore($modalState);
+
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages]);
@@ -34,6 +37,14 @@ const ResizePage = () => {
     nextKitImages();
   };
 
+  const handleActiveModal = () => {
+    activeModal();
+  };
+
+  const handleCloseModal = () => {
+    disableModal();
+  };
+
   return (
     <>
       {currentImg
@@ -43,15 +54,19 @@ const ResizePage = () => {
 
       {!!currentKitImg
         && <div className={ styles.kitImages }>
-          <Gallery files={ currentKitImg } />
+          <Gallery files={ currentKitImg } loadModal={ handleActiveModal } />
         </div>}
-      {currentImg.preview
+      <ModalCrop onCloseModal={ handleCloseModal } open={ modalState }>
+        {currentImg.preview
       && <div className={ styles.crop }>
         <Crop
           addCropedImg={ onAddCropedImg }
+          onCloseModal={ handleCloseModal }
           src={ currentImg.preview }
         />
       </div>}
+
+      </ModalCrop>
 
       <div className="buttons">
         <Button

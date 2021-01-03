@@ -6,7 +6,7 @@ import 'react-image-crop/dist/ReactCrop.css';
 import { getCroppedImg } from '../../utils';
 import styles from './Crop.module.css';
 
-const Crop = ({ addCropedImg, src }) => {
+const Crop = ({ addCropedImg, src, onCloseModal }) => {
   const [imageRef, setImageRef] = React.useState(null);
   const [crop, setCrop] = React.useState({
     unit: 'px',
@@ -33,6 +33,7 @@ const Crop = ({ addCropedImg, src }) => {
 
   const onCropComplete = () => {
     makeClientCrop(crop);
+    onCloseModal();
   };
 
   const dischargeCrop = () => {

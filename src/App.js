@@ -13,10 +13,7 @@ function App() {
           <FirstPage />
         </Route>
         <Route path='/resize'>
-          <>
-            <ResizePage />
-
-          </>
+          <ResizePage />
         </Route>
       </Switch>
     </div>

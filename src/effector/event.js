@@ -11,3 +11,5 @@ export const addCroppedImg = createEvent();
 export const nextKitImages = createEvent();
 export const previousKitImages = createEvent();
 export const setCurrentIdx = createEvent();
+export const activeModal = createEvent();
+export const disableModal = createEvent();

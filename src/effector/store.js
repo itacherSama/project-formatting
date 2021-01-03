@@ -27,6 +27,10 @@ export const $kitsImages = createStore([])
     return newState;
   });
 
+export const $modalState = createStore(false)
+  .on(events.activeModal, (state) => true)
+  .on(events.disableModal, (state) => false);
+
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);

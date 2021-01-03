@@ -9,7 +9,7 @@ import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];
 
-function Gallery({ files }) {
+function Gallery({ files, loadModal }) {
   const masonryOptions = {
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
@@ -41,7 +41,7 @@ function Gallery({ files }) {
     <>
       <Masonry className={ styles.grid } elementType="ul" options={ masonryOptions }>
         {childElements}
-        <li className={ cn(styles.gridImage, styles.gridItemAdd) }>
+        <li className={ cn(styles.gridImage, styles.gridItemAdd) } onClick={ loadModal }>
           <IconButton
             aria-label="add" className={ styles.iconButton } color='primary'
           >
