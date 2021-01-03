@@ -92,7 +92,7 @@ const ResizePage = () => {
 
       </ModalCrop>
 
-      <div className="buttons">
+      <div className={ styles.buttons }>
         <Button
           color='primary'
           disabled={ currentIdxKitImages.idx === 0 }
@@ -109,7 +109,9 @@ const ResizePage = () => {
         </Button>
       </div>
 
-      <Button onClick={ downloadFiles }>Скачать изображения</Button>
+      <div className={ styles.download }>
+        <Button color='primary' onClick={ downloadFiles } variant='contained'>Скачать изображения</Button>
+      </div>
     </>
   );
 };

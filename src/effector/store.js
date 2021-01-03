@@ -2,8 +2,8 @@ import { createStore, combine } from 'effector';
 import * as events from './event';
 import { getLocalImage, findNewCurrentIdx } from '../utils';
 
-const images = localStorage.getItem('fileBase64');
-getLocalImage(images, events.setImages);
+/* const images = localStorage.getItem('fileBase64');
+getLocalImage(images, events.setImages); */
 
 export const $images = createStore([])
   .on(events.setImages, (state, images) => [...images]);
