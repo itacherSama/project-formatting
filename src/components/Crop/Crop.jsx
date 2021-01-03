@@ -2,12 +2,16 @@ import React from 'react';
 import ReactCrop from 'react-image-crop';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
+import { useStore } from 'effector-react';
 import 'react-image-crop/dist/ReactCrop.css';
 import { getCroppedImg } from '../../utils';
+import { $numberImg } from '../../effector/store';
+import { nextNumberImg } from '../../effector/event';
 import styles from './Crop.module.css';
 
 const Crop = ({ addCropedImg, src, onCloseModal }) => {
   const [imageRef, setImageRef] = React.useState(null);
+  const numberImg = useStore($numberImg);
   const [crop, setCrop] = React.useState({
     unit: 'px',
   });
@@ -21,7 +25,7 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
       const croppedImageUrl = await getCroppedImg(
         imageRef,
         crop,
-        `newFile${Math.random()}.jpeg`,
+        `${numberImg}.jpeg`,
       );
       addCropedImg({ preview: croppedImageUrl, imgWidth: crop.width, imgHeight: crop.height });
     }
@@ -33,6 +37,7 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
 
   const onCropComplete = () => {
     makeClientCrop(crop);
+    nextNumberImg();
     onCloseModal();
   };
 
@@ -80,13 +85,14 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
         src={ src }
 
       />
-      <div>Crop: {JSON.stringify(crop)}</div>
-      <Button onClick={ onCropComplete }>Сохранить</Button>
-      <div className="controlSize">
-        <form autoComplete="off" className={ styles.form } noValidate>
+      <div className={ styles.controlSize }>
+        <div>{JSON.stringify(crop)}</div>
+
+        <form autoComplete="off" className={ styles.cropForm } noValidate>
           <TextField label="Height" onChange={ setCropHeight } />
           <TextField label="Width" onChange={ setCropWidth } />
-          <Button label="Width" onClick={ dischargeCrop }>Отмена</Button>
+          {/* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */}
+          <Button color='primary' onClick={ onCropComplete }>Save</Button>
         </form>
       </div>
     </>

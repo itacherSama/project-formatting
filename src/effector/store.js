@@ -31,6 +31,9 @@ export const $modalState = createStore(false)
   .on(events.activeModal, (state) => true)
   .on(events.disableModal, (state) => false);
 
+export const $numberImg = createStore(0)
+  .on(events.nextNumberImg, (state) => state + 1);
+
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);

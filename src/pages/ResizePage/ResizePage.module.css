@@ -12,11 +12,13 @@
 
 .kitImages {
   margin-bottom: 10px;
+  height: 200px;
+  overflow-y: scroll;
 }
 
 .crop {
-  width: 500px;
   position: relative;
+  max-width: 700px;
   border: 1px solid blue;
   margin: 0 auto;
   background-color: #fff;
@@ -29,7 +31,7 @@
 }
 
 .blockImg img {
-  max-width: 100px;
+  max-width: 200px;
 }
 
 .form {

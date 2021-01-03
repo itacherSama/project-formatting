@@ -45,18 +45,23 @@ const ResizePage = () => {
     disableModal();
   };
 
+  if (!currentImg) {
+    return <div />;
+  }
+
   return (
     <>
-      {currentImg
-        && <div className={ styles.blockImg }>
-          <img src={ currentImg.preview } />
-        </div>}
+      <div className={ styles.blockImg }>
+        <img src={ currentImg.preview } />
+      </div>
 
       {!!currentKitImg
         && <div className={ styles.kitImages }>
           <Gallery files={ currentKitImg } loadModal={ handleActiveModal } />
         </div>}
+
       <ModalCrop onCloseModal={ handleCloseModal } open={ modalState }>
+
         {currentImg.preview
       && <div className={ styles.crop }>
         <Crop

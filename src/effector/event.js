@@ -13,3 +13,4 @@ export const previousKitImages = createEvent();
 export const setCurrentIdx = createEvent();
 export const activeModal = createEvent();
 export const disableModal = createEvent();
+export const nextNumberImg = createEvent();
