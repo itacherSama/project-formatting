@@ -1,6 +1,9 @@
 import React from 'react';
 import { useStore } from 'effector-react';
+import JSZip from 'jszip';
 import Button from '@material-ui/core/Button';
+import domtoimage from 'dom-to-image';
+import { saveAs } from 'file-saver';
 import {
   $images, $kitsImages, $currentIdxKitImages, $modalState,
 } from '../../effector/store';
@@ -45,6 +48,22 @@ const ResizePage = () => {
     disableModal();
   };
 
+  const downloadFiles = () => {
+    const zip = new JSZip();
+    kitsImages.forEach((kit, idx) => {
+      const newFolder = `image_${idx}`;
+      const folder = zip.folder(newFolder);
+      kit.forEach((img) => {
+        folder.file(img.name, img, { binary: true });
+      });
+    });
+
+    zip.generateAsync({ type: 'blob' })
+      .then((blob) => {
+        saveAs(blob, 'myImage.zip');
+      });
+  };
+
   if (!currentImg) {
     return <div />;
   }
@@ -76,18 +95,21 @@ const ResizePage = () => {
       <div className="buttons">
         <Button
           color='primary'
+          disabled={ currentIdxKitImages.idx === 0 }
           onClick={ onPreviousImage }
           variant='contained'
         >Назад
         </Button>
         <Button
           color='primary'
+          disabled={ currentIdxKitImages.idx === currentIdxKitImages.maxIdx }
           onClick={ onNextImage }
           variant='contained'
         >Далее
         </Button>
       </div>
 
+      <Button onClick={ downloadFiles }>Скачать изображения</Button>
     </>
   );
 };

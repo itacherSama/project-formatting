@@ -86,9 +86,10 @@ export const getCroppedImg = (image, crop, fileName) => {
       if (!blob) {
         return;
       }
+
       blob.name = fileName;
-      const fileUrl = window.URL.createObjectURL(blob);
-      resolve(fileUrl);
+      blob.preview = window.URL.createObjectURL(blob);
+      resolve(blob);
     }, 'image/jpeg');
   });
 };

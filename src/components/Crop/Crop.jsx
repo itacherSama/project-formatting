@@ -14,6 +14,8 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
   const numberImg = useStore($numberImg);
   const [crop, setCrop] = React.useState({
     unit: 'px',
+    width: 0,
+    height: 0,
   });
 
   const onCropChange = (crop) => {
@@ -22,12 +24,14 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
 
   const makeClientCrop = async (crop) => {
     if (imageRef && crop.width && crop.height) {
-      const croppedImageUrl = await getCroppedImg(
+      const blobObj = await getCroppedImg(
         imageRef,
         crop,
         `${numberImg}.jpeg`,
       );
-      addCropedImg({ preview: croppedImageUrl, imgWidth: crop.width, imgHeight: crop.height });
+      blobObj.imgWidth = crop.width;
+      blobObj.imgHeight = crop.height;
+      addCropedImg(blobObj);
     }
   };
 
@@ -85,16 +89,18 @@ const Crop = ({ addCropedImg, src, onCloseModal }) => {
         src={ src }
 
       />
-      <div className={ styles.controlSize }>
-        <div>{JSON.stringify(crop)}</div>
-
-        <form autoComplete="off" className={ styles.cropForm } noValidate>
-          <TextField label="Height" onChange={ setCropHeight } />
-          <TextField label="Width" onChange={ setCropWidth } />
-          {/* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */}
-          <Button color='primary' onClick={ onCropComplete }>Save</Button>
-        </form>
-      </div>
+      <form autoComplete="off" className={ styles.cropForm } noValidate>
+        <TextField
+          label="Height" onChange={ setCropHeight } type="number"
+          value={ crop.height }
+        />
+        <TextField
+          label="Width" onChange={ setCropWidth } type="number"
+          value={ crop.width }
+        />
+        {/* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */}
+        <Button color='primary' onClick={ onCropComplete }>Save</Button>
+      </form>
     </>
   );
 };
