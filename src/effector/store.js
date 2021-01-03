@@ -3,8 +3,6 @@ import * as events from './event';
 import { getLocalImage, findNewCurrentIdx } from '../utils';
 
 const images = localStorage.getItem('fileBase64');
-// console.log(images);
-
 getLocalImage(images, events.setImages);
 
 export const $images = createStore([])

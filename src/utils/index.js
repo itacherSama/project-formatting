@@ -101,7 +101,7 @@ export const findNewCurrentIdx = (state, operation) => {
     newIdx = state.idx + 1;
   }
 
-  const hasIdx = (newIdx < state.maxIdx) && newIdx > -1;
+  const hasIdx = (newIdx <= state.maxIdx) && newIdx > -1;
   if (!hasIdx) {
     return state;
   }
