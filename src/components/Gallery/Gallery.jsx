@@ -9,7 +9,7 @@ import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];
 
-function Gallery({ files, loadModal }) {
+const Gallery = ({ files, loadModal }) => {
   const masonryOptions = {
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
@@ -51,6 +51,6 @@ function Gallery({ files, loadModal }) {
       </Masonry>
     </>
   );
-}
+};
 
 export default Gallery;

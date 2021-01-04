@@ -6,7 +6,7 @@ import Dropzone from '../../components/Dropzone';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
-function FirstPage() {
+const FirstPage = () => {
   const images = useStore($images);
   const disableBtnNext = !images.length;
   return (
@@ -27,6 +27,6 @@ function FirstPage() {
 
     </>
   );
-}
+};
 
 export default FirstPage;

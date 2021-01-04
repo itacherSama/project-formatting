@@ -1,4 +1,4 @@
-.blockImg {
+.thumb {
   display: inline-flex;
   border-radius: 2px;
   margin-bottom: 8px;
@@ -10,17 +10,17 @@
   border: 1px solid #eaeaea;
 }
 
-.blockImgSolo .blockImgInner {
+.thumbSolo .thumbInner {
   justify-content: center;
 }
 
-.blockImgInner {
+.thumbInner {
   display: flex;
   min-width: 0px;
   overflow: hidden;
 }
 
-.blockImgInner img {
+.thumbInner img {
   display: block;
   width: auto;
   height: 100%;

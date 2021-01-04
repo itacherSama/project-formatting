@@ -1,4 +1,4 @@
-.blockImgContainer {
+.thumbContainer {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -6,6 +6,6 @@
   align-self: flex-start;
 }
 
-.blockImgText {
+.thumbText {
   text-align: center;
 }

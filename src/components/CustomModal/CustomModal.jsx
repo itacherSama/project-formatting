@@ -2,9 +2,9 @@ import React from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import Modal from '@material-ui/core/Modal';
-import styles from './ModalCrop.module.css';
+import styles from './CustomModal.module.css';
 
-function ModalCrop({ children, open, onCloseModal }) {
+const CustomModal = ({ children, open, onCloseModal }) => {
   if (!open) return <div />;
 
   return (
@@ -25,6 +25,6 @@ function ModalCrop({ children, open, onCloseModal }) {
       </Modal>
     </>
   );
-}
+};
 
-export default ModalCrop;
+export default CustomModal;

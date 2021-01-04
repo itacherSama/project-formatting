@@ -2,7 +2,6 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import JSZip from 'jszip';
 import Button from '@material-ui/core/Button';
-import domtoimage from 'dom-to-image';
 import { saveAs } from 'file-saver';
 import {
   $images, $kitsImages, $currentIdxKitImages, $modalState,
@@ -13,7 +12,7 @@ import {
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
-import ModalCrop from '../../components/ModalCrop';
+import CustomModal from '../../components/CustomModal';
 import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
@@ -79,7 +78,7 @@ const ResizePage = () => {
           <Gallery files={ currentKitImg } loadModal={ handleActiveModal } />
         </div>}
 
-      <ModalCrop onCloseModal={ handleCloseModal } open={ modalState }>
+      <CustomModal onCloseModal={ handleCloseModal } open={ modalState }>
 
         {currentImg.preview
       && <div className={ styles.crop }>
@@ -90,7 +89,7 @@ const ResizePage = () => {
         />
       </div>}
 
-      </ModalCrop>
+      </CustomModal>
 
       <div className={ styles.buttons }>
         <Button
