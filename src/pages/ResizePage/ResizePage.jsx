@@ -3,6 +3,8 @@ import { useStore } from 'effector-react';
 import JSZip from 'jszip';
 import Button from '@material-ui/core/Button';
 import { saveAs } from 'file-saver';
+import { Redirect } from 'react-router-dom';
+
 import {
   $images, $kitsImages, $currentIdxKitImages, $modalState,
 } from '../../effector/store';
@@ -13,6 +15,7 @@ import {
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import CustomModal from '../../components/CustomModal';
+import SettingsImg from '../../components/SettingsImg';
 import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
@@ -64,7 +67,7 @@ const ResizePage = () => {
   };
 
   if (!currentImg) {
-    return <div />;
+    return <Redirect to="/" />;
   }
 
   return (
@@ -80,14 +83,13 @@ const ResizePage = () => {
 
       <CustomModal onCloseModal={ handleCloseModal } open={ modalState }>
 
-        {currentImg.preview
-      && <div className={ styles.crop }>
-        <Crop
-          addCropedImg={ onAddCropedImg }
-          onCloseModal={ handleCloseModal }
-          src={ currentImg.preview }
-        />
-      </div>}
+        <div className={ styles.crop }>
+          <Crop
+            addCropedImg={ onAddCropedImg }
+            onCloseModal={ handleCloseModal }
+            src={ currentImg.preview }
+          />
+        </div>
 
       </CustomModal>
 
@@ -106,6 +108,10 @@ const ResizePage = () => {
           variant='contained'
         >Далее
         </Button>
+      </div>
+
+      <div className={ styles.settings }>
+        <SettingsImg />
       </div>
 
       <div className={ styles.download }>

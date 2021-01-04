@@ -8,14 +8,16 @@ import ResizePage from './pages/ResizePage';
 function App() {
   return (
     <div className={ styles.container }>
-      <Switch>
-        <Route exact path='/'>
-          <FirstPage />
-        </Route>
-        <Route path='/resize'>
-          <ResizePage />
-        </Route>
-      </Switch>
+      <div className={ styles.content }>
+        <Switch>
+          <Route exact path='/'>
+            <FirstPage />
+          </Route>
+          <Route path='/resize'>
+            <ResizePage />
+          </Route>
+        </Switch>
+      </div>
     </div>
   );
 }

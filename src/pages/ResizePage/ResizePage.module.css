@@ -43,3 +43,11 @@
 .buttons {
   margin-bottom: 20px;
 }
+
+.buttons > *:first-child {
+  margin-right: 20px;
+}
+
+.settings {
+  margin-bottom: 20px;
+}

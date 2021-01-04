@@ -1,5 +1,8 @@
 .container {
-  max-width: 860px;
-  min-width: 300px;
+  margin: 0 10px;
+}
+
+.content {
+  max-width: 800px;
   margin: 0 auto;
 }

@@ -1,6 +1,6 @@
-import { createStore, combine } from 'effector';
+import { createStore } from 'effector';
 import * as events from './event';
-import { getLocalImage, findNewCurrentIdx } from '../utils';
+import { findNewCurrentIdx } from '../utils';
 
 /* const images = localStorage.getItem('fileBase64');
 getLocalImage(images, events.setImages); */
@@ -31,6 +31,12 @@ export const $modalState = createStore(false)
 
 export const $numberImg = createStore(0)
   .on(events.nextNumberImg, (state) => state + 1);
+
+export const $quality = createStore('')
+  .on(events.setColor, (state, color) => color);
+
+export const $color = createStore('')
+  .on(events.setQuality, (state, quality) => quality);
 
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);
