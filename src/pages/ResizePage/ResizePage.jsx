@@ -53,6 +53,9 @@ const ResizePage = () => {
   const downloadFiles = () => {
     const zip = new JSZip();
     kitsImages.forEach((kit, idx) => {
+      if (!kit.length) {
+        return;
+      }
       const newFolder = `image_${idx}`;
       const folder = zip.folder(newFolder);
       kit.forEach((img) => {
@@ -83,12 +86,14 @@ const ResizePage = () => {
 
       <CustomModal onCloseModal={ handleCloseModal } open={ modalState }>
 
-        <div className={ styles.crop }>
-          <Crop
-            addCropedImg={ onAddCropedImg }
-            onCloseModal={ handleCloseModal }
-            src={ currentImg.preview }
-          />
+        <div className={ styles.cropContainer }>
+          <div className={ styles.crop }>
+            <Crop
+              addCropedImg={ onAddCropedImg }
+              onCloseModal={ handleCloseModal }
+              src={ currentImg.preview }
+            />
+          </div>
         </div>
 
       </CustomModal>
