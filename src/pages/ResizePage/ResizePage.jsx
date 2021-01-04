@@ -1,8 +1,6 @@
 import React from 'react';
 import { useStore } from 'effector-react';
-import JSZip from 'jszip';
 import Button from '@material-ui/core/Button';
-import { saveAs } from 'file-saver';
 import { Redirect } from 'react-router-dom';
 
 import {
@@ -16,6 +14,7 @@ import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
+import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
 
 const ResizePage = () => {
@@ -48,25 +47,6 @@ const ResizePage = () => {
 
   const handleCloseModal = () => {
     disableModal();
-  };
-
-  const downloadFiles = () => {
-    const zip = new JSZip();
-    kitsImages.forEach((kit, idx) => {
-      if (!kit.length) {
-        return;
-      }
-      const newFolder = `image_${idx}`;
-      const folder = zip.folder(newFolder);
-      kit.forEach((img) => {
-        folder.file(img.name, img, { binary: true });
-      });
-    });
-
-    zip.generateAsync({ type: 'blob' })
-      .then((blob) => {
-        saveAs(blob, 'myImage.zip');
-      });
   };
 
   if (!currentImg) {
@@ -120,7 +100,7 @@ const ResizePage = () => {
       </div>
 
       <div className={ styles.download }>
-        <Button color='primary' onClick={ downloadFiles } variant='contained'>Скачать изображения</Button>
+        <DownloadBtn />
       </div>
     </>
   );

@@ -16,3 +16,4 @@ export const disableModal = createEvent();
 export const nextNumberImg = createEvent();
 export const setColor = createEvent();
 export const setQuality = createEvent();
+export const setIsCroppedImages = createEvent();

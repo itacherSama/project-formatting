@@ -38,7 +38,15 @@ export const $quality = createStore('')
 export const $color = createStore('')
   .on(events.setQuality, (state, quality) => quality);
 
+export const $isCroppedImages = createStore(false)
+  .on(events.setIsCroppedImages, (state, flag) => flag);
+
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);
+});
+
+$kitsImages.watch((state) => {
+  const hasImages = state.some((kit) => kit.length);
+  events.setIsCroppedImages(hasImages);
 });
