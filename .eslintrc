@@ -65,11 +65,7 @@
     "react/display-name": "off",
     // JSX
     "react/jsx-boolean-value": "error",
-    "react/jsx-closing-bracket-location": "error",
-    "react/jsx-curly-spacing": [
-      "error",
-      "always"
-    ],
+    "react/jsx-closing-bracket-location": "error", 
     "react/jsx-equals-spacing": "error",
     "react/jsx-first-prop-new-line": "error",
     "react/jsx-handler-names": "error",
@@ -85,7 +81,7 @@
     "react/jsx-max-props-per-line": [
       "error",
       {
-        "maximum": 3
+        "maximum": 1
       }
     ],
     "react/jsx-no-literals": "off",
@@ -94,7 +90,12 @@
     "react/jsx-sort-props": "error",
     "react/jsx-space-before-closing": "error",
     "prettier/prettier": "off",
-    "react/jsx-filename-extension": "off"
+    "react/jsx-filename-extension": "off",
+    "react/jsx-curly-spacing": ["error", {
+      "when": "always",
+      "spacing": { "objectLiterals": "never" },
+      "children": true
+    }]
   },
   "settings": {}
 }

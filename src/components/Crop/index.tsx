@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useStore } from "effector-react";
 import "react-image-crop/dist/ReactCrop.css";
-import { getCroppedImg } from "../../utils";
+import { getCroppedImg } from "../../utils/operationWithImage";
 import { $numberImg } from "../../effector/store";
 import { nextNumberImg } from "../../effector/event";
 import { ICrop } from "../../interfaces/components";
@@ -87,7 +87,11 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
         onImageLoaded={ onImageLoaded }
         src={ src }
       />
-      <form autoComplete="off" className={ styles.cropForm } noValidate>
+      <form
+        autoComplete="off"
+        className={ styles.cropForm }
+        noValidate
+      >
         <TextField
           label="Height"
           onChange={ setCropHeight }
@@ -100,8 +104,11 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
           type="number"
           value={ crop.width }
         />
-        {/* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */}
-        <Button color="primary" onClick={ onCropComplete }>
+        { /* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */ }
+        <Button
+          color="primary"
+          onClick={ onCropComplete }
+        >
           Save
         </Button>
       </form>

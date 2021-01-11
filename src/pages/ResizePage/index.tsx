@@ -57,17 +57,26 @@ const ResizePage: React.FC = () => {
   return (
     <>
       <div className={ styles.blockImg }>
-        <img alt="main" src={ currentImg.preview } />
+        <img
+          alt="main"
+          src={ currentImg.preview }
+        />
       </div>
 
-      {!!currentKitImg
+      { !!currentKitImg
         && (
         <div className={ styles.kitImages }>
-          <Gallery files={ currentKitImg } loadModal={ handleActiveModal } />
+          <Gallery
+            files={ currentKitImg }
+            loadModal={ handleActiveModal }
+          />
         </div>
-)}
+        ) }
 
-      <CustomModal onCloseModal={ handleCloseModal } open={ modalState }>
+      <CustomModal
+        onCloseModal={ handleCloseModal }
+        open={ modalState }
+      >
 
         <div className={ styles.cropContainer }>
           <div className={ styles.crop }>

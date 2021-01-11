@@ -4,11 +4,14 @@ import cn from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-import { calcProportion, getTypeByPropotion } from '../../utils';
-import styles from './Gallery.module.css';
+import { calcProportion, getTypeByPropotion } from '../../utils/operationWithImage';
 import { IGallery } from '../../interfaces/components';
+import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];
+
+const widthForPreview = 160;
+const heightForPreview = 180;
 
 const Gallery: React.FC<IGallery> = ({ files, loadModal }) => {
   const masonryOptions = {
@@ -18,13 +21,14 @@ const Gallery: React.FC<IGallery> = ({ files, loadModal }) => {
   };
 
   const childElements = files.map((file: any, idx: number) => {
-    const proportionWidth = calcProportion(file.imgWidth, 160, file.imgHeight);
-    const proportionHeight = calcProportion(file.imgHeight, 180, file.imgWidth);
+    const proportionWidth = calcProportion(file.imgWidth, widthForPreview, file.imgHeight);
+    const proportionHeight = calcProportion(file.imgHeight, heightForPreview, file.imgWidth);
 
     const currentType = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
     return (
       <li
-        key={ idx } className={ cn(
+        key={ idx }
+        className={ cn(
           styles.gridImage,
           {
             [styles.gridItemWidth]: currentType === typesBlock[0],
@@ -33,29 +37,37 @@ const Gallery: React.FC<IGallery> = ({ files, loadModal }) => {
 
         ) }
       >
-        <img alt={ `img_${idx}` } className={ styles.gridItemImg } src={ file.preview } />
+        <img
+          alt={ `img_${idx}` }
+          className={ styles.gridItemImg }
+          src={ file.preview }
+        />
       </li>
     );
   });
 
   return (
-    <>
-      <Masonry className={ styles.grid } elementType="ul" options={ masonryOptions }>
-        {childElements}
-        <li
-          className={ 
+    <Masonry
+      className={ styles.grid }
+      elementType="ul"
+      options={ masonryOptions }
+    >
+      { childElements }
+      <li
+        className={ 
           cn( styles.gridImage, styles.gridItemAdd ) 
           }
-          onClick={ loadModal }
+        onClick={ loadModal }
+      >
+        <IconButton
+          aria-label="add"
+          className={ styles.iconButton }
+          color='primary'
         >
-          <IconButton
-            aria-label="add" className={ styles.iconButton } color='primary'
-          >
-            <AddIcon fontSize='large' />
-          </IconButton>
-        </li>
-      </Masonry>
-    </>
+          <AddIcon fontSize='large' />
+        </IconButton>
+      </li>
+    </Masonry>
   );
 };
 

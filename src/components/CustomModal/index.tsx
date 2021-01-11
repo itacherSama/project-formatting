@@ -9,22 +9,20 @@ const CustomModal: React.FC<ICustomModal> = ({ children, open, onCloseModal }) =
   if (!open) return <div />;
 
   return (
-    <>
-      <Modal
-        BackdropComponent={ Backdrop }
-        BackdropProps={ {
+    <Modal
+      BackdropComponent={ Backdrop }
+      BackdropProps={{
           timeout: 500,
-        } }
-        className={ styles.modal }
-        closeAfterTransition
-        onClose={ onCloseModal }
-        open={ open }
-      >
-        <Fade in={ open }>
-          {children}
-        </Fade>
-      </Modal>
-    </>
+        }}
+      className={ styles.modal }
+      closeAfterTransition
+      onClose={ onCloseModal }
+      open={ open }
+    >
+      <Fade in={ open }>
+        { children }
+      </Fade>
+    </Modal>
   );
 };
 

@@ -8,7 +8,7 @@ import styles from './FirstPage.module.css';
 
 const FirstPage: React.FC = () => {
   const images = useStore($images);
-  const disableBtnNext = !images.length;
+  const disableBtnNext = images.length === 0;
   return (
     <>
       <div className={ styles.DropzoneWrapper }>
@@ -18,7 +18,8 @@ const FirstPage: React.FC = () => {
       <div className={ styles.blockButton }>
 
         <Button
-          color='primary' disabled={ disableBtnNext }
+          color='primary'
+          disabled={ disableBtnNext }
           variant='contained'
         >
           <Link to='/resize'>Далее</Link>

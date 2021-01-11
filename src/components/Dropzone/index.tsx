@@ -2,14 +2,11 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import { setImages } from '../../effector/event';
 import DropzonePreview from './DropzonePreview';
-import { setFiles } from '../../utils';
+import { setFiles } from '../../utils/operationWithFiles';
 import { IDropzone } from '../../interfaces/components';
 import useStyles from './styles';
 
 const Dropzone: React.FC<IDropzone> = ({ images }) => {
-  // console.log(images);
-  // console.log(typeof images);
-  
   const {
     getRootProps,
     getInputProps,

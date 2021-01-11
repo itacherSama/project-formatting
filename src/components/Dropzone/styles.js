@@ -1,5 +1,5 @@
 import { makeStyles } from '@material-ui/core/styles';
-import { getColor } from '../../utils';
+import { getColor } from '../../utils/differentFunc';
 
 const useStyles = makeStyles({
   container: {

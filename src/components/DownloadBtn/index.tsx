@@ -34,7 +34,9 @@ const DownloadBtn: React.FC = () => {
   };
   return (
     <Button
-      color='primary' disabled={ checkProperty } onClick={ downloadFiles }
+      color='primary'
+      disabled={ checkProperty }
+      onClick={ downloadFiles }
       variant='contained'
     >
       Скачать изображения

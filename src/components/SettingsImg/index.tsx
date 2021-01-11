@@ -38,7 +38,10 @@ const SettingsImg: React.FC = () => {
         container
         spacing={ 4 }
       >
-        <Grid item xs={ 6 }>
+        <Grid
+          item
+          xs={ 6 }
+        >
           <FormControl fullWidth>
             <InputLabel id="quality-select-label">Quality</InputLabel>
             <Select
@@ -47,14 +50,23 @@ const SettingsImg: React.FC = () => {
               onChange={ onSetColor }
               value={ quality }
             >
-              {qualities.map((el, idx) => {
-                return <MenuItem key={ `${idx}_${el}` } value={ el }>{el}</MenuItem>;
-              })}
+              { qualities.map((el: any, idx: number) => {
+                return (
+                  <MenuItem
+                    key={ `${idx}_${el}` }
+                    value={ el }
+                  >
+                    { el }
+                  </MenuItem>
+);
+              }) }
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={ 6 }>
-
+        <Grid
+          item
+          xs={ 6 }
+        >
           <FormControl fullWidth>
             <InputLabel id="color-select-label">Colors</InputLabel>
             <Select
@@ -63,9 +75,16 @@ const SettingsImg: React.FC = () => {
               onChange={ onSetQuality }
               value={ color }
             >
-              {colors.map((el, idx) => {
-                return <MenuItem key={ `${idx}_${el}` } value={ el }>{el}</MenuItem>;
-              })}
+              { colors.map((el, idx) => {
+                return (
+                  <MenuItem
+                    key={ `${idx}_${el}` }
+                    value={ el }
+                  >
+                    { el }
+                  </MenuItem>
+                );
+              }) }
             </Select>
           </FormControl>
         </Grid>
