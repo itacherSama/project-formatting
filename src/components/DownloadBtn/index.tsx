@@ -7,7 +7,7 @@ import {
   $kitsImages, $isCroppedImages, $color, $quality,
 } from '../../effector/store';
 
-const DownloadBtn = () => {
+const DownloadBtn: React.FC = () => {
   const kitsImages = useStore($kitsImages);
   const isCroppedImages = useStore($isCroppedImages);
   const color = useStore($color);
@@ -15,14 +15,14 @@ const DownloadBtn = () => {
   const checkProperty = !(isCroppedImages && color && quality);
 
   const downloadFiles = () => {
-    const zip = new JSZip();
-    kitsImages.forEach((kit, idx) => {
+    const zip: JSZip = new JSZip();
+    kitsImages.forEach((kit: any, idx: number) => {
       if (!kit.length) {
         return;
       }
       const newFolder = `image_${idx}`;
-      const folder = zip.folder(newFolder);
-      kit.forEach((img) => {
+      const folder: any = zip.folder(newFolder);
+      kit.forEach((img: any) => {
         folder.file(img.name, img, { binary: true });
       });
     });
@@ -36,7 +36,10 @@ const DownloadBtn = () => {
     <Button
       color='primary' disabled={ checkProperty } onClick={ downloadFiles }
       variant='contained'
-    >Скачать изображения</Button>
+    >
+      Скачать изображения
+
+    </Button>
   );
 };
 

@@ -1,7 +1,8 @@
 import React from 'react';
 import styles from './Thumb.module.css';
+import { IThumb } from '../../interfaces/components';
 
-const Thumb = ({ file }) => {
+const Thumb: React.FC<IThumb> = ({ file }) => {
   return (
     <div className={ styles.thumb }>
       <div className={ styles.thumbInner }>

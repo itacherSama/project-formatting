@@ -16,20 +16,21 @@ import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
+import {IcurrentIdxKitImages, IcurrentImg} from '../../interfaces/items';
 
-const ResizePage = () => {
+const ResizePage: React.FC = () => {
   const images = useStore($images);
   const kitsImages = useStore($kitsImages);
-  const currentIdxKitImages = useStore($currentIdxKitImages);
+  const currentIdxKitImages: IcurrentIdxKitImages = useStore($currentIdxKitImages);
   const currentKitImg = kitsImages[currentIdxKitImages.idx];
-  const currentImg = images[currentIdxKitImages.idx];
+  const currentImg: IcurrentImg = images[currentIdxKitImages.idx];
   const modalState = useStore($modalState);
 
   React.useEffect(() => {
-    setCurrentCropImage(kitsImages[currentIdxKitImages]);
+    setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);
   }, [currentIdxKitImages]);
 
-  const onAddCropedImg = (img) => {
+  const onAddCropedImg = (img: any) => {
     setKitImages({ kitImages: [...currentKitImg, img], idx: currentIdxKitImages.idx });
   };
 
@@ -56,13 +57,15 @@ const ResizePage = () => {
   return (
     <>
       <div className={ styles.blockImg }>
-        <img src={ currentImg.preview } />
+        <img alt="main" src={ currentImg.preview } />
       </div>
 
       {!!currentKitImg
-        && <div className={ styles.kitImages }>
+        && (
+        <div className={ styles.kitImages }>
           <Gallery files={ currentKitImg } loadModal={ handleActiveModal } />
-        </div>}
+        </div>
+)}
 
       <CustomModal onCloseModal={ handleCloseModal } open={ modalState }>
 
@@ -84,14 +87,16 @@ const ResizePage = () => {
           disabled={ currentIdxKitImages.idx === 0 }
           onClick={ onPreviousImage }
           variant='contained'
-        >Назад
+        >
+          Назад
         </Button>
         <Button
           color='primary'
           disabled={ currentIdxKitImages.idx === currentIdxKitImages.maxIdx }
           onClick={ onNextImage }
           variant='contained'
-        >Далее
+        >
+          Далее
         </Button>
       </div>
 

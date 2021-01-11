@@ -6,7 +6,7 @@ import Dropzone from '../../components/Dropzone';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
-const FirstPage = () => {
+const FirstPage: React.FC = () => {
   const images = useStore($images);
   const disableBtnNext = !images.length;
   return (

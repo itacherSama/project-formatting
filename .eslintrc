@@ -4,18 +4,19 @@
     "es6": true,
     "node": true
   },
+  "plugins": ["react", "@typescript-eslint", "prettier"],
   "extends": [
-    "airbnb/base",
-    "plugin:react/recommended"
-  ],
+    "plugin:react/recommended",
+    "airbnb",
+    "plugin:prettier/recommended",
+    "plugin:@typescript-eslint/eslint-recommended",
+    "plugin:@typescript-eslint/recommended"
+    ],
   "parserOptions": {
     "ecmaFeatures": {
       "jsx": true
     }
   },
-  "plugins": [
-    "react"
-  ],
   "rules": {
     //common
     "radix": "off",
@@ -38,6 +39,11 @@
     "no-debugger": "off",
     "no-param-reassign": "off",
     "no-extra-boolean-cast": "off",
+    "no-use-before-define": "off",
+    "jsx-a11y/click-events-have-key-events": "off",
+    "jsx-a11y/no-noninteractive-element-interactions": "off",
+    "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "off",
     //react
     "react/jsx-no-duplicate-props": "off",
     "react/prop-types": "off",
@@ -86,7 +92,9 @@
     "react/jsx-no-target-blank": "error",
     "react/jsx-pascal-case": "error",
     "react/jsx-sort-props": "error",
-    "react/jsx-space-before-closing": "error"
+    "react/jsx-space-before-closing": "error",
+    "prettier/prettier": "off",
+    "react/jsx-filename-extension": "off"
   },
   "settings": {}
 }

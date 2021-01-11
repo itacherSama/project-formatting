@@ -5,7 +5,7 @@ import styles from './App.module.css';
 import FirstPage from './pages/FirstPage';
 import ResizePage from './pages/ResizePage';
 
-function App() {
+const App: React.FC = () => {
   return (
     <div className={ styles.container }>
       <div className={ styles.content }>
@@ -20,6 +20,6 @@ function App() {
       </div>
     </div>
   );
-}
+};
 
 export default App;

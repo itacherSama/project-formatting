@@ -5,10 +5,10 @@ import { findNewCurrentIdx } from '../utils';
 /* const images = localStorage.getItem('fileBase64');
 getLocalImage(images, events.setImages); */
 
-export const $images = createStore([])
+export const $images = createStore<any>([])
   .on(events.setImages, (state, images) => [...images]);
 
-export const $currentIdxKitImages = createStore({ idx: 0 })
+export const $currentIdxKitImages = createStore<any>({ idx: 0, maxIdx: 0 })
   .on(events.setCurrentIdx, (state, length) => ({
     maxIdx: length - 1,
     idx: 0,
@@ -16,7 +16,7 @@ export const $currentIdxKitImages = createStore({ idx: 0 })
   .on(events.nextKitImages, (state) => findNewCurrentIdx(state, '+'))
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
-export const $kitsImages = createStore([])
+export const $kitsImages = createStore<any>([])
   .on(events.setLengthKitsImages, (state, length) => new Array(length).fill([]))
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
@@ -25,20 +25,20 @@ export const $kitsImages = createStore([])
     return newState;
   });
 
-export const $modalState = createStore(false)
+export const $modalState = createStore<boolean>(false)
   .on(events.activeModal, (state) => true)
   .on(events.disableModal, (state) => false);
 
-export const $numberImg = createStore(0)
+export const $numberImg = createStore<number>(0)
   .on(events.nextNumberImg, (state) => state + 1);
 
-export const $quality = createStore('')
+export const $quality = createStore<string>('')
   .on(events.setColor, (state, color) => color);
 
-export const $color = createStore('')
+export const $color = createStore<string>('')
   .on(events.setQuality, (state, quality) => quality);
 
-export const $isCroppedImages = createStore(false)
+export const $isCroppedImages = createStore<boolean>(false)
   .on(events.setIsCroppedImages, (state, flag) => flag);
 
 $images.watch((state) => {
@@ -47,6 +47,6 @@ $images.watch((state) => {
 });
 
 $kitsImages.watch((state) => {
-  const hasImages = state.some((kit) => kit.length);
+  const hasImages = state.some((kit: any) => kit.length);
   events.setIsCroppedImages(hasImages);
 });

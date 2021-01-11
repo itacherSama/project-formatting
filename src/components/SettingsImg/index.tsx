@@ -18,17 +18,17 @@ import styles from './SettingsImg.module.css';
 const qualities = ['low', 'middle', 'high'];
 const colors = ['1', '8', '12', '15', '24'];
 
-const SettingsImg = () => {
+const SettingsImg: React.FC = () => {
   const color = useStore($color);
   const quality = useStore($quality);
 
-  const onSetQuality = (e) => {
-    const quality = e.target.value;
+  const onSetQuality = (event: any) => {
+    const quality = event.target.value;
     setQuality(quality);
   };
 
-  const onSetColor = (e) => {
-    const color = e.target.value;
+  const onSetColor = (event: any) => {
+    const color = event.target.value;
     setColor(color);
   };
 
