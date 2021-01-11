@@ -32,6 +32,7 @@ const DownloadBtn: React.FC = () => {
         saveAs(blob, 'myImage.zip');
       });
   };
+  
   return (
     <Button
       color='primary'

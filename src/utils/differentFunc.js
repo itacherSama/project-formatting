@@ -1,16 +1,3 @@
-export const getColor = (props) => {
-  if (props.isDragAccept) {
-    return '#00e676';
-  }
-  if (props.isDragReject) {
-    return '#ff1744';
-  }
-  if (props.isDragActive) {
-    return '#2196f3';
-  }
-  return '#eeeeee';
-};
-
 export const toBase64 = (file) => new Promise((resolve, reject) => {
   const reader = new FileReader();
   reader.readAsDataURL(file);

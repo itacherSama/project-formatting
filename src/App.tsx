@@ -10,7 +10,10 @@ const App: React.FC = () => {
     <div className={ styles.container }>
       <div className={ styles.content }>
         <Switch>
-          <Route exact path='/'>
+          <Route
+            exact
+            path='/'
+          >
             <FirstPage />
           </Route>
           <Route path='/resize'>

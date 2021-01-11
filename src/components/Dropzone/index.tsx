@@ -1,10 +1,12 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
+import cn from 'classnames';
 import { setImages } from '../../effector/event';
 import DropzonePreview from './DropzonePreview';
 import { setFiles } from '../../utils/operationWithFiles';
 import { IDropzone } from '../../interfaces/components';
-import useStyles from './styles';
+
+import styles from './Dropzone.module.css';
 
 const Dropzone: React.FC<IDropzone> = ({ images }) => {
   const {
@@ -18,11 +20,13 @@ const Dropzone: React.FC<IDropzone> = ({ images }) => {
     onDrop: (acceptedFiles) => setFiles(acceptedFiles, images, setImages),
   });
 
-  const styles = useStyles({ isDragActive, isDragAccept, isDragReject });
-
   return (
     <div
-      className={ styles.container }
+      className={ cn(styles.container, {
+        [styles.isDragActive]: isDragActive,
+        [styles.isDragAccept]: isDragAccept,
+        [styles.isDragReject]: isDragReject
+      }) }
       { ...getRootProps() }
     >
       <input { ...getInputProps() } />
