@@ -1,8 +1,8 @@
-export interface IcurrentImg {
-  preview: any;
+export interface IobjImg {
+  preview: string;
 }
 
-export interface IcurrentIdxKitImages {
+export interface IobjIdxKitImages {
   maxIdx: number;
   idx: number;
 }

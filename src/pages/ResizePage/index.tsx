@@ -16,14 +16,14 @@ import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
-import {IcurrentIdxKitImages, IcurrentImg} from '../../interfaces/items';
+import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
 
 const ResizePage: React.FC = () => {
   const images = useStore($images);
   const kitsImages = useStore($kitsImages);
-  const currentIdxKitImages: IcurrentIdxKitImages = useStore($currentIdxKitImages);
+  const currentIdxKitImages: IobjIdxKitImages = useStore($currentIdxKitImages);
   const currentKitImg = kitsImages[currentIdxKitImages.idx];
-  const currentImg: IcurrentImg = images[currentIdxKitImages.idx];
+  const currentImg: IobjImg = images[currentIdxKitImages.idx];
   const modalState = useStore($modalState);
 
   React.useEffect(() => {

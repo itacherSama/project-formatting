@@ -25,7 +25,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
 
   const makeClientCrop = async (crop: ReactCrop.Crop) => {
     if (imageRef && crop.width && crop.height) {
-      const blobObj = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
+      const blobObj: any = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
       blobObj.imgWidth = crop.width;
       blobObj.imgHeight = crop.height;
       addCropedImg(blobObj);

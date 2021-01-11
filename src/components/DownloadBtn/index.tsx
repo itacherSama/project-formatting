@@ -1,11 +1,10 @@
 import React from 'react';
 import { useStore } from 'effector-react';
-import JSZip from 'jszip';
-import { saveAs } from 'file-saver';
 import Button from '@material-ui/core/Button';
 import {
   $kitsImages, $isCroppedImages, $color, $quality,
 } from '../../effector/store';
+import { downloadFiles } from '../../services/downloadFileService';
 
 const DownloadBtn: React.FC = () => {
   const kitsImages = useStore($kitsImages);
@@ -14,30 +13,15 @@ const DownloadBtn: React.FC = () => {
   const quality = useStore($quality);
   const checkProperty = !(isCroppedImages && color && quality);
 
-  const downloadFiles = () => {
-    const zip: JSZip = new JSZip();
-    kitsImages.forEach((kit: any, idx: number) => {
-      if (!kit.length) {
-        return;
-      }
-      const newFolder = `image_${idx}`;
-      const folder: any = zip.folder(newFolder);
-      kit.forEach((img: any) => {
-        folder.file(img.name, img, { binary: true });
-      });
-    });
-
-    zip.generateAsync({ type: 'blob' })
-      .then((blob) => {
-        saveAs(blob, 'myImage.zip');
-      });
-  };
+  const onDownloadFiles = () => {
+    downloadFiles(kitsImages);
+  }
   
   return (
     <Button
       color='primary'
       disabled={ checkProperty }
-      onClick={ downloadFiles }
+      onClick={ onDownloadFiles }
       variant='contained'
     >
       Скачать изображения

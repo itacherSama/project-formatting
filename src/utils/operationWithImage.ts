@@ -1,9 +1,9 @@
-export const calcProportion = (firstArg, necessarySize, secondArg) => {
+export const calcProportion = (firstArg: any, necessarySize: any, secondArg: any) => {
   const propotion = Math.round(firstArg * (necessarySize / secondArg));
   return propotion;
 };
 
-export const getTypeByPropotion = (proportionWidth, proportionHeight, types) => {
+export const getTypeByPropotion = (proportionWidth: any, proportionHeight: any, types: any) => {
   if ((proportionWidth / proportionHeight) > 1) {
     return types[0];
   } else {
@@ -11,13 +11,13 @@ export const getTypeByPropotion = (proportionWidth, proportionHeight, types) => 
   }
 };
 
-export const getCroppedImg = (image, crop, fileName) => {
+export const getCroppedImg = (image: any, crop: any, fileName: any) => {
   const canvas = document.createElement('canvas');
   const scaleX = image.naturalWidth / image.width;
   const scaleY = image.naturalHeight / image.height;
   canvas.width = crop.width;
   canvas.height = crop.height;
-  const ctx = canvas.getContext('2d');
+  const ctx: any = canvas.getContext('2d');
 
   ctx.drawImage(
     image,
@@ -32,7 +32,7 @@ export const getCroppedImg = (image, crop, fileName) => {
   );
 
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob) => {
+    canvas.toBlob((blob: any) => {
       if (!blob) {
         return;
       }

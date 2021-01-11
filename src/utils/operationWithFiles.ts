@@ -1,4 +1,4 @@
-export const getWidthAndHeightFromFile = (file) => {
+export const getWidthAndHeightFromFile = (file: any) => {
   const img = new Image();
   img.src = file.preview;
   const imgWidth = img.width;
@@ -6,7 +6,7 @@ export const getWidthAndHeightFromFile = (file) => {
   return { imgWidth, imgHeight };
 };
 
-export const getLocalImage = (images, setImages) => {
+export const getLocalImage = (images: any, setImages: any) => {
   fetch(images)
     .then((res) => res.blob())
     .then((blob) => {
@@ -18,9 +18,9 @@ export const getLocalImage = (images, setImages) => {
     });
 };
 
-export const setFiles = (acceptedFiles, oldFiles, setImages) => {
+export const setFiles = (acceptedFiles: any, oldFiles: any, setImages: any) => {
   const prevFiles = [...oldFiles];
-  const newFiles = acceptedFiles.map((file) => Object.assign(file, {
+  const newFiles = acceptedFiles.map((file: any) => Object.assign(file, {
     preview: URL.createObjectURL(file),
   }));
 

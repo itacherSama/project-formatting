@@ -1,14 +1,15 @@
 import { createStore } from 'effector';
 import * as events from './event';
 import { findNewCurrentIdx } from '../utils/differentFunc';
+import { IobjIdxKitImages, IobjImg } from '../interfaces/items'
 
 /* const images = localStorage.getItem('fileBase64');
 getLocalImage(images, events.setImages); */
 
-export const $images = createStore<any>([])
-  .on(events.setImages, (state, images) => [...images]);
+export const $images = createStore<IobjImg[]>([])
+  .on(events.setImages, (state, images) =>  [...images]);
 
-export const $currentIdxKitImages = createStore<any>({ idx: 0, maxIdx: 0 })
+export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 })
   .on(events.setCurrentIdx, (state, length) => ({
     maxIdx: length - 1,
     idx: 0,
@@ -21,7 +22,6 @@ export const $kitsImages = createStore<any>([])
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
-
     return newState;
   });
 
