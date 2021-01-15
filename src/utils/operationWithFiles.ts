@@ -1,26 +1,16 @@
-export const getWidthAndHeightFromFile = (file: any) => {
-  const img = new Image();
-  img.src = file.preview;
+import { IobjImg } from '../interfaces/items';
+
+export const getWidthAndHeightFromFile = (file: IobjImg): {imgWidth: number, imgHeight: number } => {
+  const img: HTMLImageElement = new Image();
+  img.src = file.preview!;
   const imgWidth = img.width;
   const imgHeight = img.height;
   return { imgWidth, imgHeight };
 };
 
-export const getLocalImage = (images: any, setImages: any) => {
-  fetch(images)
-    .then((res) => res.blob())
-    .then((blob) => {
-      const file = new File([blob], 'File name', { type: 'image/png' });
-      const newFiles = [file].map((file) => Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      }));
-      setImages([...newFiles, ...newFiles]);
-    });
-};
-
-export const setFiles = (acceptedFiles: any, oldFiles: any, setImages: any) => {
+export const setFiles = (acceptedFiles: IobjImg[], oldFiles: IobjImg[], setImages: (images: IobjImg[]) => void): void => {
   const prevFiles = [...oldFiles];
-  const newFiles = acceptedFiles.map((file: any) => Object.assign(file, {
+  const newFiles = acceptedFiles.map((file: IobjImg) => Object.assign(file, {
     preview: URL.createObjectURL(file),
   }));
 

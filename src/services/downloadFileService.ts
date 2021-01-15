@@ -1,21 +1,22 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
+import { IobjImg } from '../interfaces/items';
 
-export const downloadFiles = (kitsItems: any) => {
+export const downloadFiles = (kitsItems: any): void => {
   const zip: JSZip = new JSZip();
-  kitsItems.forEach((kit: any, idx: number) => {
+  kitsItems.forEach((kit: IobjImg[], idx: number) => {
     if (!kit.length) {
       return;
     }
     const newFolder = `image_${idx}`;
-    const folder: any = zip.folder(newFolder);
-    kit.forEach((img: any) => {
-      folder.file(img.name, img, { binary: true });
+    const folder: JSZip | null = zip.folder(newFolder);
+    kit.forEach((img: IobjImg) => {
+      folder!.file(img.name!, img, { binary: true });
     });
   });
 
   zip.generateAsync({ type: 'blob' })
-    .then((blob) => {
+    .then((blob: Blob) => {
       saveAs(blob, 'myImage.zip');
     });
 };

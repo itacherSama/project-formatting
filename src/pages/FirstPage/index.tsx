@@ -6,9 +6,11 @@ import Dropzone from '../../components/Dropzone';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
+import { IobjImg } from '../../interfaces/items';
+
 const FirstPage: React.FC = () => {
-  const images = useStore($images);
-  const disableBtnNext = images.length === 0;
+  const images: IobjImg[] = useStore($images);
+  const disableBtnNext: boolean = images.length === 0;
   return (
     <>
       <div className={ styles.DropzoneWrapper }>

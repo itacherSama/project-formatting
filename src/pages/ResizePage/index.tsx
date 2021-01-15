@@ -19,12 +19,12 @@ import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
 import history from '../../router/history';
 
 const ResizePage: React.FC = () => {
-  const images = useStore($images);
   const kitsImages = useStore($kitsImages);
+  const images: IobjImg[] = useStore($images);
   const currentIdxKitImages: IobjIdxKitImages = useStore($currentIdxKitImages);
-  const currentKitImg = kitsImages[currentIdxKitImages.idx];
+  const currentKitImg: IobjImg[] = kitsImages[currentIdxKitImages.idx];
   const currentImg: IobjImg = images[currentIdxKitImages.idx];
-  const modalState = useStore($modalState);
+  const modalState: boolean = useStore($modalState);
 
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);

@@ -20,8 +20,8 @@ const qualities = ['low', 'middle', 'high'];
 const colors = ['1', '8', '12', '15', '24'];
 
 const SettingsImg: React.FC = () => {
-  const color = useStore($color);
-  const quality = useStore($quality);
+  const color: string = useStore($color);
+  const quality: string = useStore($quality);
 
   const onSetQuality = (event: React.ChangeEvent<IvalueOfSelect>): void => {
     const quality = event.target.value;
