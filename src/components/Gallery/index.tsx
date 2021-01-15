@@ -6,6 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 
 import { calcProportion, getTypeByPropotion } from '../../utils/operationWithImage';
 import { IGallery } from '../../interfaces/components';
+import { IobjImg } from '../../interfaces/items';
 import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];
@@ -14,17 +15,17 @@ const widthForPreview = 160;
 const heightForPreview = 180;
 
 const Gallery: React.FC<IGallery> = ({ files, loadModal }) => {
-  const masonryOptions = {
+  const masonryOptions: Masonry.MasonryOptions = {
     itemSelector: `.${ styles.gridImage }`,
     horizontalOrder: true,
     columnWidth: 1,
   };
 
-  const childElements = files.map((file: any, idx: number) => {
-    const proportionWidth = calcProportion(file.imgWidth, widthForPreview, file.imgHeight);
-    const proportionHeight = calcProportion(file.imgHeight, heightForPreview, file.imgWidth);
+  const childElements = files.map((file: IobjImg, idx: number) => {
+    const proportionWidth: number = calcProportion(file.imgWidth!, widthForPreview, file.imgHeight!);
+    const proportionHeight: number = calcProportion(file.imgHeight!, heightForPreview, file.imgWidth!);
 
-    const currentType = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
+    const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
     return (
       <li
         key={ idx }

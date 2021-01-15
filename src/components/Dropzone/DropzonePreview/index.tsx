@@ -2,9 +2,10 @@ import React from 'react';
 import Thumb from '../../Thumb';
 import styles from './DropzonePreview.module.css';
 import { IDropzonePreview } from '../../../interfaces/components';
+import { IobjImg } from '../../../interfaces/items';
 
 const DropzonePreview: React.FC<IDropzonePreview> = ({ images }) => {
-  const Thumbs = images.map((file: any, idx: number) => (
+  const Thumbs = images.map((file: IobjImg, idx: number) => (
     <Thumb
       key={ `${file.name}_${idx}` }
       file={ file }
