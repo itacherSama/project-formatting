@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { Redirect } from 'react-router-dom';
 
 import {
   $images, $kitsImages, $currentIdxKitImages, $modalState,
@@ -17,6 +16,7 @@ import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
 import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
+import history from '../../router/history';
 
 const ResizePage: React.FC = () => {
   const images = useStore($images);
@@ -51,7 +51,8 @@ const ResizePage: React.FC = () => {
   };
 
   if (!currentImg) {
-    return <Redirect to="/" />;
+    history.navigate('/');
+    return null;
   }
 
   return (
@@ -77,7 +78,6 @@ const ResizePage: React.FC = () => {
         onCloseModal={ handleCloseModal }
         open={ modalState }
       >
-
         <div className={ styles.cropContainer }>
           <div className={ styles.crop }>
             <Crop
@@ -87,7 +87,6 @@ const ResizePage: React.FC = () => {
             />
           </div>
         </div>
-
       </CustomModal>
 
       <div className={ styles.buttons }>

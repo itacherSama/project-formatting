@@ -15,7 +15,7 @@ const DownloadBtn: React.FC = () => {
 
   const onDownloadFiles = () => {
     downloadFiles(kitsImages);
-  }
+  };
   
   return (
     <Button

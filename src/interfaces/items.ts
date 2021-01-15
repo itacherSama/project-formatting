@@ -1,5 +1,8 @@
-export interface IobjImg {
-  preview: string;
+export interface IobjImg extends Blob {
+  preview?: string;
+  name?: string;
+  imgWidth?: number;
+  imgHeight?: number;
 }
 
 export interface IobjIdxKitImages {
@@ -7,3 +10,7 @@ export interface IobjIdxKitImages {
   idx: number;
 }
 
+export interface IvalueOfSelect {
+  name?: string | undefined;
+  value: unknown;
+}

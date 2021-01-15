@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import Button from '@material-ui/core/Button';
 import { useStore } from 'effector-react';
+import Link from '../../router/Link';
 import Dropzone from '../../components/Dropzone';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
@@ -22,7 +22,7 @@ const FirstPage: React.FC = () => {
           disabled={ disableBtnNext }
           variant='contained'
         >
-          <Link to='/resize'>Далее</Link>
+          <Link href='/resize'>Далее</Link>
         </Button>
       </div>
 

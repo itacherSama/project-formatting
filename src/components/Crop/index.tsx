@@ -8,10 +8,11 @@ import { getCroppedImg } from "../../utils/operationWithImage";
 import { $numberImg } from "../../effector/store";
 import { nextNumberImg } from "../../effector/event";
 import { ICrop } from "../../interfaces/components";
+import { IobjImg } from "../../interfaces/items";
 import styles from "./Crop.module.css";
 
 const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
-  const [imageRef, setImageRef] = React.useState<any>(null);
+  const [imageRef, setImageRef] = React.useState<HTMLImageElement | null>(null);
   const numberImg = useStore($numberImg);
   const [crop, setCrop] = React.useState<ReactCrop.Crop>({
     unit: "px",
@@ -19,45 +20,34 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     height: 0,
   });
 
-  const onCropChange = (newCrop: ReactCrop.Crop) => {
+  const onCropChange = (newCrop: ReactCrop.Crop): void => {
     setCrop(newCrop);
   };
 
   const makeClientCrop = async (crop: ReactCrop.Crop) => {
     if (imageRef && crop.width && crop.height) {
-      const blobObj: any = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
+      const blobObj: IobjImg = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
       blobObj.imgWidth = crop.width;
       blobObj.imgHeight = crop.height;
       addCropedImg(blobObj);
     }
   };
 
-  const onImageLoaded = (image: any) => {
+  const onImageLoaded = (image: HTMLImageElement): void => {
     setImageRef(image);
   };
 
-  const onCropComplete = () => {
+  const onCropComplete = (): void => {
     makeClientCrop(crop);
     nextNumberImg();
     onCloseModal();
   };
-  /*  const dischargeCrop = () => {
-    const defaultValue: ReactCrop.Crop = {
-      width: 0,
-      height: 0,
-      x: 0,
-      y: 0,
-    };
-    setCrop((prev) => {
-      return { ...prev, defaultValue };
-    });
-  }; */
 
-  const setCropHeight = (event: any) => {
+  const setCropHeight = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const height = parseInt(value);
     if (height) {
-      const y = (imageRef.height - height) / 2;
+      const y = (imageRef!.height - height) / 2;
       setCrop({
         ...crop,
         height,
@@ -66,11 +56,11 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     }
   };
 
-  const setCropWidth = (event: any) => {
+  const setCropWidth = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const width = parseInt(value);
     if (width) {
-      const x = (imageRef.width - width) / 2;
+      const x = (imageRef!.width - width) / 2;
       setCrop({
         ...crop,
         width,

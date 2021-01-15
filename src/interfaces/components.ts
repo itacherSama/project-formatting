@@ -1,5 +1,7 @@
+import { IobjImg } from './items';
+
 export interface IDropzone {
-  images: any;
+  images: IobjImg[];
 }
 
 export interface ICrop {
@@ -15,14 +17,14 @@ export interface ICustomModal {
 }
 
 export interface IThumb {
-  file: any;
+  file: IobjImg;
 } 
 
 export interface IGallery {
-  files: any;
+  files: IobjImg[];
   loadModal: () => void;
 }
 
 export interface IDropzonePreview {
-  images: any;
+  images: IobjImg[];
 }

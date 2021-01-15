@@ -1,9 +1,11 @@
-export const calcProportion = (firstArg: any, necessarySize: any, secondArg: any) => {
-  const propotion = Math.round(firstArg * (necessarySize / secondArg));
+import { IobjImg } from '../interfaces/items';
+
+export const calcProportion = (firstArg: number, necessarySize: number, secondArg: number): number => {
+  const propotion: number = Math.round(firstArg * (necessarySize / secondArg));
   return propotion;
 };
 
-export const getTypeByPropotion = (proportionWidth: any, proportionHeight: any, types: any) => {
+export const getTypeByPropotion = (proportionWidth: number, proportionHeight: number, types: string[]): string => {
   if ((proportionWidth / proportionHeight) > 1) {
     return types[0];
   } else {
@@ -11,10 +13,10 @@ export const getTypeByPropotion = (proportionWidth: any, proportionHeight: any, 
   }
 };
 
-export const getCroppedImg = (image: any, crop: any, fileName: any) => {
-  const canvas = document.createElement('canvas');
-  const scaleX = image.naturalWidth / image.width;
-  const scaleY = image.naturalHeight / image.height;
+export const getCroppedImg = (image: HTMLImageElement, crop:any, fileName: string): Promise<IobjImg> => {
+  const canvas: HTMLCanvasElement = document.createElement('canvas');
+  const scaleX: number = image.naturalWidth / image.width;
+  const scaleY: number = image.naturalHeight / image.height;
   canvas.width = crop.width;
   canvas.height = crop.height;
   const ctx: any = canvas.getContext('2d');
@@ -32,13 +34,14 @@ export const getCroppedImg = (image: any, crop: any, fileName: any) => {
   );
 
   return new Promise((resolve, reject) => {
-    canvas.toBlob((blob: any) => {
+    canvas.toBlob((blob: Blob | null) => {
       if (!blob) {
         return;
       }
 
-      blob.name = fileName;
-      blob.preview = window.URL.createObjectURL(blob);
+      const blobWithOptions: IobjImg = blob;
+      blobWithOptions.name = fileName;
+      blobWithOptions.preview = window.URL.createObjectURL(blob);
       resolve(blob);
     }, 'image/jpeg');
   });

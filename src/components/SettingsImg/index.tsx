@@ -12,6 +12,7 @@ import {
 import {
   setColor, setQuality,
 } from '../../effector/event';
+import { IvalueOfSelect } from '../../interfaces/items';
 
 import styles from './SettingsImg.module.css';
 
@@ -22,12 +23,12 @@ const SettingsImg: React.FC = () => {
   const color = useStore($color);
   const quality = useStore($quality);
 
-  const onSetQuality = (event: any) => {
+  const onSetQuality = (event: React.ChangeEvent<IvalueOfSelect>): void => {
     const quality = event.target.value;
     setQuality(quality);
   };
 
-  const onSetColor = (event: any) => {
+  const onSetColor = (event:  React.ChangeEvent<IvalueOfSelect>): void => {
     const color = event.target.value;
     setColor(color);
   };
@@ -50,7 +51,7 @@ const SettingsImg: React.FC = () => {
               onChange={ onSetColor }
               value={ quality }
             >
-              { qualities.map((el: any, idx: number) => {
+              { qualities.map((el: string, idx: number) => {
                 return (
                   <MenuItem
                     key={ `${idx}_${el}` }
@@ -75,7 +76,7 @@ const SettingsImg: React.FC = () => {
               onChange={ onSetQuality }
               value={ color }
             >
-              { colors.map((el, idx) => {
+              { colors.map((el: string, idx: number) => {
                 return (
                   <MenuItem
                     key={ `${idx}_${el}` }

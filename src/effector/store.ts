@@ -1,7 +1,7 @@
 import { createStore } from 'effector';
 import * as events from './event';
 import { findNewCurrentIdx } from '../utils/differentFunc';
-import { IobjIdxKitImages, IobjImg } from '../interfaces/items'
+import { IobjIdxKitImages, IobjImg } from '../interfaces/items';
 
 /* const images = localStorage.getItem('fileBase64');
 getLocalImage(images, events.setImages); */

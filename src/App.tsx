@@ -1,25 +1,11 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
 import styles from './App.module.css';
 
-import FirstPage from './pages/FirstPage';
-import ResizePage from './pages/ResizePage';
-
-const App: React.FC = () => {
+const App: React.FC = ({ children }) => {
   return (
     <div className={ styles.container }>
       <div className={ styles.content }>
-        <Switch>
-          <Route
-            exact
-            path='/'
-          >
-            <FirstPage />
-          </Route>
-          <Route path='/resize'>
-            <ResizePage />
-          </Route>
-        </Switch>
+        { children }
       </div>
     </div>
   );
