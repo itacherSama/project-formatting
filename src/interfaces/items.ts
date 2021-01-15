@@ -14,3 +14,9 @@ export interface IvalueOfSelect {
   name?: string | undefined;
   value: unknown;
 }
+
+export interface IMyLink {
+  href: string,
+  onClick?: () => void,
+  children?: any
+}

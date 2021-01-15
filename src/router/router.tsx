@@ -7,7 +7,7 @@ import ResizePage from '../pages/ResizePage';
 const routes =
     {
         path: '/',
-        async action({ next }) {
+        async action({ next }: any) {
             const children = await next();
             return (
               <App>
@@ -26,7 +26,7 @@ const routes =
             },
             {
                 path: '/resize',
-                async action({ next }) {
+                async action({ next }: any) {
                     const children = await next();
                     return (
                       <App>
