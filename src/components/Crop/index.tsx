@@ -11,7 +11,7 @@ import { ICrop } from "../../interfaces/components";
 import { IobjImg } from "../../interfaces/items";
 import styles from "./Crop.module.css";
 
-const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
+const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {  
   const [imageRef, setImageRef] = React.useState<HTMLImageElement | null>(null);
   const numberImg = useStore($numberImg);
   const [crop, setCrop] = React.useState<ReactCrop.Crop>({
@@ -29,6 +29,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
       const blobObj: IobjImg = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
       blobObj.imgWidth = crop.width;
       blobObj.imgHeight = crop.height;
+      
       addCropedImg(blobObj);
     }
   };
@@ -94,7 +95,6 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
           type="number"
           value={ crop.width }
         />
-        { /* <Button label="Width" onClick={ dischargeCrop }>Отмена</Button> */ }
         <Button
           color="primary"
           onClick={ onCropComplete }

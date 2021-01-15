@@ -7,11 +7,11 @@ import {
 import { downloadFiles } from '../../services/downloadFileService';
 
 const DownloadBtn: React.FC = () => {
-  const kitsImages = useStore($kitsImages);
-  const isCroppedImages = useStore($isCroppedImages);
-  const color = useStore($color);
-  const quality = useStore($quality);
-  const checkProperty = !(isCroppedImages && color && quality);
+  const kitsImages: any = useStore($kitsImages);
+  const isCroppedImages: boolean = useStore($isCroppedImages);
+  const color: string = useStore($color);
+  const quality: string  = useStore($quality);
+  const checkProperty: boolean = !(isCroppedImages && color && quality) as boolean;
 
   const onDownloadFiles = () => {
     downloadFiles(kitsImages);

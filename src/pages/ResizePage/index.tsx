@@ -30,7 +30,7 @@ const ResizePage: React.FC = () => {
     setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);
   }, [currentIdxKitImages]);
 
-  const onAddCropedImg = (img: any) => {
+  const onAddCropedImg = (img: IobjImg) => {
     setKitImages({ kitImages: [...currentKitImg, img], idx: currentIdxKitImages.idx });
   };
 
@@ -83,7 +83,7 @@ const ResizePage: React.FC = () => {
             <Crop
               addCropedImg={ onAddCropedImg }
               onCloseModal={ handleCloseModal }
-              src={ currentImg.preview }
+              src={ currentImg.preview! }
             />
           </div>
         </div>

@@ -5,8 +5,8 @@ export interface IDropzone {
 }
 
 export interface ICrop {
-  src: any;
-  addCropedImg: (img: any) => void;
+  src: string;
+  addCropedImg: (img: IobjImg) => void;
   onCloseModal: () => void;
 }
 

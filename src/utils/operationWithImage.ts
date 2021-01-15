@@ -13,35 +13,34 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   }
 };
 
-export const getCroppedImg = (image: HTMLImageElement, crop:any, fileName: string): Promise<IobjImg> => {
+export const getCroppedImg = (image: HTMLImageElement, crop: ReactCrop.Crop, fileName: string): Promise<IobjImg> => {
   const canvas: HTMLCanvasElement = document.createElement('canvas');
   const scaleX: number = image.naturalWidth / image.width;
   const scaleY: number = image.naturalHeight / image.height;
-  canvas.width = crop.width;
-  canvas.height = crop.height;
-  const ctx: any = canvas.getContext('2d');
+  canvas.width = crop.width!;
+  canvas.height = crop.height!;
+  const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
 
-  ctx.drawImage(
+  ctx!.drawImage(
     image,
-    crop.x * scaleX,
-    crop.y * scaleY,
-    crop.width * scaleX,
-    crop.height * scaleY,
+    crop.x! * scaleX,
+    crop.y! * scaleY,
+    crop.width! * scaleX,
+    crop.height! * scaleY,
     0,
     0,
-    crop.width,
-    crop.height,
+    crop.width!,
+    crop.height!,
   );
 
-  return new Promise((resolve, reject) => {
-    canvas.toBlob((blob: Blob | null) => {
+  return new Promise((resolve) => {
+    canvas.toBlob((blob: IobjImg | null) => {
       if (!blob) {
         return;
       }
 
-      const blobWithOptions: IobjImg = blob;
-      blobWithOptions.name = fileName;
-      blobWithOptions.preview = window.URL.createObjectURL(blob);
+      blob.name = fileName;
+      blob.preview = window.URL.createObjectURL(blob);
       resolve(blob);
     }, 'image/jpeg');
   });

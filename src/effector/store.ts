@@ -3,9 +3,6 @@ import * as events from './event';
 import { findNewCurrentIdx } from '../utils/differentFunc';
 import { IobjIdxKitImages, IobjImg } from '../interfaces/items';
 
-/* const images = localStorage.getItem('fileBase64');
-getLocalImage(images, events.setImages); */
-
 export const $images = createStore<IobjImg[]>([])
   .on(events.setImages, (state, images) =>  [...images]);
 
@@ -17,7 +14,7 @@ export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxI
   .on(events.nextKitImages, (state) => findNewCurrentIdx(state, '+'))
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
-export const $kitsImages = createStore<any>([])
+export const $kitsImages = createStore<any[]>([])
   .on(events.setLengthKitsImages, (state, length) => new Array(length).fill([]))
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
@@ -47,6 +44,6 @@ $images.watch((state) => {
 });
 
 $kitsImages.watch((state) => {
-  const hasImages = state.some((kit: any) => kit.length);
+  const hasImages = state.some((kit: IobjImg[]) => kit.length);
   events.setIsCroppedImages(hasImages);
 });
