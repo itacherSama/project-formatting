@@ -4,7 +4,7 @@ import cn from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 
-import { calcProportion, getTypeByPropotion } from '../../utils/operationWithImage';
+import { calcProportion, getTypeByPropotion } from '../../services/imageService';
 import { IGallery } from '../../interfaces/components';
 import { IobjImg } from '../../interfaces/items';
 import styles from './Gallery.module.css';

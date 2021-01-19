@@ -14,7 +14,7 @@ export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxI
   .on(events.nextKitImages, (state) => findNewCurrentIdx(state, '+'))
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
-export const $kitsImages = createStore<any[]>([])
+export const $kitsImages = createStore<IobjImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => new Array(length).fill([]))
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];

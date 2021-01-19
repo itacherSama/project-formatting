@@ -4,7 +4,7 @@ import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import { useStore } from "effector-react";
 import "react-image-crop/dist/ReactCrop.css";
-import { getCroppedImg } from "../../utils/operationWithImage";
+import { getCroppedImg } from "../../services/imageService";
 import { $numberImg } from "../../effector/store";
 import { nextNumberImg } from "../../effector/event";
 import { ICrop } from "../../interfaces/components";

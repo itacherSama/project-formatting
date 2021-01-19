@@ -4,7 +4,7 @@ import Button from '@material-ui/core/Button';
 import {
   $kitsImages, $isCroppedImages, $color, $quality,
 } from '../../effector/store';
-import { downloadFiles } from '../../services/downloadFileService';
+import { downloadFiles } from '../../services/fileService';
 
 const DownloadBtn: React.FC = () => {
   const kitsImages = useStore($kitsImages);

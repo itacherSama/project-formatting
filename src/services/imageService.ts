@@ -1,5 +1,13 @@
 import { IobjImg } from '../interfaces/items';
 
+export const getWidthAndHeightFromFile = (file: IobjImg): {imgWidth: number, imgHeight: number } => {
+  const img: HTMLImageElement = new Image();
+  img.src = file.preview!;
+  const imgWidth = img.width;
+  const imgHeight = img.height;
+  return { imgWidth, imgHeight };
+};
+
 export const calcProportion = (firstArg: number, necessarySize: number, secondArg: number): number => {
   const propotion: number = Math.round(firstArg * (necessarySize / secondArg));
   return propotion;

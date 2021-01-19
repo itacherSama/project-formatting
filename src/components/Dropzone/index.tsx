@@ -3,7 +3,7 @@ import { useDropzone } from 'react-dropzone';
 import cn from 'classnames';
 import { setImages } from '../../effector/event';
 import DropzonePreview from './DropzonePreview';
-import { setFiles } from '../../utils/operationWithFiles';
+import { setFiles } from '../../services/fileService';
 import { IDropzone } from '../../interfaces/components';
 
 import styles from './Dropzone.module.css';
