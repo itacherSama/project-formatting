@@ -16,10 +16,6 @@
   overflow-y: scroll;
 }
 
-.cropContainer {
-  margin: 0 30px;
-}
-
 .crop {
   position: relative;
   max-width: 700px;
@@ -54,4 +50,10 @@
 
 .settings {
   margin-bottom: 20px;
+}
+
+@media (max-width: 730px) { 
+  .crop {
+    margin: 0 30px;
+  }
 }

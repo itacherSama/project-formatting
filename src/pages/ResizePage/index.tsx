@@ -78,14 +78,12 @@ const ResizePage: React.FC = () => {
         onCloseModal={ handleCloseModal }
         open={ modalState }
       >
-        <div className={ styles.cropContainer }>
-          <div className={ styles.crop }>
-            <Crop
-              addCropedImg={ onAddCropedImg }
-              onCloseModal={ handleCloseModal }
-              src={ currentImg.preview! }
-            />
-          </div>
+        <div className={ styles.crop }>
+          <Crop
+            addCropedImg={ onAddCropedImg }
+            onCloseModal={ handleCloseModal }
+            src={ currentImg.preview! }
+          />
         </div>
       </CustomModal>
 
