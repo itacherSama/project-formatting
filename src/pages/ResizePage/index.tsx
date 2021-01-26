@@ -3,11 +3,11 @@ import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 
 import {
-  $images, $kitsImages, $currentIdxKitImages, $modalState,
+  $images, $kitsImages, $currentIdxKitImages, $modalState
 } from '../../effector/store';
 import {
   setCurrentCropImage, setKitImages,
-  nextKitImages, previousKitImages, activeModal, disableModal,
+  nextKitImages, previousKitImages, activeModal, disableModal, cancelCropImg
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
@@ -68,6 +68,7 @@ const ResizePage: React.FC = () => {
         && (
         <div className={ styles.kitImages }>
           <Gallery
+            cancelCropImg={ cancelCropImg }
             files={ currentKitImg }
             loadModal={ handleActiveModal }
           />

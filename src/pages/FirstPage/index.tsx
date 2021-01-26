@@ -3,6 +3,7 @@ import Button from '@material-ui/core/Button';
 import { useStore } from 'effector-react';
 import Link from '../../router/Link';
 import Dropzone from '../../components/Dropzone';
+import { cancelImg } from '../../effector/event';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
@@ -14,7 +15,10 @@ const FirstPage: React.FC = () => {
   return (
     <>
       <div className={ styles.DropzoneWrapper }>
-        <Dropzone images={ images } />
+        <Dropzone
+          cancelImg={ cancelImg }
+          images={ images }
+        />
 
       </div>
       <div className={ styles.blockButton }>

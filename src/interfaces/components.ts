@@ -2,6 +2,7 @@ import { IobjImg } from './items';
 
 export interface IDropzone {
   images: IobjImg[];
+  cancelImg: (idx: number) => void;
 }
 
 export interface ICrop {
@@ -23,8 +24,10 @@ export interface IThumb {
 export interface IGallery {
   files: IobjImg[];
   loadModal: () => void;
+  cancelCropImg: (idx: number) => void;
 }
 
 export interface IDropzonePreview {
   images: IobjImg[];
+  onCancel: (idx: number) => void;
 }
