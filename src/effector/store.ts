@@ -1,7 +1,10 @@
 import { createStore, sample } from 'effector';
 import * as events from './event';
-import { findNewCurrentIdx } from '../utils/differentFunc';
+import { findNewCurrentIdx, getLocalItems, saveDataInLocalStorage } from '../utils/differentFunc';
 import { IobjIdxKitImages, IobjImg } from '../interfaces/items';
+
+getLocalItems('images', events.setImages);
+getLocalItems('kitsImages', events.setKitsImages);
 
 export const $images = createStore<IobjImg[]>([])
   .on(events.setImages, (state, images) =>  [...images])
@@ -20,7 +23,15 @@ export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxI
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
 export const $kitsImages = createStore<IobjImg[][]>([])
-  .on(events.setLengthKitsImages, (state, length) => new Array(length).fill([]))
+  .on(events.setLengthKitsImages, (state, length) => {
+    const newState = [...state];
+    if (length > state.length) {
+      const needIncreaseLength = length - state.length;
+      const newItems = new Array(needIncreaseLength).fill([]);
+      newState.push(...newItems);
+    }
+    return newState;
+  })
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
@@ -36,20 +47,22 @@ export const $kitsImages = createStore<IobjImg[][]>([])
   });
 
   sample({
-    source: $currentIdxKitImages /* 2 */,
-    clock: events.cancelCropImg /* 1 */,
-    fn: (objIdxCurrentImg: IobjIdxKitImages, currentCropImgIdx: number) => ({ idx: objIdxCurrentImg.idx, idxImg: currentCropImgIdx }) /* 3 */,
-    target: events.setCancelCropImg /* 4 */,
+    source: $currentIdxKitImages,
+    clock: events.cancelCropImg,
+    fn: (objIdxCurrentImg: IobjIdxKitImages, currentCropImgIdx: number) => ({ idx: objIdxCurrentImg.idx, idxImg: currentCropImgIdx }),
+    target: events.setCancelCropImg,
   });
 
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);
+  saveDataInLocalStorage('images', state);
 });
 
 $kitsImages.watch((state) => {
   const hasImages = state.some((kit: IobjImg[]) => kit.length);
   events.setIsCroppedImages(hasImages);
+  saveDataInLocalStorage('kitsImages', state);
 });
 
 export const $modalState = createStore<boolean>(false)
