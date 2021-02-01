@@ -1,16 +1,15 @@
 import React from 'react';
-import Button from "@material-ui/core/Button";
-import TextField from "@material-ui/core/TextField";
+import Button from '@material-ui/core/Button';
+import TextField from '@material-ui/core/TextField';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import styles from "../Crop.module.css";
+import styles from '../Crop.module.css';
 import { IMyCustomCrop } from '../../../interfaces/items';
-import { setTypeCrop } from "../../../effector/event";
+import { setTypeCrop } from '../../../effector/event';
 import { calcAspect } from '../../../utils/differentFunc';
 
-const typeCropWords = ['px', '%', 'aspect'];
 
-const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, typeCrop }) => {
+const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, typeCrop, typeCropWords }) => {
 
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
@@ -25,7 +24,7 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
 
     } else {
       setCrop({
-        unit: newTypeCrop as "px" | "%",
+        unit: newTypeCrop as 'px' | '%',
         width: 0,
         height: 0,
       });
@@ -55,18 +54,13 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
     const height = parseInt(value);
     if (height) {
       // const y = (imageRef!.height - height) / 2;
-      let unit = 'px';
-      if (typeCrop === typeCropWords[1]) {
-        unit = typeCrop;
-      }
-      setCrop(((prevCrop: IMyCustomCrop) => {
-        return {
-          ...prevCrop,
+      const unit = typeCrop;
+
+      setCrop({
           height,
           y: 0,
           unit
-        };
-      }));
+        });
     }
   };
 
@@ -80,18 +74,13 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
     const width = parseInt(value);
     if (width) {
       // const x = (imageRef!.width - width) / 2;
-      let unit = 'px';
-      if (typeCrop === typeCropWords[1]) {
-        unit = typeCrop;
-      }
-      setCrop(((prevCrop: IMyCustomCrop) => {
-        return {
-          ...prevCrop,
-          width,
-          x: 0,
-          unit
-        };
-      }));
+      const unit = typeCrop;
+
+      setCrop({
+        width,
+        x: 0,
+        unit
+      });
     }
   };
 
@@ -106,7 +95,6 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
     const aspect = calcAspect(crop.aspectWidth!, aspectHeight);
     if (aspect) {
       setCrop({
-        ...crop,
         aspectHeight,
         aspect
       });
@@ -124,31 +112,35 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
 
     if (aspectWidth) {
       setCrop({
-      ...crop,
       aspectWidth,
       aspect
-    });
+      });
     }
   };
+
+  const handleCropComplete = (): void => {
+    onCropComplete();
+    setTypeCrop(typeCropWords[0]);
+  }; 
   
   return (
     <form
-      autoComplete="off"
+      autoComplete='off'
       className={ styles.cropForm }
       noValidate
     >
       { typeCrop !== typeCropWords[2] && ( 
       <>
         <TextField
-          label="Width"
+          label='Width'
           onChange={ setCropWidth }
-          type="number"
+          type='number'
           value={ crop.width }
         />
         <TextField
-          label="Height"
+          label='Height'
           onChange={ setCropHeight }
-          type="number"
+          type='number'
           value={ crop.height }
         />
         
@@ -157,15 +149,15 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
       { typeCrop === typeCropWords[2] && (
         <>
           <TextField
-            label="Width"
+            label='Width'
             onChange={ setCropAspectWidth }
-            type="number"
+            type='number'
             value={ crop.aspectWidth }
           />
           <TextField
-            label="Height"
+            label='Height'
             onChange={ setCropAspectHeight }
-            type="number"
+            type='number'
             value={ crop.aspectHeight }
           />
           
@@ -190,8 +182,8 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
           }
       </Select>
       <Button
-        color="primary"
-        onClick={ onCropComplete }
+        color='primary'
+        onClick={ handleCropComplete }
       >
         Save
       </Button>
