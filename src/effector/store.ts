@@ -80,3 +80,6 @@ export const $color = createStore<string>('')
 
 export const $isCroppedImages = createStore<boolean>(false)
   .on(events.setIsCroppedImages, (state, flag) => flag);
+
+export const $typeCrop = createStore<string>('px')
+  .on(events.setTypeCrop, (state, typeCrop) => typeCrop);

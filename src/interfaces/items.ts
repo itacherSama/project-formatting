@@ -20,3 +20,9 @@ export interface IMyLink {
   onClick?: () => void,
   children?: any
 }
+
+export interface IMyCustomCrop extends ReactCrop.Crop {
+  aspectHeight?: number;
+  aspectWidth?: number;
+
+}

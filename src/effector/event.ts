@@ -18,3 +18,4 @@ export const cancelImg = createEvent<number>();
 export const cancelCropImg = createEvent<number>();
 export const setCancelCropImg = createEvent<any>();
 export const setKitsImages = createEvent<any>();
+export const setTypeCrop = createEvent<string>();

@@ -79,3 +79,11 @@ export const saveDataInLocalStorage = (localName: string, data: any) => {
   });
 
 };
+
+export const calcAspect = ( width: number, height: number): number | boolean => {
+  if (height <= 0 || width <= 0) {
+    return false;
+  }
+  const aspect = width / height;
+  return aspect;
+};
