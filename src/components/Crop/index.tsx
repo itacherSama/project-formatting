@@ -13,18 +13,18 @@ import styles from './Crop.module.css';
 const typeCropWords = ['px', '%', 'aspect'];
 
 const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {  
-  const [imageRef, setImageRef] = React.useState<HTMLImageElement | null>(null);
+  const [imageRef, setImageRef] = React.useState<any>(null);
   const numberImg = useStore($numberImg);
   const typeCrop = useStore($typeCrop);
-
   const [crop, setCrop] = React.useState<IMyCustomCrop>({
     unit: 'px',
     width: 50,
     height: 50,
   });
+  const [completedCrop, setCompletedCrop] = React.useState<IMyCustomCrop | null>(null);
+
 
   const onCropChange = (newCrop: IMyCustomCrop, cropPercent: IMyCustomCrop): void => {
-    
     setCrop((prevCrop: IMyCustomCrop) => {
       let newCropState;
       if (typeCrop === typeCropWords[1] && cropPercent ) {
@@ -38,7 +38,6 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
         ...newCrop
         };
       }
-      console.log(newCropState);
       
       return {
         ...newCropState
@@ -61,7 +60,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   };
 
   const onCropComplete = (): void => {
-    makeClientCrop(crop);
+    makeClientCrop(completedCrop!);
     nextNumberImg();
     onCloseModal();
   };
@@ -71,6 +70,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
       <ReactCrop
         crop={ crop }
         onChange={ onCropChange }
+        onComplete={ (c) => setCompletedCrop(c) }
         onImageLoaded={ onImageLoaded }
         src={ src }
       />

@@ -25,8 +25,8 @@ const CropForm: React.FC<any> = ({ onCropComplete, setCrop, crop, imageRef, type
     } else {
       setCrop({
         unit: newTypeCrop as 'px' | '%',
-        width: 0,
-        height: 0,
+        width: 50,
+        height: 50,
       });
 
     }

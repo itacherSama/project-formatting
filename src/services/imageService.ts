@@ -23,6 +23,8 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
 
 export const getCroppedImg = (image: HTMLImageElement, crop: ReactCrop.Crop, fileName: string): Promise<IobjImg> => {
   const canvas: HTMLCanvasElement = document.createElement('canvas');
+  console.log(image);
+  
   const scaleX: number = image.naturalWidth / image.width;
   const scaleY: number = image.naturalHeight / image.height;
   canvas.width = crop.width!;
@@ -48,6 +50,7 @@ export const getCroppedImg = (image: HTMLImageElement, crop: ReactCrop.Crop, fil
       }
 
       blob.name = fileName;
+      
       blob.preview = window.URL.createObjectURL(blob);
       resolve(blob);
     }, 'image/jpeg');
