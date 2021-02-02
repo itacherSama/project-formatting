@@ -31,7 +31,8 @@
 }
 
 .blockImg img {
-  max-width: 200px;
+  
+  max-width: 100%;
 }
 
 .form {

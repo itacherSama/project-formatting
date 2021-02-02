@@ -1,4 +1,4 @@
-import { IobjImg } from '../interfaces/items';
+import { IobjImg, IMyCustomCrop } from '../interfaces/items';
 
 export const getWidthAndHeightFromFile = (file: IobjImg): {imgWidth: number, imgHeight: number } => {
   const img: HTMLImageElement = new Image();
@@ -21,10 +21,22 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   }
 };
 
-export const getCroppedImg = (image: HTMLImageElement, crop: ReactCrop.Crop, fileName: string): Promise<IobjImg> => {
-  const canvas: HTMLCanvasElement = document.createElement('canvas');
-  console.log(image);
+export const calcPxCropFromPercent = (image: HTMLImageElement, crop: IMyCustomCrop) => {
+  const pixelCrop = {
+    x: Math.round(image.naturalWidth * (crop.x! / 100)),
+    y: Math.round(image.naturalHeight * (crop.y! / 100)),
+    width: Math.round(image.naturalWidth * (crop.width! / 100)),
+    height: Math.round(image.naturalHeight * (crop.height! / 100)),
+  };
   
+  return pixelCrop;
+};
+
+export const getCroppedImg = (image: HTMLImageElement, crop: IMyCustomCrop, fileName: string): Promise<IobjImg> => {
+  const canvas: HTMLCanvasElement = document.createElement('canvas');
+  if (crop.unit === '%') {
+    crop = calcPxCropFromPercent(image, crop);  
+  }
   const scaleX: number = image.naturalWidth / image.width;
   const scaleY: number = image.naturalHeight / image.height;
   canvas.width = crop.width!;

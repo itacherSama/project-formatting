@@ -17,14 +17,15 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   const numberImg = useStore($numberImg);
   const typeCrop = useStore($typeCrop);
   const [crop, setCrop] = React.useState<IMyCustomCrop>({
-    unit: 'px',
+    unit: '%',
     width: 50,
     height: 50,
   });
-  const [completedCrop, setCompletedCrop] = React.useState<IMyCustomCrop | null>(null);
-
 
   const onCropChange = (newCrop: IMyCustomCrop, cropPercent: IMyCustomCrop): void => {
+    console.log('onCropChange', newCrop);
+    console.log('onCropChange', cropPercent);
+    
     setCrop((prevCrop: IMyCustomCrop) => {
       let newCropState;
       if (typeCrop === typeCropWords[1] && cropPercent ) {
@@ -60,7 +61,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   };
 
   const onCropComplete = (): void => {
-    makeClientCrop(completedCrop!);
+    makeClientCrop(crop);
     nextNumberImg();
     onCloseModal();
   };
@@ -70,7 +71,11 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
       <ReactCrop
         crop={ crop }
         onChange={ onCropChange }
-        onComplete={ (c) => setCompletedCrop(c) }
+        onComplete={ (el, el2) => {
+          console.log('onComplete', el);
+          console.log('onComplete', el2);
+          
+        } }
         onImageLoaded={ onImageLoaded }
         src={ src }
       />
