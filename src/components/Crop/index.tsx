@@ -23,9 +23,6 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   });
 
   const onCropChange = (newCrop: IMyCustomCrop, cropPercent: IMyCustomCrop): void => {
-    console.log('onCropChange', newCrop);
-    console.log('onCropChange', cropPercent);
-    
     setCrop((prevCrop: IMyCustomCrop) => {
       let newCropState;
       if (typeCrop === typeCropWords[1] && cropPercent ) {
@@ -70,13 +67,10 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     <>
       <ReactCrop
         crop={ crop }
+        imageStyle={{ maxWidth: 'unset', maxHeight: 'unset' }}
         onChange={ onCropChange }
-        onComplete={ (el, el2) => {
-          console.log('onComplete', el);
-          console.log('onComplete', el2);
-          
-        } }
         onImageLoaded={ onImageLoaded }
+        ruleOfThirds
         src={ src }
       />
       <CropForm

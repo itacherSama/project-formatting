@@ -33,6 +33,12 @@ export const calcPxCropFromPercent = (image: HTMLImageElement, crop: IMyCustomCr
 };
 
 export const getCroppedImg = (image: HTMLImageElement, crop: IMyCustomCrop, fileName: string): Promise<IobjImg> => {
+  console.log('image', image);
+  console.log('naturalWidth', image.naturalWidth);
+  console.log('naturalHeight', image.naturalHeight);
+  console.log('width', image.width);
+  console.log('height', image.height);
+  
   const canvas: HTMLCanvasElement = document.createElement('canvas');
   if (crop.unit === '%') {
     crop = calcPxCropFromPercent(image, crop);  
