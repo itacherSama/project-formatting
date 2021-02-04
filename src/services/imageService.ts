@@ -45,8 +45,8 @@ export const getCroppedImg = (image: HTMLImageElement, crop: IMyCustomCrop, file
   }
   const scaleX: number = image.naturalWidth / image.width;
   const scaleY: number = image.naturalHeight / image.height;
-  canvas.width = crop.width!;
-  canvas.height = crop.height!;
+  canvas.width = Math.ceil(crop.width! * scaleX);
+  canvas.height = Math.ceil(crop.height! * scaleY);
   const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
 
   ctx!.drawImage(
@@ -57,8 +57,8 @@ export const getCroppedImg = (image: HTMLImageElement, crop: IMyCustomCrop, file
     crop.height! * scaleY,
     0,
     0,
-    crop.width!,
-    crop.height!,
+    crop.width! * scaleX,
+    crop.height! * scaleY,
   );
 
   return new Promise((resolve) => {

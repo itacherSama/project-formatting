@@ -65,22 +65,20 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
 
   return (
     <>
-      <ReactCrop
+      { /* <ReactCrop
         crop={ crop }
-        imageStyle={{ maxWidth: 'unset', maxHeight: 'unset' }}
         onChange={ onCropChange }
         onImageLoaded={ onImageLoaded }
-        ruleOfThirds
         src={ src }
-      />
-      <CropForm
+      /> */ }
+      { /* <CropForm
         crop={ crop }
         imageRef={ imageRef }
         onCropComplete={ onCropComplete }
         setCrop={ onCropChange }
         typeCrop={ typeCrop }
         typeCropWords={ typeCropWords }
-      />
+      /> */ }
       
     </>
   );
