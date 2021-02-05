@@ -1,4 +1,4 @@
-import { IobjImg, IMyCustomCrop } from '../interfaces/items';
+import { IobjImg } from '../interfaces/items';
 
 export const getWidthAndHeightFromFile = (file: IobjImg): {imgWidth: number, imgHeight: number } => {
   const img: HTMLImageElement = new Image();
@@ -21,7 +21,7 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   }
 };
 
-export const calcPxCropFromPercent = (image: HTMLImageElement, crop: IMyCustomCrop) => {
+export const calcPxCropFromPercent = (image: HTMLImageElement, crop: any) => {
   const pixelCrop = {
     x: Math.round(image.naturalWidth * (crop.x! / 100)),
     y: Math.round(image.naturalHeight * (crop.y! / 100)),
@@ -32,45 +32,45 @@ export const calcPxCropFromPercent = (image: HTMLImageElement, crop: IMyCustomCr
   return pixelCrop;
 };
 
-export const getCroppedImg = (image: HTMLImageElement, crop: IMyCustomCrop, fileName: string): Promise<IobjImg> => {
-  console.log('image', image);
-  console.log('naturalWidth', image.naturalWidth);
-  console.log('naturalHeight', image.naturalHeight);
-  console.log('width', image.width);
-  console.log('height', image.height);
+// export const getCroppedImg = (image: HTMLImageElement, crop: any, fileName: string): Promise<IobjImg> => {
+//   console.log('image', image);
+//   console.log('naturalWidth', image.naturalWidth);
+//   console.log('naturalHeight', image.naturalHeight);
+//   console.log('width', image.width);
+//   console.log('height', image.height);
   
-  const canvas: HTMLCanvasElement = document.createElement('canvas');
-  if (crop.unit === '%') {
-    crop = calcPxCropFromPercent(image, crop);  
-  }
-  const scaleX: number = image.naturalWidth / image.width;
-  const scaleY: number = image.naturalHeight / image.height;
-  canvas.width = Math.ceil(crop.width! * scaleX);
-  canvas.height = Math.ceil(crop.height! * scaleY);
-  const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+//   const canvas: HTMLCanvasElement = document.createElement('canvas');
+//   if (crop.unit === '%') {
+//     crop = calcPxCropFromPercent(image, crop);  
+//   }
+//   const scaleX: number = image.naturalWidth / image.width;
+//   const scaleY: number = image.naturalHeight / image.height;
+//   canvas.width = Math.ceil(crop.width! * scaleX);
+//   canvas.height = Math.ceil(crop.height! * scaleY);
+//   const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
 
-  ctx!.drawImage(
-    image,
-    crop.x! * scaleX,
-    crop.y! * scaleY,
-    crop.width! * scaleX,
-    crop.height! * scaleY,
-    0,
-    0,
-    crop.width! * scaleX,
-    crop.height! * scaleY,
-  );
+//   ctx!.drawImage(
+//     image,
+//     crop.x! * scaleX,
+//     crop.y! * scaleY,
+//     crop.width! * scaleX,
+//     crop.height! * scaleY,
+//     0,
+//     0,
+//     crop.width! * scaleX,
+//     crop.height! * scaleY,
+//   );
 
-  return new Promise((resolve) => {
-    canvas.toBlob((blob: IobjImg | null) => {
-      if (!blob) {
-        return;
-      }
+//   return new Promise((resolve) => {
+//     canvas.toBlob((blob: IobjImg | null) => {
+//       if (!blob) {
+//         return;
+//       }
 
-      blob.name = fileName;
+//       blob.name = fileName;
       
-      blob.preview = window.URL.createObjectURL(blob);
-      resolve(blob);
-    }, 'image/jpeg');
-  });
-};
+//       blob.preview = window.URL.createObjectURL(blob);
+//       resolve(blob);
+//     }, 'image/jpeg');
+//   });
+// };

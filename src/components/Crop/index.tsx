@@ -1,84 +1,67 @@
 import React from 'react';
-import ReactCrop from 'react-image-crop';
+import Cropper from "react-cropper";
+import "cropperjs/dist/cropper.css";
+
 import { useStore } from 'effector-react';
 import CropForm from './CropForm';
-import 'react-image-crop/dist/ReactCrop.css';
-import { getCroppedImg } from '../../services/imageService';
 import { $numberImg, $typeCrop } from '../../effector/store';
 import { nextNumberImg } from '../../effector/event';
 import { ICrop } from '../../interfaces/components';
-import { IobjImg, IMyCustomCrop } from '../../interfaces/items';
+import { IobjImg } from '../../interfaces/items';
 import styles from './Crop.module.css';
 
 const typeCropWords = ['px', '%', 'aspect'];
 
 const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {  
-  const [imageRef, setImageRef] = React.useState<any>(null);
   const numberImg = useStore($numberImg);
   const typeCrop = useStore($typeCrop);
-  const [crop, setCrop] = React.useState<IMyCustomCrop>({
-    unit: '%',
-    width: 50,
-    height: 50,
-  });
-
-  const onCropChange = (newCrop: IMyCustomCrop, cropPercent: IMyCustomCrop): void => {
-    setCrop((prevCrop: IMyCustomCrop) => {
-      let newCropState;
-      if (typeCrop === typeCropWords[1] && cropPercent ) {
-        newCropState = {
-          ...prevCrop,
-          ...cropPercent,
-        };
-      } else {
-        newCropState = { 
-          ...prevCrop,
-        ...newCrop
-        };
-      }
-      
-      return {
-        ...newCropState
-      };
-    });
+  const cropperRef = React.useRef<HTMLImageElement>(null);
+  const [cropData, setCropData] = React.useState();
+  const onCrop = () => {
+    const imageElement: any = cropperRef?.current;
+    const cropper: any = imageElement?.cropper;
+      setCropData(cropper.getData({ rounded: true }));
   };
 
-  const makeClientCrop = async (crop: IMyCustomCrop) => {
-    if (imageRef && crop.width && crop.height) {
-      const blobObj: IobjImg = await getCroppedImg(imageRef, crop, `${numberImg}.jpeg`);
-      blobObj.imgWidth = crop.width;
-      blobObj.imgHeight = crop.height;
-      
-      addCropedImg(blobObj);
-    }
+  const setMyDataCrop = (objValue: any) => {
+    const imageElement: any = cropperRef?.current;
+    const cropper: any = imageElement?.cropper;
+    cropper.setData({ ...objValue });
   };
 
-  const onImageLoaded = (image: HTMLImageElement): void => {
-    setImageRef(image);
-  };
+  const setMyAspect = (data: number | boolean): void => {
+    const imageElement: any = cropperRef?.current;
+    const cropper: any = imageElement?.cropper;
 
-  const onCropComplete = (): void => {
-    makeClientCrop(crop);
-    nextNumberImg();
-    onCloseModal();
+    const valueAspect = !data ? NaN : data;
+    cropper.setAspectRatio(valueAspect);
+
   };
 
   return (
     <>
-      { /* <ReactCrop
-        crop={ crop }
-        onChange={ onCropChange }
-        onImageLoaded={ onImageLoaded }
+      <Cropper
+        ref={ cropperRef }
+        background={ false }
+        // cropBoxMovable={ false }
+        // cropBoxResizable={ false }
+        // dragMode="none"
+        crop={ onCrop }
+        guides={ false }
+        initialAspectRatio={ 1 }
+        responsive
         src={ src }
-      /> */ }
-      { /* <CropForm
-        crop={ crop }
-        imageRef={ imageRef }
-        onCropComplete={ onCropComplete }
-        setCrop={ onCropChange }
+        viewMode={ 1 }
+        zoomable={ false }
+      />
+
+      <CropForm
+        crop={ cropData }
+        onSetAspect={ setMyAspect }
+        onSetCrop={ setMyDataCrop }
         typeCrop={ typeCrop }
         typeCropWords={ typeCropWords }
-      /> */ }
+      />
       
     </>
   );

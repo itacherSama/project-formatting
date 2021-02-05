@@ -21,8 +21,9 @@ export interface IMyLink {
   children?: any
 }
 
-export interface IMyCustomCrop extends ReactCrop.Crop {
-  aspectHeight?: number;
-  aspectWidth?: number;
+export interface IAspectState {
+  height: number | string;
+  width: number | string;
 
 }
+
