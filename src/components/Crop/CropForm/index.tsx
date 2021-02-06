@@ -4,7 +4,6 @@ import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
 import styles from '../Crop.module.css'; 
 import { setTypeCrop } from '../../../effector/event';
-import { calcAspect } from '../../../utils/differentFunc';
 import WidthHeightFields from './WidthHeightFields';
 import WidthHeightAspectFields from './WidthHeightAspectFields';
 
@@ -14,20 +13,11 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
     const newTypeCrop = event.target.value;
     if (newTypeCrop !== typeCropWords[2]) {
       onSetAspect(false);
-
     }
+    
     setTypeCrop(newTypeCrop);
 
   };
-
-//   const emptyField = (fieldName: string) => {
-//     onSetCrop(((prevCrop: IMyCustomCrop) => {
-//       return {
-//         ...prevCrop,
-//       [fieldName]: '',
-//       };
-//     }));
-// };
 
   if (!crop) return <div />;
   

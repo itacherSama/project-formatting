@@ -21,56 +21,26 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   }
 };
 
-export const calcPxCropFromPercent = (image: HTMLImageElement, crop: any) => {
-  const pixelCrop = {
-    x: Math.round(image.naturalWidth * (crop.x! / 100)),
-    y: Math.round(image.naturalHeight * (crop.y! / 100)),
-    width: Math.round(image.naturalWidth * (crop.width! / 100)),
-    height: Math.round(image.naturalHeight * (crop.height! / 100)),
-  };
-  
-  return pixelCrop;
+export const calcPxFromPercent = (naturalSize: number, val: any) => {
+  const pixelVal = Math.round(naturalSize * (val / 100));
+  return pixelVal;
 };
 
-// export const getCroppedImg = (image: HTMLImageElement, crop: any, fileName: string): Promise<IobjImg> => {
-//   console.log('image', image);
-//   console.log('naturalWidth', image.naturalWidth);
-//   console.log('naturalHeight', image.naturalHeight);
-//   console.log('width', image.width);
-//   console.log('height', image.height);
-  
-//   const canvas: HTMLCanvasElement = document.createElement('canvas');
-//   if (crop.unit === '%') {
-//     crop = calcPxCropFromPercent(image, crop);  
-//   }
-//   const scaleX: number = image.naturalWidth / image.width;
-//   const scaleY: number = image.naturalHeight / image.height;
-//   canvas.width = Math.ceil(crop.width! * scaleX);
-//   canvas.height = Math.ceil(crop.height! * scaleY);
-//   const ctx: CanvasRenderingContext2D | null = canvas.getContext('2d');
+export const calcPercentFromPx = (naturalSize: number, val: any) => {
+  const percentVal =  Math.round((val / naturalSize) * 100);
+  return percentVal;
+};
 
-//   ctx!.drawImage(
-//     image,
-//     crop.x! * scaleX,
-//     crop.y! * scaleY,
-//     crop.width! * scaleX,
-//     crop.height! * scaleY,
-//     0,
-//     0,
-//     crop.width! * scaleX,
-//     crop.height! * scaleY,
-//   );
+export const getPxFromPercent = (image: HTMLImageElement, objCrop: any) => {
+  objCrop.width = calcPxFromPercent(image.naturalWidth, objCrop.width);
+  objCrop.height = calcPxFromPercent(image.naturalHeight, objCrop.height);
+    
+  return objCrop;
+};
 
-//   return new Promise((resolve) => {
-//     canvas.toBlob((blob: IobjImg | null) => {
-//       if (!blob) {
-//         return;
-//       }
+export const getPercentFromPx = (image: HTMLImageElement, objCrop: any) => {
+  objCrop.width = calcPercentFromPx(image.naturalWidth, objCrop.width);
+  objCrop.height = calcPercentFromPx(image.naturalHeight, objCrop.height);
 
-//       blob.name = fileName;
-      
-//       blob.preview = window.URL.createObjectURL(blob);
-//       resolve(blob);
-//     }, 'image/jpeg');
-//   });
-// };
+  return objCrop;
+};

@@ -4,11 +4,6 @@ import TextField from '@material-ui/core/TextField';
 const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
   const setCropHeight = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
-    // if (value.length === 0) {
-    //   emptyField('height');
-    //   return;
-    // }
-
     const height = parseInt(value);
     if (height) {
       // const unit = typeCrop;

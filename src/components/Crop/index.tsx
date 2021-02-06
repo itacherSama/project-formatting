@@ -9,6 +9,7 @@ import { nextNumberImg } from '../../effector/event';
 import { ICrop } from '../../interfaces/components';
 import { IobjImg } from '../../interfaces/items';
 import styles from './Crop.module.css';
+import { getPxFromPercent, getPercentFromPx } from '../../services/imageService';
 
 const typeCropWords = ['px', '%', 'aspect'];
 
@@ -20,13 +21,26 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   const onCrop = () => {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
-      setCropData(cropper.getData({ rounded: true }));
+    let newData = cropper.getData({ rounded: true });
+    
+    if (typeCrop === typeCropWords[1]) {
+      newData = getPercentFromPx(cropperRef.current!, newData);
+    }
+
+    setCropData(newData);
+
   };
 
   const setMyDataCrop = (objValue: any) => {
     const imageElement: any = cropperRef?.current;
-    const cropper: any = imageElement?.cropper;
-    cropper.setData({ ...objValue });
+    const cropper: any = imageElement?.cropper;    
+    let calcNewVal = objValue;
+
+    if (typeCrop === typeCropWords[1]) {
+      calcNewVal = getPxFromPercent(cropperRef.current!, calcNewVal);
+    }
+
+    cropper.setData({ ...calcNewVal });
   };
 
   const setMyAspect = (data: number | boolean): void => {
@@ -35,25 +49,37 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
 
     const valueAspect = !data ? NaN : data;
     cropper.setAspectRatio(valueAspect);
-
   };
+
+  const baseSettingsCropper: any = {
+    ref: cropperRef,
+    background: false,
+    crop: onCrop,
+    guides: false,
+    responsive: true,
+    src,
+    viewMode: 1,
+    zoomable: false,
+   };
+
+   const customSettingCropper = {
+    center: false,
+    cropBoxMovable: false,
+    cropBoxResizable: false
+   }; 
+   
+   
+   const MyCropper = React.useCallback(() => {
+    return (
+      <Cropper
+        { ...baseSettingsCropper }
+      />
+     );
+  }, [typeCrop]);
 
   return (
     <>
-      <Cropper
-        ref={ cropperRef }
-        background={ false }
-        // cropBoxMovable={ false }
-        // cropBoxResizable={ false }
-        // dragMode="none"
-        crop={ onCrop }
-        guides={ false }
-        initialAspectRatio={ 1 }
-        responsive
-        src={ src }
-        viewMode={ 1 }
-        zoomable={ false }
-      />
+      <MyCropper />
 
       <CropForm
         crop={ cropData }
