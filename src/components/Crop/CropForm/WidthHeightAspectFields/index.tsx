@@ -16,14 +16,14 @@ const WidthHeightAspectFields:React.FC<any> = ({ onSetAspect }) => {
   }, [aspectState]);
 
   const onChangeAspectWidth =  (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
-      const { value } = event.target;
-      const width = value;
-      setAspectState(((prevState: IAspectState): IAspectState => {
-        return {
-          ...prevState,
-          width
-        };
-      }));
+    const { value } = event.target;
+    const width = value;
+    setAspectState(((prevState: IAspectState): IAspectState => {
+      return {
+        ...prevState,
+        width
+      };
+    }));
 
   };
 

@@ -1,7 +1,7 @@
 import { createStore, sample } from 'effector';
 import * as events from './event';
 import { findNewCurrentIdx, getLocalItems, saveDataInLocalStorage } from '../utils/differentFunc';
-import { IobjIdxKitImages, IobjImg } from '../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ITypeCrop } from '../interfaces/items';
 
 getLocalItems('images', events.setImages);
 getLocalItems('kitsImages', events.setKitsImages);
@@ -81,5 +81,10 @@ export const $color = createStore<string>('')
 export const $isCroppedImages = createStore<boolean>(false)
   .on(events.setIsCroppedImages, (state, flag) => flag);
 
-export const $typeCrop = createStore<string>('px')
-  .on(events.setTypeCrop, (state, typeCrop) => typeCrop);
+export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null })
+  .on(events.setTypeCrop, (state, typeCrop) => {
+    return {
+      current: typeCrop,
+      last: state.current
+    };
+  });

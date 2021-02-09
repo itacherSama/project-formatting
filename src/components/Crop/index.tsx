@@ -18,35 +18,34 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   const typeCrop = useStore($typeCrop);
   const cropperRef = React.useRef<HTMLImageElement>(null);
   const [cropData, setCropData] = React.useState();
-  const onCrop = () => {
+
+  const getCropper = () => {
     const imageElement: any = cropperRef?.current;
-    const cropper: any = imageElement?.cropper;
+    const cropper: any = imageElement?.cropper;  
+    return cropper;
+  };
+  
+  const onCrop = () => {
+    const cropper: any = getCropper();  
     let newData = cropper.getData({ rounded: true });
     
-    if (typeCrop === typeCropWords[1]) {
+    if (typeCrop.current === typeCropWords[1]) {
       newData = getPercentFromPx(cropperRef.current!, newData);
     }
-
     setCropData(newData);
-
   };
 
   const setMyDataCrop = (objValue: any) => {
-    const imageElement: any = cropperRef?.current;
-    const cropper: any = imageElement?.cropper;    
-    let calcNewVal = objValue;
-
-    if (typeCrop === typeCropWords[1]) {
-      calcNewVal = getPxFromPercent(cropperRef.current!, calcNewVal);
+    const cropper: any = getCropper();  
+    let newData = objValue;
+    if (typeCrop.current === typeCropWords[1]) {
+      newData = getPxFromPercent(cropperRef.current!, newData);
     }
-
-    cropper.setData({ ...calcNewVal });
+    cropper.setData({ ...newData });
   };
 
-  const setMyAspect = (data: number | boolean): void => {
-    const imageElement: any = cropperRef?.current;
-    const cropper: any = imageElement?.cropper;
-
+  const setMyAspect = (data: number): void => {
+    const cropper: any = getCropper();  
     const valueAspect = !data ? NaN : data;
     cropper.setAspectRatio(valueAspect);
   };
@@ -60,6 +59,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     src,
     viewMode: 1,
     zoomable: false,
+    autoCropArea: 1
    };
 
    const customSettingCropper = {
@@ -67,28 +67,26 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     cropBoxMovable: false,
     cropBoxResizable: false
    }; 
-   
-   
+
    const MyCropper = React.useCallback(() => {
     return (
       <Cropper
         { ...baseSettingsCropper }
       />
-     );
-  }, [typeCrop]);
+    );
+    }, [typeCrop]
+   );
 
   return (
     <>
       <MyCropper />
-
       <CropForm
         crop={ cropData }
         onSetAspect={ setMyAspect }
         onSetCrop={ setMyDataCrop }
-        typeCrop={ typeCrop }
+        typeCrop={ typeCrop.current }
         typeCropWords={ typeCropWords }
       />
-      
     </>
   );
 };

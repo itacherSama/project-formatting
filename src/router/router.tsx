@@ -20,7 +20,7 @@ const routes =
                 path: '',
                 async action() {
                     return (
-                      <FirstPage />
+                      <ResizePage />
                     );
                 },
             },

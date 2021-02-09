@@ -24,6 +24,11 @@ export interface IMyLink {
 export interface IAspectState {
   height: number | string;
   width: number | string;
+}
+
+export interface ITypeCrop {
+  current: string;
+  last: string | null;
 
 }
 

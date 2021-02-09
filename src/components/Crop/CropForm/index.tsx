@@ -11,12 +11,7 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
 
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
-    if (newTypeCrop !== typeCropWords[2]) {
-      onSetAspect(false);
-    }
-    
     setTypeCrop(newTypeCrop);
-
   };
 
   if (!crop) return <div />;
@@ -32,12 +27,11 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
           crop={ crop }
           onSetCrop={ onSetCrop }
         />
-) : (
-  <WidthHeightAspectFields
-    crop={ crop }
-    onSetAspect={ onSetAspect }
-  />
-) }
+      ) : (
+        <WidthHeightAspectFields
+          onSetAspect={ onSetAspect }
+        />
+      ) }
       <Select
         onChange={ onChangeTypeCrop }
         value={ typeCrop }
