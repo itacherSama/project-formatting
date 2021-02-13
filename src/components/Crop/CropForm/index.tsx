@@ -7,7 +7,7 @@ import { setTypeCrop } from '../../../effector/event';
 import WidthHeightFields from './WidthHeightFields';
 import WidthHeightAspectFields from './WidthHeightAspectFields';
 
-const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeCropWords }) => {
+const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeCropWords, getCropImage }) => {
 
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
@@ -52,7 +52,7 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
       </Select>
       <Button
         color='primary'
-        // onClick={ handleCropComplete }
+        onClick={ getCropImage }
       >
         Save
       </Button>

@@ -1,7 +1,6 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-
 import {
   $images, $kitsImages, $currentIdxKitImages, $modalState
 } from '../../effector/store';
@@ -17,6 +16,8 @@ import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
 import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
 import history from '../../router/history';
+import BlockImgPreview from '../../components/BlockImgPreview';
+
 
 const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
@@ -26,9 +27,12 @@ const ResizePage: React.FC = () => {
   const currentImg: IobjImg = images[currentIdxKitImages.idx];
   const modalState: boolean = useStore($modalState);
 
+
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);
+
   }, [currentIdxKitImages]);
+
 
   const onAddCropedImg = (img: IobjImg) => {
     setKitImages({ kitImages: [...currentKitImg, img], idx: currentIdxKitImages.idx });
@@ -57,13 +61,7 @@ const ResizePage: React.FC = () => {
 
   return (
     <>
-      <div className={ styles.blockImg }>
-        <img
-          alt="main"
-          src={ currentImg.preview }
-        />
-      </div>
-
+      <BlockImgPreview currentImg={ currentImg } />
       { !!currentKitImg
         && (
         <div className={ styles.kitImages }>

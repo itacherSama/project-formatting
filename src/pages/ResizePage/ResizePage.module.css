@@ -24,17 +24,6 @@
   background-color: #fff;
 }
 
-.blockImg {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.blockImg img {
-  
-  max-width: 100%;
-}
-
 .form {
   display: flex;
   align-items: center;

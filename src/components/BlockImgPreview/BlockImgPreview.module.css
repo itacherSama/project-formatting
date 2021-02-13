@@ -1,0 +1,16 @@
+.blockImgPreview {
+  display: flex;
+  position: relative;
+  justify-content: center;
+  margin-bottom: 20px;
+}
+
+.blockImgPreview img { 
+  max-width: 100%;
+}
+
+.blockImgPreview canvas { 
+  position: absolute;
+  left: 0;
+  top: 0;
+}

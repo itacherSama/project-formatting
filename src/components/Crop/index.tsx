@@ -35,6 +35,13 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     setCropData(newData);
   };
 
+  const getCropImage = () => {
+    const cropper: any = getCropper();  
+    const newImage = cropper.getCroppedCanvas().toDataURL();
+    console.log(newImage);
+    
+  };
+
   const setMyDataCrop = (objValue: any) => {
     const cropper: any = getCropper();  
     let newData = objValue;
@@ -82,6 +89,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
       <MyCropper />
       <CropForm
         crop={ cropData }
+        getCropImage={ getCropImage }
         onSetAspect={ setMyAspect }
         onSetCrop={ setMyDataCrop }
         typeCrop={ typeCrop.current }
