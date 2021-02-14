@@ -28,7 +28,10 @@ const BlockImgPreview: React.FC<any> = ({ currentImg }) => {
     const height = parseInt(cs.getPropertyValue('height'), 10);
     canvas.width = width;
     canvas.height = height;
-    draw();
+    
+    if (pointState) {
+      draw();
+    }
   };
 
   React.useLayoutEffect(() => {

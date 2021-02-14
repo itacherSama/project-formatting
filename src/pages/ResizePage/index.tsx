@@ -17,7 +17,7 @@ import styles from './ResizePage.module.css';
 import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
-
+import { convertFromBase64 } from '../../utils/differentFunc';
 
 const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
@@ -34,8 +34,11 @@ const ResizePage: React.FC = () => {
   }, [currentIdxKitImages]);
 
 
-  const onAddCropedImg = (img: IobjImg) => {
-    setKitImages({ kitImages: [...currentKitImg, img], idx: currentIdxKitImages.idx });
+  const onAddCropedImg = (base64Img: any) => {
+    convertFromBase64(base64Img, currentKitImg.length).then((fileImg) => {
+      setKitImages({ kitImages: [...currentKitImg, fileImg], idx: currentIdxKitImages.idx });
+
+    });
   };
 
   const onPreviousImage = () => {

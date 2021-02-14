@@ -22,6 +22,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;  
+
     return cropper;
   };
   
@@ -37,9 +38,17 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
 
   const getCropImage = () => {
     const cropper: any = getCropper();  
-    const newImage = cropper.getCroppedCanvas().toDataURL();
-    console.log(newImage);
-    
+    const cropperData = cropper.getData({ rounded: true });
+    const dataByImg = {
+      x: cropperData.x,
+      y: cropperData.y,
+      width: cropperData.width,
+      height: cropperData.height,
+    };
+    const base64Img = cropper.getCroppedCanvas().toDataURL();
+
+    addCropedImg(base64Img);
+    onCloseModal();
   };
 
   const setMyDataCrop = (objValue: any) => {

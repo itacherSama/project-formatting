@@ -18,7 +18,7 @@ export const convertFromBase64 = (el: any, idx: number) => {
   return fetch(el)
     .then((res) => res.blob())
     .then((blob) => {
-      const file = new File([blob], idx.toString(), { type: 'image/png' });
+      const file = new File([blob], `${idx.toString()}.jpg`, { type: 'image/jpg' });
       const newFile = Object.assign(file, {
         preview: URL.createObjectURL(file),
       });
