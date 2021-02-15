@@ -16,8 +16,8 @@ const FirstPage: React.FC = () => {
     <>
       <div className={ styles.DropzoneWrapper }>
         <Dropzone
-          cancelImg={ cancelImg }
           images={ images }
+          onCancelImg={ cancelImg }
         />
 
       </div>

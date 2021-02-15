@@ -15,16 +15,16 @@ const typesBlock = ['width', 'height'];
 const widthForPreview = 160;
 const heightForPreview = 180;
 
-const Gallery: React.FC<IGallery> = ({ files, loadModal, cancelCropImg }) => {
+const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg }) => {
   const masonryOptions: Masonry.MasonryOptions = {
     itemSelector: `.${ styles.gridImage }`,
     horizontalOrder: true,
     columnWidth: 1,
   };
-
+  
   const childElements = files.map((file: IobjImg, idx: number) => {
-    const proportionWidth: number = calcProportion(file.imgWidth!, widthForPreview, file.imgHeight!);
-    const proportionHeight: number = calcProportion(file.imgHeight!, heightForPreview, file.imgWidth!);
+    const proportionWidth: number = calcProportion(file.settingImg!.width, widthForPreview, file.settingImg!.height);
+    const proportionHeight: number = calcProportion(file.settingImg!.height, heightForPreview, file.settingImg!.width);
 
     const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
     return (
@@ -48,7 +48,7 @@ const Gallery: React.FC<IGallery> = ({ files, loadModal, cancelCropImg }) => {
         <div className={ styles.closeBtn }>
           <CloseButton
             idx={ idx }
-            onCancel={ cancelCropImg }
+            onCancel={ onCancelCropImg }
           />
         </div>
 
@@ -67,7 +67,7 @@ const Gallery: React.FC<IGallery> = ({ files, loadModal, cancelCropImg }) => {
         className={ 
           cn( styles.gridImage, styles.gridItemAdd ) 
           }
-        onClick={ loadModal }
+        onClick={ onActiveModal }
       >
         <IconButton
           aria-label="add"

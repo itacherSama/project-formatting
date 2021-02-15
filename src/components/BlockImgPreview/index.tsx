@@ -2,10 +2,9 @@ import React from "react";
 import styles from './BlockImgPreview.module.css';
 import { calcPercentFromPx, calcPxFromPercent } from '../../services/imageService';
 
-const BlockImgPreview: React.FC<any> = ({ currentImg }) => {
+const BlockImgPreview: React.FC<any> = ({ currentImg, pointState, setPointState }) => {
   const canvasPreview: any = React.useRef(null);
   const ImgPreview: any = React.useRef(null);
-  const [pointState, setPointState] = React.useState<any>(null);
 
   React.useEffect(() => {
     setTimeout(() => {
@@ -28,7 +27,7 @@ const BlockImgPreview: React.FC<any> = ({ currentImg }) => {
     const height = parseInt(cs.getPropertyValue('height'), 10);
     canvas.width = width;
     canvas.height = height;
-    
+
     if (pointState) {
       draw();
     }

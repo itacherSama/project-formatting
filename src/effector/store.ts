@@ -1,7 +1,7 @@
 import { createStore, sample } from 'effector';
 import * as events from './event';
 import { findNewCurrentIdx, getLocalItems, saveDataInLocalStorage } from '../utils/differentFunc';
-import { IobjIdxKitImages, IobjImg, ITypeCrop } from '../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ITypeCrop, IImageAndPoint } from '../interfaces/items';
 
 getLocalItems('images', events.setImages);
 getLocalItems('kitsImages', events.setKitsImages);
@@ -22,18 +22,24 @@ export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxI
   .on(events.nextKitImages, (state) => findNewCurrentIdx(state, '+'))
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
-export const $kitsImages = createStore<IobjImg[][]>([])
+export const $kitsImages = createStore<IImageAndPoint[]>([])
   .on(events.setLengthKitsImages, (state, length) => {
     const newState = [...state];
     if (length > state.length) {
       const needIncreaseLength = length - state.length;
-      const newItems = new Array(needIncreaseLength).fill([]);
+      const newItems = new Array(needIncreaseLength).fill(
+        { 
+          images: [],
+          point: null
+        });
       newState.push(...newItems);
     }
     return newState;
   })
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
+    console.log(kitImages);
+    
     newState.splice(idx, 1, kitImages);
 
     return newState;
@@ -41,11 +47,11 @@ export const $kitsImages = createStore<IobjImg[][]>([])
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
     const newState = [...state];
     const kitImages = newState[idx];
-    kitImages.splice(idxImg, 1);
+    kitImages.images.splice(idxImg, 1);
     
     return newState;
   });
-
+  
   sample({
     source: $currentIdxKitImages,
     clock: events.cancelCropImg,
@@ -60,7 +66,7 @@ $images.watch((state) => {
 });
 
 $kitsImages.watch((state) => {
-  const hasImages = state.some((kit: IobjImg[]) => kit.length);
+  const hasImages = state.some((kit: IImageAndPoint) => kit.images.length);
   events.setIsCroppedImages(hasImages);
   saveDataInLocalStorage('kitsImages', state);
 });

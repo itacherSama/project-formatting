@@ -1,13 +1,13 @@
-import { IobjImg } from './items';
+import { IobjImg, ISettingImg } from './items';
 
 export interface IDropzone {
   images: IobjImg[];
-  cancelImg: (idx: number) => void;
+  onCancelImg: (idx: number) => void;
 }
 
 export interface ICrop {
   src: string;
-  addCropedImg: (img: IobjImg) => void;
+  addCropedImg: (base64Img: string, settingImg: ISettingImg) => void;
   onCloseModal: () => void;
 }
 
@@ -23,8 +23,8 @@ export interface IThumb {
 
 export interface IGallery {
   files: IobjImg[];
-  loadModal: () => void;
-  cancelCropImg: (idx: number) => void;
+  onActiveModal: () => void;
+  onCancelCropImg: (idx: number) => void;
 }
 
 export interface IDropzonePreview {

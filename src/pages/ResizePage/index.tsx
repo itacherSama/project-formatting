@@ -14,7 +14,7 @@ import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
-import { IobjIdxKitImages, IobjImg } from '../../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ISettingImg, IImageAndPoint } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../utils/differentFunc';
@@ -23,10 +23,10 @@ const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
   const images: IobjImg[] = useStore($images);
   const currentIdxKitImages: IobjIdxKitImages = useStore($currentIdxKitImages);
-  const currentKitImg: IobjImg[] = kitsImages[currentIdxKitImages.idx];
+  const currentObjectWithKitImg: IImageAndPoint = kitsImages[currentIdxKitImages.idx];
   const currentImg: IobjImg = images[currentIdxKitImages.idx];
   const modalState: boolean = useStore($modalState);
-
+  const [pointState, setPointState] = React.useState<any>(null);
 
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);
@@ -34,10 +34,16 @@ const ResizePage: React.FC = () => {
   }, [currentIdxKitImages]);
 
 
-  const onAddCropedImg = (base64Img: any) => {
-    convertFromBase64(base64Img, currentKitImg.length).then((fileImg) => {
-      setKitImages({ kitImages: [...currentKitImg, fileImg], idx: currentIdxKitImages.idx });
+  const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
 
+    convertFromBase64(base64Img, currentObjectWithKitImg.images.length).then((fileImg: IobjImg) => {
+      fileImg.settingImg = settingImg;
+      setKitImages({ 
+        kitImages: {
+          images: [...currentObjectWithKitImg.images, fileImg],
+          point: pointState
+        }, 
+        idx: currentIdxKitImages.idx });
     });
   };
 
@@ -49,11 +55,11 @@ const ResizePage: React.FC = () => {
     nextKitImages();
   };
 
-  const handleActiveModal = () => {
+  const onActiveModal = () => {
     activeModal();
   };
 
-  const handleCloseModal = () => {
+  const onCloseModal = () => {
     disableModal();
   };
 
@@ -64,26 +70,30 @@ const ResizePage: React.FC = () => {
 
   return (
     <>
-      <BlockImgPreview currentImg={ currentImg } />
-      { !!currentKitImg
+      <BlockImgPreview
+        currentImg={ currentImg }
+        pointState={ pointState }
+        setPointState={ setPointState }
+      />
+      { !!currentObjectWithKitImg
         && (
         <div className={ styles.kitImages }>
           <Gallery
-            cancelCropImg={ cancelCropImg }
-            files={ currentKitImg }
-            loadModal={ handleActiveModal }
+            files={ currentObjectWithKitImg.images }
+            onActiveModal={ onActiveModal }
+            onCancelCropImg={ cancelCropImg }
           />
         </div>
         ) }
 
       <CustomModal
-        onCloseModal={ handleCloseModal }
+        onCloseModal={ onCloseModal }
         open={ modalState }
       >
         <div className={ styles.crop }>
           <Crop
-            addCropedImg={ onAddCropedImg }
-            onCloseModal={ handleCloseModal }
+            addCropedImg={ addCropedImg }
+            onCloseModal={ onCloseModal }
             src={ currentImg.preview! }
           />
         </div>

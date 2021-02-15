@@ -1,9 +1,3 @@
-export interface IobjImg extends Blob {
-  preview?: string;
-  name?: string;
-  imgWidth?: number;
-  imgHeight?: number;
-}
 
 export interface IobjIdxKitImages {
   maxIdx: number;
@@ -32,3 +26,25 @@ export interface ITypeCrop {
 
 }
 
+export interface IPointOnImg {
+  x: number;
+  y: number;
+}
+
+export interface ISettingImg {
+  x: number;
+  y: number;
+  width: number;
+  height: number;
+}
+
+
+export interface IobjImg extends File {
+  preview?: string;
+  settingImg?: ISettingImg;
+}
+
+export interface IImageAndPoint {
+  images: IobjImg[];
+  point: IPointOnImg;
+}

@@ -47,7 +47,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     };
     const base64Img = cropper.getCroppedCanvas().toDataURL();
 
-    addCropedImg(base64Img);
+    addCropedImg(base64Img, dataByImg);
     onCloseModal();
   };
 

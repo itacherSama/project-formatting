@@ -8,7 +8,7 @@ import { IDropzone } from '../../interfaces/components';
 
 import styles from './Dropzone.module.css';
 
-const Dropzone: React.FC<IDropzone> = ({ images, cancelImg }) => {
+const Dropzone: React.FC<IDropzone> = ({ images, onCancelImg }) => {
   const {
     getRootProps,
     getInputProps,
@@ -32,7 +32,7 @@ const Dropzone: React.FC<IDropzone> = ({ images, cancelImg }) => {
       <input { ...getInputProps() } />
       <DropzonePreview
         images={ images }
-        onCancel={ cancelImg }
+        onCancel={ onCancelImg }
       />
 
     </div>
