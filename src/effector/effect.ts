@@ -1,39 +1,35 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles, convertFilesInBase64Items } from '../services/base64Service';
 import { generateImagesBySettings } from '../services/imageService';
+import { IobjImg, IImagesAndPoint, ISettingImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
-
   const req = await convertBase64ItemsInFiles(data);
-  // console.log(req);
-  
   return req;
 });
 
-export const fetchSettingsForImagesFx = createEffect((data: any) => {
-  console.log('fetchSettingsForImagesFx', data);
-  return data;
-});
+export const fetchSettingsForImagesFx = createEffect((data: any) => data);
 
-export const generateKitsImages = createEffect(async (data: any) => {
+export const generateKitsImages = createEffect(async (data: any): Promise<IImagesAndPoint[]>  => {
   const [images, settingsForKits] = data;
-  console.log('generate Kits');
-  console.log(data);
-  await settingsForKits.forEach(async (imageKitsettings: any, idx: number) => {
+  await settingsForKits.forEach(async (imageKitsettings: IImagesAndPoint, idx: number) => {
     const currentImg = images[idx];
-    console.log('imageKitsettings', imageKitsettings);
+    imageKitsettings.images = [];
+    
+    await imageKitsettings.kitSettings!.forEach(async (settings: ISettingImg, idxEl: number) => {
+      const blobImg: Blob = await generateImagesBySettings(currentImg, settings);
+      const fileImg: IobjImg = new File([blobImg], `${idx + idxEl}.jpg`);
+      fileImg.settingImg = settings;
+      fileImg.preview = URL.createObjectURL(fileImg);
 
-    const newImages = await imageKitsettings.kitSettings.map(async (settings: any, idxEl: any) => {
-      console.log('settings', settings);
-      const firstFile = await generateImagesBySettings(currentImg, settings);
-
-      return firstFile;
-      
+      imageKitsettings.images.push(fileImg);
     });
-
-    console.log(newImages);
+  });
+  return new Promise((resolve) => {
+    setTimeout(() => {
+      resolve(settingsForKits);
+    }, 300);
     
   });
-
   
 });

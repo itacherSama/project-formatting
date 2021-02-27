@@ -14,7 +14,7 @@ import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
-import { IobjIdxKitImages, IobjImg, ISettingImg, IImageAndPoint } from '../../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ISettingImg, IImagesAndPoint } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
@@ -23,7 +23,7 @@ const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
   const images: IobjImg[] = useStore($images);
   const currentIdxKitImages: IobjIdxKitImages = useStore($currentIdxKitImages);
-  const currentObjectWithKitImg: IImageAndPoint = kitsImages[currentIdxKitImages.idx];
+  const currentObjectWithKitImg: IImagesAndPoint = kitsImages[currentIdxKitImages.idx];
   const currentImg: IobjImg = images[currentIdxKitImages.idx];
   const modalState: boolean = useStore($modalState);
   const [pointState, setPointState] = React.useState<any>(null);
@@ -33,6 +33,7 @@ const ResizePage: React.FC = () => {
 
   }, [currentIdxKitImages]);
 
+  console.log(currentObjectWithKitImg);
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
     convertFromBase64(base64Img, currentObjectWithKitImg.images.length).then((fileImg: IobjImg) => {
@@ -74,17 +75,14 @@ const ResizePage: React.FC = () => {
         pointState={ pointState }
         setPointState={ setPointState }
       />
-      { !!currentObjectWithKitImg
-        && (
-          <div className={ styles.kitImages }>
-            <Gallery
-              files={ currentObjectWithKitImg.images }
-              onActiveModal={ onActiveModal }
-              onCancelCropImg={ cancelCropImg }
-            />
-          </div>
-        ) }
-
+      
+      <div className={ styles.kitImages }>
+        <Gallery
+          files={ currentObjectWithKitImg.images }
+          onActiveModal={ onActiveModal }
+          onCancelCropImg={ cancelCropImg }
+        />
+      </div>
       <CustomModal
         onCloseModal={ onCloseModal }
         open={ modalState }

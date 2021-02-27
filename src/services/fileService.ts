@@ -1,10 +1,10 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { IobjImg, IImageAndPoint } from '../interfaces/items';
+import { IobjImg, IImagesAndPoint } from '../interfaces/items';
 
-export const downloadFiles = (kitsItems: IImageAndPoint[]): void => {
+export const downloadFiles = (kitsItems: IImagesAndPoint[]): void => {
   const zip: JSZip = new JSZip();
-  kitsItems.forEach((item: IImageAndPoint, idx: number) => {
+  kitsItems.forEach((item: IImagesAndPoint, idx: number) => {
     const { images: kit } = item;
     if (!kit.length) {
       return;

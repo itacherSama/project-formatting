@@ -1,8 +1,8 @@
 import { createEvent } from 'effector';
-import { IobjImg, IImageAndPoint } from '../interfaces/items';
+import { IobjImg, IImagesAndPoint } from '../interfaces/items';
 
 export const setImages = createEvent<IobjImg[]>();
-export const setCurrentCropImage = createEvent<IImageAndPoint>();
+export const setCurrentCropImage = createEvent<IImagesAndPoint>();
 export const setLengthKitsImages = createEvent<number>();
 export const setKitImages = createEvent<any>();
 export const nextKitImages = createEvent();

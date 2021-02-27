@@ -44,12 +44,8 @@ export interface IobjImg extends File {
   settingImg?: ISettingImg;
 }
 
-export interface IImageAndPoint {
-  images: IobjImg[];
+export interface IImagesAndPoint {
   point: IPointOnImg;
-}
-
-export interface IImageParams {
-  imgWidth: number;
-  imgHeight: number;
+  images: IobjImg[];
+  kitSettings?: ISettingImg[];
 }

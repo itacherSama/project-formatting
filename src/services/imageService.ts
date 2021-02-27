@@ -1,5 +1,3 @@
-import { IobjImg, IImageParams } from '../interfaces/items';
-
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
   return new Promise(function(resolve, reject) {
     const img: HTMLImageElement = new Image();
@@ -56,18 +54,28 @@ export const calcAspect = ( width: number, height: number): number | boolean => 
 };
 
 export const generateImagesBySettings = async (file: any, settings: any): Promise<any> => {
-
   const canvas = document.createElement('canvas');
   const img = await getImgFromPreviewFile(file.preview);
 
-  canvas.width = img.width;
-  canvas.height = img.height;
+  canvas.width = settings.width;
+  canvas.height = settings.height;
+
   const context = canvas.getContext("2d");
 
-  context!.drawImage(img, settings.x, settings.y, settings.width, settings.height);
+  context!.drawImage(
+    img, 
+    settings.x, 
+    settings.y, 
+    settings.width, 
+    settings.height, 
+    0,
+    0,
+    settings.width,
+    settings.height
+  );
   
   return new Promise((resolve, reject) => {
-    canvas.toBlob(blob => {
+    canvas.toBlob((blob) => {
       resolve(blob);
     }, 'image/jpeg', 1);
   });

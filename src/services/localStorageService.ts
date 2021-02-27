@@ -1,4 +1,4 @@
-import { IobjImg, IImageAndPoint } from '../interfaces/items';
+import { IobjImg, IImagesAndPoint } from '../interfaces/items';
 import { convertBase64ItemsInFiles, convertFilesInBase64Items } from './base64Service';
 import { generateImagesBySettings } from './imageService';
 
@@ -25,7 +25,7 @@ export const saveDataInLocalStorage = (localName: string, data: any, saveFunc: a
     }
     );
   } else if (localName === nameItems[1]) {
-    const changedData = data.map((kit: IImageAndPoint) => {
+    const changedData = data.map((kit: IImagesAndPoint) => {
       const kitSettings = kit.images.map((el: IobjImg) => {
         return el.settingImg;
       });
