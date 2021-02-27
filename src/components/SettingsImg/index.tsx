@@ -59,7 +59,7 @@ const SettingsImg: React.FC = () => {
                   >
                     { el }
                   </MenuItem>
-);
+                );
               }) }
             </Select>
           </FormControl>

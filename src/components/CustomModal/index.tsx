@@ -12,8 +12,8 @@ const CustomModal: React.FC<ICustomModal> = ({ children, open, onCloseModal }) =
     <Modal
       BackdropComponent={ Backdrop }
       BackdropProps={{
-          timeout: 500,
-        }}
+        timeout: 500,
+      }}
       className={ styles.modal }
       closeAfterTransition
       onClose={ onCloseModal }

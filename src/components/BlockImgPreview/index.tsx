@@ -42,8 +42,8 @@ const BlockImgPreview: React.FC<any> = ({ currentImg, pointState, setPointState 
 
 
   const calcWithFunc = (x: number, y: number, func: any) => {
-  const canvas = canvasPreview.current;
-  const xPercent = func(canvas.width, x);
+    const canvas = canvasPreview.current;
+    const xPercent = func(canvas.width, x);
     const yPercent = func(canvas.height, y);
     return {
       x: xPercent,

@@ -1,11 +1,13 @@
-import { IobjImg } from '../interfaces/items';
+import { IobjImg, IImageParams } from '../interfaces/items';
 
-export const getWidthAndHeightFromFile = (file: IobjImg): {imgWidth: number, imgHeight: number } => {
-  const img: HTMLImageElement = new Image();
-  img.src = file.preview!;
-  const imgWidth = img.width;
-  const imgHeight = img.height;
-  return { imgWidth, imgHeight };
+export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
+  return new Promise(function(resolve, reject) {
+    const img: HTMLImageElement = new Image();
+    img.onload = function() {
+      resolve(img);
+    };
+    img.src = preview;
+  });
 };
 
 export const calcProportion = (firstArg: number, necessarySize: number, secondArg: number): number => {
@@ -21,12 +23,12 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   }
 };
 
-export const calcPxFromPercent = (naturalSize: number, val: any) => {
+export const calcPxFromPercent = (naturalSize: number, val: any): number => {
   const pixelVal = Math.round(naturalSize * (val / 100));
   return pixelVal;
 };
 
-export const calcPercentFromPx = (naturalSize: number, val: any) => {
+export const calcPercentFromPx = (naturalSize: number, val: any): number => {
   const percentVal =  Math.round((val / naturalSize) * 100);
   return percentVal;
 };
@@ -43,4 +45,30 @@ export const getPercentFromPx = (image: HTMLImageElement, objCrop: any) => {
   objCrop.height = calcPercentFromPx(image.naturalHeight, objCrop.height);
 
   return objCrop;
+};
+
+export const calcAspect = ( width: number, height: number): number | boolean => {
+  if (height <= 0 || width <= 0) {
+    return false;
+  }
+  const aspect = width / height;
+  return aspect;
+};
+
+export const generateImagesBySettings = async (file: any, settings: any): Promise<any> => {
+
+  const canvas = document.createElement('canvas');
+  const img = await getImgFromPreviewFile(file.preview);
+
+  canvas.width = img.width;
+  canvas.height = img.height;
+  const context = canvas.getContext("2d");
+
+  context!.drawImage(img, settings.x, settings.y, settings.width, settings.height);
+  
+  return new Promise((resolve, reject) => {
+    canvas.toBlob(blob => {
+      resolve(blob);
+    }, 'image/jpeg', 1);
+  });
 };

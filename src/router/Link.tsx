@@ -7,11 +7,11 @@ import { IMyLink } from '../interfaces/items';
 function noOp(){}
 
 const createOnClickAnchor = (callback: any) => {
-    return (e: React.MouseEvent<HTMLAnchorElement>) => {
-        e.preventDefault();
-        history.navigate(e.currentTarget.getAttribute('href'));
-        callback(e);
-    };
+  return (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    history.navigate(e.currentTarget.getAttribute('href'));
+    callback(e);
+  };
 };
 
 export default ({ href, onClick = noOp, children, ...rest }: IMyLink ): React.ReactElement => (

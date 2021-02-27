@@ -19,3 +19,6 @@ export const cancelCropImg = createEvent<number>();
 export const setCancelCropImg = createEvent<any>();
 export const setKitsImages = createEvent<any>();
 export const setTypeCrop = createEvent<string>();
+export const setImagesFromLocalStorage = createEvent<any>();
+export const setSettingForKitsImages = createEvent<any>();
+export const setkitsImages = createEvent<any>();

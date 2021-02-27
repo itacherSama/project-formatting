@@ -7,8 +7,8 @@ import './index.css';
 const render = async (location: any) => {
   const element: any = await router.resolve(location);
   ReactDOM.render(
-      element,
-      document.getElementById('root'),
+    element,
+    document.getElementById('root'),
   );
 };
 

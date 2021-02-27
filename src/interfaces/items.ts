@@ -48,3 +48,8 @@ export interface IImageAndPoint {
   images: IobjImg[];
   point: IPointOnImg;
 }
+
+export interface IImageParams {
+  imgWidth: number;
+  imgHeight: number;
+}

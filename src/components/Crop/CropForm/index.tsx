@@ -48,7 +48,7 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
               </MenuItem>
             );
           })
-          }
+        }
       </Select>
       <Button
         color='primary'

@@ -76,22 +76,22 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     viewMode: 1,
     zoomable: false,
     autoCropArea: 1
-   };
+  };
 
-   const customSettingCropper = {
+  const customSettingCropper = {
     center: false,
     cropBoxMovable: false,
     cropBoxResizable: false
-   }; 
+  }; 
 
-   const MyCropper = React.useCallback(() => {
+  const MyCropper = React.useCallback(() => {
     return (
       <Cropper
         { ...baseSettingsCropper }
       />
     );
-    }, [typeCrop]
-   );
+  }, [typeCrop]
+  );
 
   return (
     <>

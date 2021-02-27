@@ -1,6 +1,6 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { calcAspect } from '../../../../utils/differentFunc';
+import { calcAspect } from '../../../../services/imageService';
 import { IAspectState } from '../../../../interfaces/items';
 
 const WidthHeightAspectFields:React.FC<any> = ({ onSetAspect }) => {
@@ -37,7 +37,7 @@ const WidthHeightAspectFields:React.FC<any> = ({ onSetAspect }) => {
       };
     }));
 
-};
+  };
 
   return (
     <>

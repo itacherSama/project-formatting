@@ -25,6 +25,7 @@
       "windows"
     ],
     "semi": "error",
+    "indent": ["error", 2],
     "prefer-destructuring": "off",
     "no-unused-vars": "off",
     "arrow-body-style": "off",

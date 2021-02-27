@@ -9,8 +9,8 @@ const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
       // const unit = typeCrop;
 
       onSetCrop({
-          height
-        });
+        height
+      });
     }
   };
 

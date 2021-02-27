@@ -66,7 +66,7 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg }) 
       <li
         className={ 
           cn( styles.gridImage, styles.gridItemAdd ) 
-          }
+        }
         onClick={ onActiveModal }
       >
         <IconButton

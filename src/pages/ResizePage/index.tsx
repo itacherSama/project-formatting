@@ -17,7 +17,7 @@ import styles from './ResizePage.module.css';
 import { IobjIdxKitImages, IobjImg, ISettingImg, IImageAndPoint } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
-import { convertFromBase64 } from '../../utils/differentFunc';
+import { convertFromBase64 } from '../../services/base64Service';
 
 const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
@@ -35,7 +35,6 @@ const ResizePage: React.FC = () => {
 
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-
     convertFromBase64(base64Img, currentObjectWithKitImg.images.length).then((fileImg: IobjImg) => {
       fileImg.settingImg = settingImg;
       setKitImages({ 
@@ -77,13 +76,13 @@ const ResizePage: React.FC = () => {
       />
       { !!currentObjectWithKitImg
         && (
-        <div className={ styles.kitImages }>
-          <Gallery
-            files={ currentObjectWithKitImg.images }
-            onActiveModal={ onActiveModal }
-            onCancelCropImg={ cancelCropImg }
-          />
-        </div>
+          <div className={ styles.kitImages }>
+            <Gallery
+              files={ currentObjectWithKitImg.images }
+              onActiveModal={ onActiveModal }
+              onCancelCropImg={ cancelCropImg }
+            />
+          </div>
         ) }
 
       <CustomModal
