@@ -59,7 +59,7 @@ export const $kitsImages = createStore<IImagesAndPoint[]>([])
     return newState;
   })
   .on(effects.generateKitsImages.doneData, (state, kitsImages) => {
-    console.log('kitsImages', kitsImages);
+    // console.log('kitsImages', kitsImages);
     
     let newState = [...state];
     newState = state.map((el, idx) => {
@@ -91,13 +91,16 @@ $images.watch((state) => {
 
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);
+  
   saveDataInLocalStorage('images', state, imagesLocalStorage);
 });
 
 $kitsImages.watch((state) => {
   const hasImages = state.some((kit: IImagesAndPoint) => kit.images.length);
-  events.setIsCroppedImages(hasImages);
-  // saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
+  if (hasImages) {
+    events.setIsCroppedImages(hasImages);
+    saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
+  }
 });
 
 

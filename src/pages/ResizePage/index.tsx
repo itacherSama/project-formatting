@@ -33,7 +33,7 @@ const ResizePage: React.FC = () => {
 
   }, [currentIdxKitImages]);
 
-  console.log(currentObjectWithKitImg);
+  // console.log(currentObjectWithKitImg);
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
     convertFromBase64(base64Img, currentObjectWithKitImg.images.length).then((fileImg: IobjImg) => {
