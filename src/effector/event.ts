@@ -2,7 +2,7 @@ import { createEvent } from 'effector';
 import { IobjImg, IImagesAndPoint } from '../interfaces/items';
 
 export const setImages = createEvent<IobjImg[]>();
-export const setCurrentCropImage = createEvent<IImagesAndPoint>();
+export const setCurrentCropImage = createEvent<IobjImg[]>();
 export const setLengthKitsImages = createEvent<number>();
 export const setKitImages = createEvent<any>();
 export const nextKitImages = createEvent();
@@ -22,3 +22,6 @@ export const setTypeCrop = createEvent<string>();
 export const setImagesFromLocalStorage = createEvent<any>();
 export const setSettingForKitsImages = createEvent<any>();
 export const setkitsImages = createEvent<any>();
+export const setPointImg = createEvent<any>();
+export const setPointImgInKitImages = createEvent<any>();
+export const setKitImagesSettings = createEvent<any>();

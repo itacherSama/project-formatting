@@ -1,3 +1,5 @@
+import { IobjImg } from '../interfaces/items';
+
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
   return new Promise(function(resolve, reject) {
     const img: HTMLImageElement = new Image();

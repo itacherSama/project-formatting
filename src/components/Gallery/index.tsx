@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseButton from '../Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from '../../services/imageService';
 import { IGallery } from '../../interfaces/components';
-import { IobjImg } from '../../interfaces/items';
+import { IobjImg, ISettingImg } from '../../interfaces/items';
 
 import styles from './Gallery.module.css';
 
@@ -15,7 +15,7 @@ const typesBlock = ['width', 'height'];
 const widthForPreview = 160;
 const heightForPreview = 180;
 
-const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg }) => {
+const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, settings }) => {
   const masonryOptions: Masonry.MasonryOptions = {
     itemSelector: `.${ styles.gridImage }`,
     horizontalOrder: true,
@@ -23,8 +23,9 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg }) 
   };
   
   const childElements = files.map((file: IobjImg, idx: number) => {
-    const proportionWidth: number = calcProportion(file.settingImg!.width, widthForPreview, file.settingImg!.height);
-    const proportionHeight: number = calcProportion(file.settingImg!.height, heightForPreview, file.settingImg!.width);
+    const currentSettings = settings[idx];
+    const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
+    const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
 
     const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
     return (

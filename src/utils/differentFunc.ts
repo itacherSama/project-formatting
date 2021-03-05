@@ -23,3 +23,20 @@ const executeFuncIfNotArray = (item: any, func: (el: any) => any): any => {
     return func(item);
   }
 };
+
+export const deleteItemFromArrByIdx = (state: any, idx: number) => {
+  const newState = [...state];
+  newState.splice(idx, 1);
+  return newState;
+};
+
+export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any) => {
+  const newState = [...state];
+  if (length > state.length) {
+    const needIncreaseLength = length - state.length;
+    const newItems = new Array(needIncreaseLength).fill(newItem);
+    
+    newState.push(...newItems);
+  }
+  return newState;
+};

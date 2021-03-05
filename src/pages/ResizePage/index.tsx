@@ -2,11 +2,11 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $images, $kitsImages, $currentIdxKitImages, $modalState
+  $images, $kitsImages, $idxKitImages, $modalState, $kitsImagesSetting
 } from '../../effector/store';
 import {
   setCurrentCropImage, setKitImages,
-  nextKitImages, previousKitImages, activeModal, disableModal, cancelCropImg
+  nextKitImages, previousKitImages, activeModal, disableModal, cancelCropImg, setPointImg, setKitImagesSettings
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
@@ -14,7 +14,7 @@ import CustomModal from '../../components/CustomModal';
 import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
-import { IobjIdxKitImages, IobjImg, ISettingImg, IImagesAndPoint } from '../../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ISettingImg, ISettingsImage } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
@@ -22,28 +22,28 @@ import { convertFromBase64 } from '../../services/base64Service';
 const ResizePage: React.FC = () => {
   const kitsImages = useStore($kitsImages);
   const images: IobjImg[] = useStore($images);
-  const currentIdxKitImages: IobjIdxKitImages = useStore($currentIdxKitImages);
-  const currentObjectWithKitImg: IImagesAndPoint = kitsImages[currentIdxKitImages.idx];
-  const currentImg: IobjImg = images[currentIdxKitImages.idx];
+  const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);
+  const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
+  const currentIdxKitImages: number = idxKitImages.idx;
+  const currenKitImg: any = kitsImages[currentIdxKitImages];
+  const currentImg: IobjImg = images[currentIdxKitImages];
+  const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages];
   const modalState: boolean = useStore($modalState);
-  const [pointState, setPointState] = React.useState<any>(null);
 
   React.useEffect(() => {
-    setCurrentCropImage(kitsImages[currentIdxKitImages.idx]);
+    setCurrentCropImage(kitsImages[currentIdxKitImages]);
 
   }, [currentIdxKitImages]);
 
-  // console.log(currentObjectWithKitImg);
-
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-    convertFromBase64(base64Img, currentObjectWithKitImg.images.length).then((fileImg: IobjImg) => {
-      fileImg.settingImg = settingImg;
+    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
+      setKitImagesSettings({
+        settingImg,
+        idx: currentIdxKitImages 
+      });
       setKitImages({ 
-        kitImages: {
-          images: [...currentObjectWithKitImg.images, fileImg],
-          point: pointState
-        }, 
-        idx: currentIdxKitImages.idx });
+        kitImages: [...currenKitImg, fileImg],
+        idx: currentIdxKitImages });
     });
   };
 
@@ -72,15 +72,16 @@ const ResizePage: React.FC = () => {
     <>
       <BlockImgPreview
         currentImg={ currentImg }
-        pointState={ pointState }
-        setPointState={ setPointState }
+        pointState={ currentImgSetting.point }
+        setPointState={ setPointImg }
       />
       
       <div className={ styles.kitImages }>
         <Gallery
-          files={ currentObjectWithKitImg.images }
+          files={ currenKitImg }
           onActiveModal={ onActiveModal }
           onCancelCropImg={ cancelCropImg }
+          settings={ currentImgSetting.items }
         />
       </div>
       <CustomModal
@@ -99,7 +100,7 @@ const ResizePage: React.FC = () => {
       <div className={ styles.buttons }>
         <Button
           color='primary'
-          disabled={ currentIdxKitImages.idx === 0 }
+          disabled={ currentIdxKitImages === 0 }
           onClick={ onPreviousImage }
           variant='contained'
         >
@@ -107,7 +108,7 @@ const ResizePage: React.FC = () => {
         </Button>
         <Button
           color='primary'
-          disabled={ currentIdxKitImages.idx === currentIdxKitImages.maxIdx }
+          disabled={ currentIdxKitImages === idxKitImages.maxIdx }
           onClick={ onNextImage }
           variant='contained'
         >

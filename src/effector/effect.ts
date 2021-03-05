@@ -1,7 +1,7 @@
 import { createEffect } from 'effector';
-import { convertBase64ItemsInFiles, convertFilesInBase64Items } from '../services/base64Service';
+import { convertBase64ItemsInFiles } from '../services/base64Service';
 import { generateImagesBySettings } from '../services/imageService';
-import { IobjImg, IImagesAndPoint, ISettingImg } from '../interfaces/items';
+import { IobjImg, IImagesAndPoint } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
   const req = await convertBase64ItemsInFiles(data);
@@ -10,26 +10,24 @@ export const fetchImagesFx = createEffect(async (data: any) => {
 
 export const fetchSettingsForImagesFx = createEffect((data: any) => data);
 
-export const generateKitsImages = createEffect(async (data: any): Promise<IImagesAndPoint[]>  => {
+export const generateKitsImages = createEffect(async (data: any): Promise<IobjImg[][]>  => {
   const [images, settingsForKits] = data;
-  await settingsForKits.forEach(async (imageKitsettings: IImagesAndPoint, idx: number) => {
+  const kitsImages = [];
+  for (let idx = 0; idx < settingsForKits.length; idx++) {
+    const imageKitsettings = settingsForKits[idx];
     const currentImg = images[idx];
-    imageKitsettings.images = [];
-    
-    await imageKitsettings.kitSettings!.forEach(async (settings: ISettingImg, idxEl: number) => {
+    const kitImages = [];
+    for (let idxEl = 0; idxEl < imageKitsettings.items.length; idxEl++) {
+      const settings = imageKitsettings.items[idxEl];
       const blobImg: Blob = await generateImagesBySettings(currentImg, settings);
       const fileImg: IobjImg = new File([blobImg], `${idx + idxEl}.jpg`);
-      fileImg.settingImg = settings;
       fileImg.preview = URL.createObjectURL(fileImg);
 
-      imageKitsettings.images.push(fileImg);
-    });
-  });
-  return new Promise((resolve) => {
-    setTimeout(() => {
-      resolve(settingsForKits);
-    }, 300);
-    
-  });
+      kitImages.push(fileImg);
+    }
+    kitsImages.push(kitImages);
+  }
+
+  return kitsImages;
   
 });

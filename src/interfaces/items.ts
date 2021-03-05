@@ -41,11 +41,15 @@ export interface ISettingImg {
 
 export interface IobjImg extends File {
   preview?: string;
-  settingImg?: ISettingImg;
 }
 
 export interface IImagesAndPoint {
   point: IPointOnImg;
   images: IobjImg[];
   kitSettings?: ISettingImg[];
+}
+
+export interface ISettingsImage {
+  point: IPointOnImg;
+  items: ISettingImg[];
 }

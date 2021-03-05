@@ -1,11 +1,10 @@
 import { createStore, sample, guard, combine, restore, forward } from 'effector';
 import connectLocalStorage from 'effector-localstorage';
-import { AnyARecord } from 'dns';
 import * as events from './event';
 import * as effects from './effect';
-import { findNewCurrentIdx } from '../utils/differentFunc';
-import { getLocalItems, saveDataInLocalStorage } from '../services/localStorageService';
-import { IobjIdxKitImages, IobjImg, ITypeCrop, IImagesAndPoint } from '../interfaces/items';
+import { findNewCurrentIdx, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../utils/differentFunc';
+import { saveDataInLocalStorage } from '../services/localStorageService';
+import { IobjIdxKitImages, IobjImg, ITypeCrop, IPointOnImg } from '../interfaces/items';
 
 
 const imagesLocalStorage = connectLocalStorage("images")
@@ -16,14 +15,9 @@ const settingForKitsImagesLocalStorage = connectLocalStorage("settingForKitsImag
 
 export const $images = createStore<IobjImg[]>([])
   .on([events.setImages, effects.fetchImagesFx.doneData], (state, images) =>  [...images])
-  .on(events.cancelImg, (state, idx) => {
-    const newState = [...state];
-    newState.splice(idx, 1);
-    return newState;
-  });
+  .on(events.cancelImg, deleteItemFromArrByIdx);
 
-
-export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 })
+export const $idxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 })
   .on(events.setCurrentIdx, (state, length) => ({
     maxIdx: length - 1,
     idx: 0,
@@ -31,20 +25,9 @@ export const $currentIdxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxI
   .on(events.nextKitImages, (state) => findNewCurrentIdx(state, '+'))
   .on(events.previousKitImages, (state) => findNewCurrentIdx(state, '-'));
 
-export const $kitsImages = createStore<IImagesAndPoint[]>([])
-  .on(events.setLengthKitsImages, (state, length) => {
-    const newState = [...state];
-    if (length > state.length) {
-      const needIncreaseLength = length - state.length;
-      const newItems = new Array(needIncreaseLength).fill(
-        { 
-          images: [],
-          point: null
-        });
-      newState.push(...newItems);
-    }
-    return newState;
-  })
+export const $kitsImages = createStore<IobjImg[][]>([])
+  .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
+  .on(events.cancelImg, deleteItemFromArrByIdx)
   .on(events.setKitImages, (state, { kitImages, idx }) => {
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
@@ -54,15 +37,14 @@ export const $kitsImages = createStore<IImagesAndPoint[]>([])
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
     const newState = [...state];
     const kitImages = newState[idx];
-    kitImages.images.splice(idxImg, 1);
+    kitImages.splice(idxImg, 1);
     
     return newState;
   })
+  
   .on(effects.generateKitsImages.doneData, (state, kitsImages) => {
-    // console.log('kitsImages', kitsImages);
-    
     let newState = [...state];
-    newState = state.map((el, idx) => {
+    newState = newState.map((el, idx) => {
       if (kitsImages[idx]) {
         return kitsImages[idx];
       }
@@ -71,8 +53,39 @@ export const $kitsImages = createStore<IImagesAndPoint[]>([])
     return newState;
   });
 
+export const $kitsImagesSetting = createStore<any>([])
+  .on(events.setKitImagesSettings, (state, { settingImg, idx }) => {
+    const newState = [...state];
+    newState[idx].items.push(settingImg);
+    return newState;
+  })
+  .on(events.cancelImg, deleteItemFromArrByIdx)
+  .on(events.setPointImgInKitImages, (state, { pointOnImg, idx }) => {
+    const newState = [...state];
+    const objSettings = newState[idx];
+    objSettings.point = pointOnImg;
+    
+    return newState;
+  })
+  .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
+    const newState = [...state];
+    const objSettings = newState[idx];
+    objSettings.items.splice(idxImg, 1);
+    
+    return newState;
+  })
+  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
+  .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
+    point: null,
+    items: []
+  })));
+  
+// export const $imagesAndSettings = combine({ images: $images, kitsImagesSetting: $kitsImagesSetting });
+
+
+
 sample({
-  source: $currentIdxKitImages,
+  source: $idxKitImages,
   clock: events.cancelCropImg,
   fn: (objIdxCurrentImg: IobjIdxKitImages, currentCropImgIdx: number) => ({ idx: objIdxCurrentImg.idx, idxImg: currentCropImgIdx }),
   target: events.setCancelCropImg,
@@ -86,9 +99,15 @@ guard({
   target: effects.generateKitsImages,
 });
 
+sample({
+  source: $idxKitImages,
+  clock: events.setPointImg,
+  fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
+  target: events.setPointImgInKitImages,
+});
+
 
 $images.watch((state) => {
-
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);
   
@@ -96,13 +115,19 @@ $images.watch((state) => {
 });
 
 $kitsImages.watch((state) => {
-  const hasImages = state.some((kit: IImagesAndPoint) => kit.images.length);
+  const hasImages = state.some((kit: any) => kit.length);
   if (hasImages) {
     events.setIsCroppedImages(hasImages);
-    saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
   }
 });
 
+$kitsImagesSetting.watch((state) => {
+  if (state.length === 0) {
+    return;
+  }
+  saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
+
+});
 
 export const $modalState = createStore<boolean>(false)
   .on(events.activeModal, (state) => true)

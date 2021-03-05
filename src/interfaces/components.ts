@@ -23,6 +23,7 @@ export interface IThumb {
 
 export interface IGallery {
   files: IobjImg[];
+  settings: ISettingImg[];
   onActiveModal: () => void;
   onCancelCropImg: (idx: number) => void;
 }
