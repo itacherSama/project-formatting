@@ -1,4 +1,4 @@
-import { IobjImg, ISettingImg } from './items';
+import { IobjImg, ISettingImg, IPointOnImg } from './items';
 
 export interface IDropzone {
   images: IobjImg[];
@@ -7,6 +7,7 @@ export interface IDropzone {
 
 export interface ICrop {
   src: string;
+  point: IPointOnImg;
   addCropedImg: (base64Img: string, settingImg: ISettingImg) => void;
   onCloseModal: () => void;
 }
@@ -32,3 +33,4 @@ export interface IDropzonePreview {
   images: IobjImg[];
   onCancel: (idx: number) => void;
 }
+

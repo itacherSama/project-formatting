@@ -14,6 +14,7 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
     setTypeCrop(newTypeCrop);
   };
 
+
   if (!crop) return <div />;
   
   return (

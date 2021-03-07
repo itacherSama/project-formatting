@@ -2,15 +2,26 @@ import React from 'react';
 import TextField from '@material-ui/core/TextField';
 
 const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
+
+  const [myState, setMyState] = React.useState({
+    width: crop.width,
+    height: crop.height
+  });
+
+  React.useEffect(() => {
+    onSetCrop(myState);
+  }, [myState]);
+
   const setCropHeight = (event: React.ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const height = parseInt(value);
     if (height) {
       // const unit = typeCrop;
 
-      onSetCrop({
+      setMyState((prevState) => ({
+        ...prevState,
         height
-      });
+      }));
     }
   };
 
@@ -18,9 +29,10 @@ const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
     const { value } = event.target;
     const width = parseInt(value);
     if (width) {
-      onSetCrop({
+      setMyState((prevState) => ({
+        ...prevState,
         width
-      });
+      }));
     }
   };
 
@@ -30,13 +42,13 @@ const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
         label='Width'
         onChange={ setCropWidth }
         type='number'
-        value={ crop.width }
+        value={ myState.width }
       />
       <TextField
         label='Height'
         onChange={ setCropHeight }
         type='number'
-        value={ crop.height }
+        value={ myState.height }
       />
     </>
   );

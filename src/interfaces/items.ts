@@ -53,3 +53,8 @@ export interface ISettingsImage {
   point: IPointOnImg;
   items: ISettingImg[];
 }
+
+export interface IImgCropSettings {
+  width: number;
+  height: number;
+}

@@ -92,6 +92,7 @@ const ResizePage: React.FC = () => {
           <Crop
             addCropedImg={ addCropedImg }
             onCloseModal={ onCloseModal }
+            point={ currentImgSetting.point }
             src={ currentImg.preview! }
           />
         </div>

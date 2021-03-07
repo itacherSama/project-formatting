@@ -1,4 +1,4 @@
-import { IobjImg } from '../interfaces/items';
+import { IImgCropSettings, IPointOnImg } from '../interfaces/items';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
   return new Promise(function(resolve, reject) {
@@ -81,4 +81,21 @@ export const generateImagesBySettings = async (file: any, settings: any): Promis
       resolve(blob);
     }, 'image/jpeg', 1);
   });
+};
+
+export const getPositionByPoint = (data: IImgCropSettings, point: IPointOnImg, imgSettings: Cropper.ImageData) => {
+  const pointFromPx = { 
+    x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
+    y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
+  };
+  const halfWidth = data.width / 2;
+  const halfHeight = data.height / 2;
+  const newLeft = pointFromPx.x - halfWidth;
+  const newTop = pointFromPx.y - halfHeight;
+
+  return {
+    ...data,
+    x: newLeft >= 0 ? newLeft : 0,
+    y: newTop >= 0 ? newTop : 0,
+  };
 };

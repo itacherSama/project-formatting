@@ -7,13 +7,13 @@ import CropForm from './CropForm';
 import { $numberImg, $typeCrop } from '../../effector/store';
 import { nextNumberImg } from '../../effector/event';
 import { ICrop } from '../../interfaces/components';
-import { IobjImg } from '../../interfaces/items';
+import { IImgCropSettings } from '../../interfaces/items';
 import styles from './Crop.module.css';
-import { getPxFromPercent, getPercentFromPx } from '../../services/imageService';
+import { getPxFromPercent, getPercentFromPx , getPositionByPoint } from '../../services/imageService';
 
 const typeCropWords = ['px', '%', 'aspect'];
 
-const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {  
+const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {  
   const numberImg = useStore($numberImg);
   const typeCrop = useStore($typeCrop);
   const cropperRef = React.useRef<HTMLImageElement>(null);
@@ -33,6 +33,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     if (typeCrop.current === typeCropWords[1]) {
       newData = getPercentFromPx(cropperRef.current!, newData);
     }
+   
     setCropData(newData);
   };
 
@@ -51,12 +52,21 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     onCloseModal();
   };
 
-  const setMyDataCrop = (objValue: any) => {
+  const setMyDataCrop = (objValue: IImgCropSettings) => {
     const cropper: any = getCropper();  
+    // const cropperData = cropper.getData({ rounded: true });
+    const imgSettings = cropper.getImageData();
     let newData = objValue;
+    
     if (typeCrop.current === typeCropWords[1]) {
       newData = getPxFromPercent(cropperRef.current!, newData);
     }
+
+    if (point) {
+      newData = getPositionByPoint(newData, point, imgSettings);
+      
+    }
+
     cropper.setData({ ...newData });
   };
 
@@ -75,7 +85,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     src,
     viewMode: 1,
     zoomable: false,
-    autoCropArea: 1
+    autoCropArea: 0.3
   };
 
   const customSettingCropper = {
@@ -84,18 +94,19 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal }) => {
     cropBoxResizable: false
   }; 
 
-  const MyCropper = React.useCallback(() => {
-    return (
-      <Cropper
-        { ...baseSettingsCropper }
-      />
-    );
-  }, [typeCrop]
-  );
+  // const MyCropper = React.useCallback(() => {
+  //   return (
+      
+  //   );
+  // }, [typeCrop]
+  // );
 
   return (
     <>
-      <MyCropper />
+      <Cropper
+        { ...baseSettingsCropper }
+      />
+      
       <CropForm
         crop={ cropData }
         getCropImage={ getCropImage }
