@@ -88,8 +88,8 @@ export const getPositionByPoint = (data: IImgCropSettings, point: IPointOnImg, i
     x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
   };
-  const halfWidth = data.width / 2;
-  const halfHeight = data.height / 2;
+  const halfWidth = data.width! / 2;
+  const halfHeight = data.height! / 2;
   const newLeft = pointFromPx.x - halfWidth;
   const newTop = pointFromPx.y - halfHeight;
 

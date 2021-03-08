@@ -13,8 +13,12 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
     const newTypeCrop = event.target.value;
     setTypeCrop(newTypeCrop);
   };
-
-
+  // let crop = typeCrop === typeCropWords[1] ?  calcPercentValue() : crop;
+  // if () {
+  //   newCrop = calcPercentValue();
+  // }
+  console.log('crop', crop);
+  
   if (!crop) return <div />;
   
   return (

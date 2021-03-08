@@ -55,6 +55,12 @@ export interface ISettingsImage {
 }
 
 export interface IImgCropSettings {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
 }
+
+export interface IImgCropValue {
+  type: string;
+  value: number;
+}
+
