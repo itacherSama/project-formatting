@@ -7,19 +7,13 @@ import { setTypeCrop } from '../../../effector/event';
 import WidthHeightFields from './WidthHeightFields';
 import WidthHeightAspectFields from './WidthHeightAspectFields';
 
-const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeCropWords, getCropImage }) => {
+const CropForm: React.FC<any> = ({ onSetCrop, crop, aspect, onSetAspect, typeCrop, typeCropWords, getCropImage }) => {
 
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
     setTypeCrop(newTypeCrop);
   };
-  // let crop = typeCrop === typeCropWords[1] ?  calcPercentValue() : crop;
-  // if () {
-  //   newCrop = calcPercentValue();
-  // }
-  console.log('crop', crop);
   
-  if (!crop) return <div />;
   
   return (
     <form
@@ -34,6 +28,7 @@ const CropForm: React.FC<any> = ({ onSetCrop, crop, onSetAspect, typeCrop, typeC
         />
       ) : (
         <WidthHeightAspectFields
+          aspect={ aspect }
           onSetAspect={ onSetAspect }
         />
       ) }

@@ -20,6 +20,9 @@ const WidthHeightFields:React.FC<any> = ({ crop, onSetCrop }) => {
     }
   };
 
+  if (!crop) return <div />;
+  
+
   return (
     <>
       <TextField
