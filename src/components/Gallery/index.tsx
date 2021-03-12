@@ -20,6 +20,7 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
     itemSelector: `.${ styles.gridImage }`,
     horizontalOrder: true,
     columnWidth: 1,
+    gutter: 10,
   };
   
   const childElements = files.map((file: IobjImg, idx: number) => {
