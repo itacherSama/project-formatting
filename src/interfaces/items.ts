@@ -15,7 +15,7 @@ export interface IMyLink {
   children?: any
 }
 
-export interface IAspectState {
+export interface ICropFormData {
   height: number | string;
   width: number | string;
 }

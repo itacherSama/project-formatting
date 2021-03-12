@@ -98,32 +98,29 @@ const ResizePage: React.FC = () => {
         </div>
       </CustomModal>
 
-      <div className={ styles.buttons }>
-        <Button
-          color='primary'
-          disabled={ currentIdxKitImages === 0 }
-          onClick={ onPreviousImage }
-          variant='contained'
-        >
-          Назад
-        </Button>
-        <Button
-          color='primary'
-          disabled={ currentIdxKitImages === idxKitImages.maxIdx }
-          onClick={ onNextImage }
-          variant='contained'
-        >
-          Далее
-        </Button>
-      </div>
-
-      <div className={ styles.settings }>
-        <SettingsImg />
-      </div>
-
-      <div className={ styles.download }>
-        <DownloadBtn />
-      </div>
+      {
+        images.length > 1 && (
+          <div className={ styles.buttons }>
+        
+            <Button
+              color='primary'
+              disabled={ currentIdxKitImages === 0 }
+              onClick={ onPreviousImage }
+              variant='contained'
+            >
+              Назад
+            </Button>
+            <Button
+              color='primary'
+              disabled={ currentIdxKitImages === idxKitImages.maxIdx }
+              onClick={ onNextImage }
+              variant='contained'
+            >
+              Далее
+            </Button>
+          </div>
+        )
+      }
     </>
   );
 };

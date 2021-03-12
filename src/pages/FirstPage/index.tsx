@@ -1,7 +1,5 @@
 import React from 'react';
-import Button from '@material-ui/core/Button';
 import { useStore } from 'effector-react';
-import Link from '../../router/Link';
 import Dropzone from '../../components/Dropzone';
 import { cancelImg } from '../../effector/event';
 import { $images } from '../../effector/store';
@@ -21,7 +19,7 @@ const FirstPage: React.FC = () => {
         />
 
       </div>
-      <div className={ styles.blockButton }>
+      { /* <div className={ styles.blockButton }>
 
         <Button
           color='primary'
@@ -30,7 +28,7 @@ const FirstPage: React.FC = () => {
         >
           <Link href='/resize'>Далее</Link>
         </Button>
-      </div>
+      </div> */ }
 
     </>
   );

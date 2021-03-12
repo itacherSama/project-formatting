@@ -79,10 +79,6 @@ export const $kitsImagesSetting = createStore<any>([])
     point: null,
     items: []
   })));
-  
-// export const $imagesAndSettings = combine({ images: $images, kitsImagesSetting: $kitsImagesSetting });
-
-
 
 sample({
   source: $idxKitImages,

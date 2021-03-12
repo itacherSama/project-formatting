@@ -1,6 +1,5 @@
 import React from 'react';
 import TextField from '@material-ui/core/TextField';
-import { IAspectState } from '../../../../interfaces/items';
 
 const WidthHeightAspectFields:React.FC<any> = ({ onSetAspect, aspect }) => {
   const onChangeAspectWidth =  (event: React.ChangeEvent<HTMLTextAreaElement>): void => {

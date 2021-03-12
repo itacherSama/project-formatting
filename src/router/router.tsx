@@ -1,8 +1,7 @@
 import React from 'react';
 import UniversalRouter from 'universal-router';
 import App from '../App';
-import FirstPage from '../pages/FirstPage';
-import ResizePage from '../pages/ResizePage';
+import MainPage from '../pages/MainPage';
 
 const routes =
     {
@@ -20,30 +19,9 @@ const routes =
           path: '',
           async action() {
             return (
-              <ResizePage />
+              <MainPage />
             );
           },
-        },
-        {
-          path: '/f',
-          async action({ next }: any) {
-            const children = await next();
-            return (
-              <App>
-                { children }
-              </App>
-            );
-          },
-          children: [
-            {
-              path: '',
-              async action() {
-                return (
-                  <FirstPage />
-                );
-              },
-            },
-          ]
         },
       ],
     };

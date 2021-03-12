@@ -12,8 +12,6 @@
 
 .kitImages {
   margin-bottom: 5px;
-  height: 200px;
-  overflow-y: scroll;
 }
 
 .crop {
@@ -38,9 +36,6 @@
   margin-right: 20px;
 }
 
-.settings {
-  margin-bottom: 20px;
-}
 
 @media (max-width: 730px) { 
   .crop {

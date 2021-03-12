@@ -7,7 +7,7 @@ import CropForm from './CropForm';
 import { $numberImg, $typeCrop } from '../../effector/store';
 import { nextNumberImg } from '../../effector/event';
 import { ICrop } from '../../interfaces/components';
-import { IAspectState, IImgCropValue, ISettingImg } from '../../interfaces/items';
+import { ICropFormData, IImgCropValue } from '../../interfaces/items';
 import { getPxFromPercent, getPercentFromPx , getPositionByPoint, calcAspect } from '../../services/imageService';
 
 const typeCropWords = ['px', '%', 'aspect'];
@@ -17,7 +17,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
   const typeCrop = useStore($typeCrop);
   const cropperRef = React.useRef<HTMLImageElement>(null);
   const [cropData, setCropData] = React.useState<any>(null);
-  const [aspectState, setAspectState] = React.useState<IAspectState>({
+  const [aspectState, setAspectState] = React.useState<ICropFormData>({
     width: 4,
     height: 3,
   });
@@ -118,26 +118,22 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
 
   };
 
-  const baseSettingsCropper: any = {
-    ref: cropperRef,
-    background: false,
-    crop: onCrop,
-    ready: () => {
-      transformDataByPointCrop();
-    },
-    guides: false,
-    responsive: true,
-    src,
-    viewMode: 1,
-    zoomable: false,
-    autoCrop: true,
-    autoCropArea: 1,
-  };
-
   return (
     <>
       <Cropper
-        { ...baseSettingsCropper }
+        ref={ cropperRef }
+        autoCrop
+        autoCropArea={ 1 }
+        background={ false }
+        crop={ onCrop }
+        guides={ false }
+        ready={ () => {
+          transformDataByPointCrop();
+        } }
+        responsive
+        src={ src }
+        viewMode={ 1 }
+        zoomable={ false }
       />
       
       <CropForm
