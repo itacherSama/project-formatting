@@ -1,4 +1,4 @@
-import { IImgCropSettings, IPointOnImg } from '../interfaces/items';
+import { ICropFormData, IPointOnImg, IImgSettingsNaturalSize, ISettingImg, IobjImg, ISettingsImage } from '../interfaces/items';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
   return new Promise(function(resolve, reject) {
@@ -55,10 +55,8 @@ export const calcAspect = ( width: number, height: number): number | boolean => 
   return aspect;
 };
 
-export const generateImagesBySettings = async (file: any, settings: any): Promise<any> => {
+export const generateImagesBySettings = async (img: HTMLImageElement, settings: ISettingImg): Promise<any> => {
   const canvas = document.createElement('canvas');
-  const img = await getImgFromPreviewFile(file.preview);
-
   canvas.width = settings.width;
   canvas.height = settings.height;
 
@@ -83,13 +81,13 @@ export const generateImagesBySettings = async (file: any, settings: any): Promis
   });
 };
 
-export const getPositionByPoint = (data: IImgCropSettings, point: IPointOnImg, imgSettings: Cropper.ImageData) => {
+export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize) => {
   const pointFromPx = { 
     x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
   };
-  const halfWidth = data.width! / 2;
-  const halfHeight = data.height! / 2;
+  const halfWidth = data.width / 2;
+  const halfHeight = data.height / 2;
   const newLeft = pointFromPx.x - halfWidth;
   const newTop = pointFromPx.y - halfHeight;
 
@@ -98,4 +96,20 @@ export const getPositionByPoint = (data: IImgCropSettings, point: IPointOnImg, i
     x: newLeft >= 0 ? newLeft : 0,
     y: newTop >= 0 ? newTop : 0,
   };
+};
+
+export const generateKitImages = async (imgElement: HTMLImageElement, kitSettings: ISettingsImage, newPoint?: IPointOnImg): Promise<any> => {
+  const kitImages = [];
+  for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
+    let settings = kitSettings.items[idxEl];
+    if (newPoint) {
+      settings = getPositionByPoint(settings, newPoint, imgElement);
+    }
+    const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
+    const fileImg: IobjImg = new File([blobImg], `${idxEl}.jpg`);
+    fileImg.preview = URL.createObjectURL(fileImg);
+
+    kitImages.push(fileImg);
+  }
+  return kitImages;
 };

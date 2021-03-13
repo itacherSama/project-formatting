@@ -11,8 +11,6 @@ import {
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import CustomModal from '../../components/CustomModal';
-import SettingsImg from '../../components/SettingsImg';
-import DownloadBtn from '../../components/DownloadBtn';
 import styles from './ResizePage.module.css';
 import { IobjIdxKitImages, IobjImg, ISettingImg, ISettingsImage } from '../../interfaces/items';
 import history from '../../router/history';

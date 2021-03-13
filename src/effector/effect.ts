@@ -1,7 +1,7 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles } from '../services/base64Service';
-import { generateImagesBySettings } from '../services/imageService';
-import { IobjImg, IImagesAndPoint } from '../interfaces/items';
+import { generateImagesBySettings, getPositionByPoint, getImgFromPreviewFile, generateKitImages } from '../services/imageService';
+import { IobjImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
   const req = await convertBase64ItemsInFiles(data);
@@ -16,18 +16,23 @@ export const generateKitsImages = createEffect(async (data: any): Promise<IobjIm
   for (let idx = 0; idx < settingsForKits.length; idx++) {
     const imageKitsettings = settingsForKits[idx];
     const currentImg = images[idx];
-    const kitImages = [];
-    for (let idxEl = 0; idxEl < imageKitsettings.items.length; idxEl++) {
-      const settings = imageKitsettings.items[idxEl];
-      const blobImg: Blob = await generateImagesBySettings(currentImg, settings);
-      const fileImg: IobjImg = new File([blobImg], `${idx + idxEl}.jpg`);
-      fileImg.preview = URL.createObjectURL(fileImg);
+    const imgElement = await getImgFromPreviewFile(currentImg.preview);
+    const kitImages = await generateKitImages(imgElement, imageKitsettings);
 
-      kitImages.push(fileImg);
-    }
     kitsImages.push(kitImages);
   }
 
   return kitsImages;
   
 });
+
+export const generateKitImagesByPoint = createEffect(async (data: any): Promise<any> => {
+  const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
+
+  const imgElement = await getImgFromPreviewFile(fileImage.preview);
+  const kitImages = await generateKitImages(imgElement, kitImagesSetting, pointOnImg);
+
+  
+  return { kitImages, idx };
+});
+

@@ -1,10 +1,10 @@
-import { createStore, sample, guard, combine, restore, forward } from 'effector';
+import { createStore, sample, guard, combine, restore, attach, merge } from 'effector';
 import connectLocalStorage from 'effector-localstorage';
 import * as events from './event';
 import * as effects from './effect';
 import { findNewCurrentIdx, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../utils/differentFunc';
 import { saveDataInLocalStorage } from '../services/localStorageService';
-import { IobjIdxKitImages, IobjImg, ITypeCrop, IPointOnImg } from '../interfaces/items';
+import { IobjIdxKitImages, IobjImg, ITypeCrop, IPointOnImg, ISettingsImage, ISettingsPointAndIdx } from '../interfaces/items';
 
 
 const imagesLocalStorage = connectLocalStorage("images")
@@ -28,7 +28,7 @@ export const $idxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 }
 export const $kitsImages = createStore<IobjImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
-  .on(events.setKitImages, (state, { kitImages, idx }) => {
+  .on([events.setKitImages, effects.generateKitImagesByPoint.doneData], (state, { kitImages, idx }) => {
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
 
@@ -102,6 +102,21 @@ sample({
   target: events.setPointImgInKitImages,
 });
 
+sample({
+  source: combine([$idxKitImages, $images, $kitsImagesSetting]),
+  clock: events.setPointImg,
+  fn: (arrayStores: any, pointOnImg: IPointOnImg) => {
+    const idx = arrayStores[0].idx;
+    
+    return { 
+      idx,
+      fileImage: arrayStores[1][idx], 
+      kitImagesSetting: arrayStores[2][idx], 
+      pointOnImg,
+    };
+  },
+  target: effects.generateKitImagesByPoint,
+});
 
 $images.watch((state) => {
   events.setLengthKitsImages(state.length);

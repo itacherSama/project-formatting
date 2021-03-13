@@ -16,8 +16,8 @@ export interface IMyLink {
 }
 
 export interface ICropFormData {
-  height: number | string;
-  width: number | string;
+  height: number;
+  width: number;
 }
 
 export interface ITypeCrop {
@@ -38,15 +38,8 @@ export interface ISettingImg {
   height: number;
 }
 
-
 export interface IobjImg extends File {
   preview?: string;
-}
-
-export interface IImagesAndPoint {
-  point: IPointOnImg;
-  images: IobjImg[];
-  kitSettings?: ISettingImg[];
 }
 
 export interface ISettingsImage {
@@ -54,13 +47,18 @@ export interface ISettingsImage {
   items: ISettingImg[];
 }
 
-export interface IImgCropSettings {
-  width?: number;
-  height?: number;
+export interface ISettingsPointAndIdx {
+  pointOnImg: IPointOnImg;
+  idx: number;
 }
 
 export interface IImgCropValue {
   type: string;
   value: number;
+}
+
+export interface IImgSettingsNaturalSize {
+  naturalWidth: number;
+  naturalHeight: number;
 }
 
