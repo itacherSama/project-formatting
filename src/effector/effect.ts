@@ -1,6 +1,6 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles } from '../services/base64Service';
-import { generateImagesBySettings, getPositionByPoint, getImgFromPreviewFile, generateKitImages } from '../services/imageService';
+import { getImgFromPreviewFile, generateKitImages } from '../services/imageService';
 import { IobjImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {

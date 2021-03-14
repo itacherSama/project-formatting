@@ -98,12 +98,55 @@ export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgS
   };
 };
 
-export const generateKitImages = async (imgElement: HTMLImageElement, kitSettings: ISettingsImage, newPoint?: IPointOnImg): Promise<any> => {
-  const kitImages = [];
+export const getPositionByPointDouble = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize) => {
+  const pointFromPx = { 
+    x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
+    y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
+  };
+  const halfWidth = data.width / 2;
+  const halfHeight = data.height / 2;
+  
+  let newPoints: any = {
+    newLeft : pointFromPx.x - halfWidth,
+    newTop : pointFromPx.y - halfHeight,
+    newRight : pointFromPx.x + halfWidth,
+    newBot : pointFromPx.y + halfHeight,
+  };
+
+  if (imgSettings.naturalWidth < newPoints.newRight ) {
+    const needPxW = newPoints.newRight - imgSettings.naturalWidth;
+    const newRight = newPoints.newRight - needPxW;
+    const newLeft = newPoints.newLeft - needPxW;
+    newPoints = {
+      ...newPoints, 
+      newRight, newLeft
+    };
+  }
+
+  if ( imgSettings.naturalHeight < newPoints.newBot  ) {
+    const needPxH =  newPoints.newBot - imgSettings.naturalHeight;
+    const newBot = newPoints.newBot - needPxH;
+    const newTop = newPoints.newTop - needPxH;
+    newPoints = {
+      ...newPoints, 
+      newBot, newTop
+    };
+  }
+  
+  return {
+    ...data,
+    x: newPoints.newLeft >= 0 ? newPoints.newLeft : 0,
+    y: newPoints.newTop >= 0 ? newPoints.newTop : 0,
+  };
+};
+
+
+export const generateKitImages = async (imgElement: HTMLImageElement, kitSettings: ISettingsImage, newPoint?: IPointOnImg): Promise<IobjImg[]> => {
+  const kitImages: IobjImg[] = [];
   for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
     let settings = kitSettings.items[idxEl];
     if (newPoint) {
-      settings = getPositionByPoint(settings, newPoint, imgElement);
+      settings = getPositionByPointDouble(settings, newPoint, imgElement);
     }
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
     const fileImg: IobjImg = new File([blobImg], `${idxEl}.jpg`);
