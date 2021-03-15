@@ -105,7 +105,7 @@ export const getPositionByPointDouble = (data: ICropFormData, point: IPointOnImg
   };
   const halfWidth = data.width / 2;
   const halfHeight = data.height / 2;
-  
+
   let newPoints: any = {
     newLeft : pointFromPx.x - halfWidth,
     newTop : pointFromPx.y - halfHeight,
@@ -123,7 +123,7 @@ export const getPositionByPointDouble = (data: ICropFormData, point: IPointOnImg
     };
   }
 
-  if ( imgSettings.naturalHeight < newPoints.newBot  ) {
+  if ( imgSettings.naturalHeight < newPoints.newBot ) {
     const needPxH =  newPoints.newBot - imgSettings.naturalHeight;
     const newBot = newPoints.newBot - needPxH;
     const newTop = newPoints.newTop - needPxH;
