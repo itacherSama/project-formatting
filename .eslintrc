@@ -22,7 +22,7 @@
     "radix": "off",
     "linebreak-style": [
       "error",
-      "windows"
+      "unix"
     ],
     "semi": "error",
     "indent": ["error", 2],
