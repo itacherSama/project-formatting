@@ -9,10 +9,7 @@ const BlockImgPreview: FC<any> = ({ currentImg, pointState, setPointState }) => 
   const ImgPreview: any = useRef(null);
   let timer: number;
   useEffect(() => {
-    setTimeout(() => {
-      resize();
-    }, 300);
-    
+    resize();
     
   }, [currentImg]);
 
@@ -53,16 +50,16 @@ const BlockImgPreview: FC<any> = ({ currentImg, pointState, setPointState }) => 
     const canvas: HTMLCanvasElement = canvasPreview.current;
     const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!; 
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (pointState === null) {
-      return;
+    if (pointState) {
+      const pointValue = calcWithFunc(pointState.x, pointState.y, calcPxFromPercent);
+      ctx.fillStyle = 'red';
+      ctx.beginPath();
+      ctx.arc(pointValue.x, pointValue.y, 3, 0, 2 * Math.PI, true);
+      
+      ctx.fill();
     }
     
-    const pointValue = calcWithFunc(pointState.x, pointState.y, calcPxFromPercent);
-    ctx.fillStyle = 'red';
-    ctx.beginPath();
-    ctx.arc(pointValue.x, pointValue.y, 3, 0, 2 * Math.PI, true);
-    
-    ctx.fill();
+   
   };
 
   const setPoint = (e: MouseEvent<HTMLCanvasElement>): void => {

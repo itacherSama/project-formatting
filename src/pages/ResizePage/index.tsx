@@ -98,7 +98,7 @@ const ResizePage: React.FC<any> = ({ nextStep }) => {
       </CustomModal>
 
       {
-        images.length > 1 && (
+        images.length > 0 && (
           <div className={ styles.buttons }>
         
             <Button
