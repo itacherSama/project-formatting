@@ -15,20 +15,18 @@ import DownloadPage from '../DownloadPage';
 
 const steps = ['Add images', 'Cropping images', 'Download images'];
 
-function getStepContent(step: number) {
+function getStepContent(step: number, handleComplete: () => void) {
   switch (step) {
   case 0:
     return <FirstPage />;
   case 1:
-    return <ResizePage />;
+    return <ResizePage nextStep={ handleComplete } />;
   case 2:
     return <DownloadPage />;
   default:
     return 'Unknown step';
   }
 }
-
-
 
 const MainPage: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
@@ -78,29 +76,31 @@ const MainPage: React.FC = () => {
             { label }
           </StepButton>
           <StepContent>
-            { getStepContent(index) }
-            <div className={ styles.actionsContainer }>
-              <div>
-                <Button
-                  className={ styles.button }
-                  disabled={ activeStep === 0 }
-                  onClick={ handleBack }
-                >
-                  Back
-                </Button>
-                { (activeStep !== steps.length - 1)  && (
+            { getStepContent(index, handleComplete) }
+            { index !== 1 && (
+              <div className={ styles.actionsContainer }>
+                <div>
                   <Button
                     className={ styles.button }
-                    color="primary"
-                    onClick={ handleComplete }
-                    variant="contained"
+                    disabled={ activeStep === 0 }
+                    onClick={ handleBack }
                   >
-                    Next
+                    Back
                   </Button>
-                ) }
+                  { (activeStep !== steps.length - 1)  && (
+                    <Button
+                      className={ styles.button }
+                      color="primary"
+                      onClick={ handleComplete }
+                      variant="contained"
+                    >
+                      Next
+                    </Button>
+                  ) }
                   
+                </div>
               </div>
-            </div>
+            ) }
           </StepContent>
         </Step>
       )) }

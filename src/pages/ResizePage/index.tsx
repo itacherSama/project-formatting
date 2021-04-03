@@ -17,7 +17,7 @@ import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
 
-const ResizePage: React.FC = () => {
+const ResizePage: React.FC<any> = ({ nextStep }) => {
   const kitsImages = useStore($kitsImages);
   const images: IobjImg[] = useStore($images);
   const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);
@@ -50,7 +50,8 @@ const ResizePage: React.FC = () => {
   };
 
   const onNextImage = () => {
-    nextKitImages();
+    // eslint-disable-next-line no-unused-expressions
+    currentIdxKitImages === idxKitImages.maxIdx ? nextStep() : nextKitImages();
   };
 
   const onActiveModal = () => {
@@ -110,7 +111,6 @@ const ResizePage: React.FC = () => {
             </Button>
             <Button
               color='primary'
-              disabled={ currentIdxKitImages === idxKitImages.maxIdx }
               onClick={ onNextImage }
               variant='contained'
             >

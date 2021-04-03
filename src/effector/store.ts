@@ -29,6 +29,9 @@ export const $kitsImages = createStore<IobjImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
   .on([events.setKitImages, effects.generateKitImagesByPoint.doneData], (state, { kitImages, idx }) => {
+    if (kitImages.length === 0) {
+      return state;
+    }
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
 
@@ -102,19 +105,22 @@ sample({
   target: events.setPointImgInKitImages,
 });
 
-sample({
-  source: combine([$idxKitImages, $images, $kitsImagesSetting]),
-  clock: events.setPointImg,
-  fn: (arrayStores: any, pointOnImg: IPointOnImg) => {
+
+const elementsForGenerateKitImagesByPoint = sample(combine([$idxKitImages, $images, $kitsImagesSetting]), events.setPointImg, 
+  (arrayStores: any, pointOnImg: IPointOnImg) => {
     const idx = arrayStores[0].idx;
-    
     return { 
       idx,
       fileImage: arrayStores[1][idx], 
       kitImagesSetting: arrayStores[2][idx], 
       pointOnImg,
     };
-  },
+  }
+);
+
+guard({
+  source: elementsForGenerateKitImagesByPoint,
+  filter: ({ pointOnImg }) => pointOnImg !== null,
   target: effects.generateKitImagesByPoint,
 });
 
