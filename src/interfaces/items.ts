@@ -54,7 +54,7 @@ export interface ISettingsPointAndIdx {
 
 export interface IImgCropValue {
   type: string;
-  value: number;
+  value: string;
 }
 
 export interface IImgSettingsNaturalSize {

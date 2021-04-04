@@ -2,18 +2,25 @@
 /* eslint-disable no-restricted-globals */
 
 // Name our cache
-const staticCacheName = "s-app-v1";
-const assetsUrls = ["index.html", "manifest.json"];
+const staticCacheName = "s-app-v2";
+const assetsUrls = [
+  "/index.html",
+  "/manifest.json",
+  "/static/js/main.chunk.js",
+  "/static/js/0.chunk.js",
+  "/static/js/0.bundle.js",
+];
 
 self.addEventListener("install", async () => {
   const cache = await caches.open(staticCacheName);
   await cache.addAll(assetsUrls);
 });
-self.addEventListener("activate", (event) => {
+
+self.addEventListener("activate", async (event) => {
   const cacheNames = await caches.keys();
   await Promise.all(
     cacheNames
-      .filter(nme => name !== staticCacheName)
+      .filter((name) => name !== staticCacheName)
       .map((name) => caches.delete(name))
   );
 });

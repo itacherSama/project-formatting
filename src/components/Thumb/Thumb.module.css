@@ -8,13 +8,19 @@
   width: 100px;
   height: 100px;
   border: 1px solid #eaeaea;
-  align-items: center;
+
 }
 
 .thumbSolo .thumbInner {
   justify-content: center;
 }
 
+.thumbInner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
 
 
 .thumbInner img {

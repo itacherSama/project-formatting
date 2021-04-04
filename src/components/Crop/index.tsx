@@ -82,13 +82,20 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     onCloseModal();
   };
 
-  const setMyDataCrop = (objValue: IImgCropValue) => {
+  const setMyDataCrop = (objValue: IImgCropValue): void => {
     const cropper: any = getCropper();  
     const imgSettings = cropper.getImageData();
-
     const typeValue = objValue.type;
+    const newValue = objValue.value;
+
+    if (newValue === '') {
+      setCropData({ ...cropData,
+        [typeValue]: newValue });
+      return;
+    }
+    
     let newData : any = { 
-      [typeValue]: objValue.value
+      [typeValue]: parseInt(newValue)
     };
 
     if (typeCrop.current === typeCropWords[1]) {
@@ -99,6 +106,7 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
       ...cropData,
       [typeValue]: newData[typeValue]
     };
+  
 
     if (point) {
       newData = getPositionByPoint(newData, point, imgSettings);
