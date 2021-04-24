@@ -17,7 +17,7 @@ import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
 
-const ResizePage: React.FC<any> = ({ nextStep }) => {
+const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const kitsImages = useStore($kitsImages);
   const images: IobjImg[] = useStore($images);
   const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);
@@ -103,8 +103,7 @@ const ResizePage: React.FC<any> = ({ nextStep }) => {
         
             <Button
               color='primary'
-              disabled={ currentIdxKitImages === 0 }
-              onClick={ onPreviousImage }
+              onClick={ currentIdxKitImages === 0 ? backStep : onPreviousImage }
               variant='contained'
             >
               Назад

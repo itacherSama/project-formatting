@@ -15,12 +15,17 @@ import DownloadPage from '../DownloadPage';
 
 const steps = ['Add images', 'Cropping images', 'Download images'];
 
-function getStepContent(step: number, handleComplete: () => void) {
+function getStepContent(step: number, handleComplete: () => void, handleBack: () => void) {
   switch (step) {
   case 0:
     return <FirstPage />;
   case 1:
-    return <ResizePage nextStep={ handleComplete } />;
+    return (
+      <ResizePage
+        backStep={ handleBack }
+        nextStep={ handleComplete }
+      />
+    );
   case 2:
     return <DownloadPage />;
   default:
@@ -58,6 +63,8 @@ const MainPage: React.FC = () => {
   };
 
   const handleBack = () => {
+    console.log('handleBack');
+    
     setActiveStep((prevActiveStep) => prevActiveStep - 1);
   };
 
@@ -76,17 +83,18 @@ const MainPage: React.FC = () => {
             { label }
           </StepButton>
           <StepContent>
-            { getStepContent(index, handleComplete) }
+            { getStepContent(index, handleComplete, handleBack) }
             { index !== 1 && (
               <div className={ styles.actionsContainer }>
                 <div>
-                  <Button
-                    className={ styles.button }
-                    disabled={ activeStep === 0 }
-                    onClick={ handleBack }
-                  >
-                    Back
-                  </Button>
+                  { (activeStep !== 0)  && (
+                    <Button
+                      className={ styles.button }
+                      onClick={ handleBack }
+                    >
+                      НАЗАД
+                    </Button>
+                  ) }
                   { (activeStep !== steps.length - 1)  && (
                     <Button
                       className={ styles.button }
@@ -94,7 +102,7 @@ const MainPage: React.FC = () => {
                       onClick={ handleComplete }
                       variant="contained"
                     >
-                      Next
+                      ДАЛЕЕ
                     </Button>
                   ) }
                   
