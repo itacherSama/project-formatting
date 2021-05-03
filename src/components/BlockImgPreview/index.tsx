@@ -1,91 +1,207 @@
-import React, { MouseEvent, FC, useEffect, useLayoutEffect, useRef } from "react";
-import styles from './BlockImgPreview.module.css';
-import { calcPercentFromPx, calcPxFromPercent } from '../../services/imageService';
+import React, {
+  MouseEvent,
+  FC,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState
+} from "react";
+import styles from "./BlockImgPreview.module.css";
+import {
+  calcMinMaxValue,
+  calcPercentFromPx,
+  calcPlacePoint,
+  calcPxFromPercent,
+  getWidthPoint,
+} from "../../services/imageService";
 
 const touchduration = 1000;
 
-const BlockImgPreview: FC<any> = ({ currentImg, pointState, setPointState }) => {
+const defaultStatePoint = {
+  widthPoint: null,
+  pointPlace: {
+    x: null,
+    y: null,
+  },
+};
+
+const defaultLocalStatePoint = {
+  activeChange: false,
+  start: {
+    x: null,
+    y: null,
+  },
+  end: {
+    x: null,
+    y: null,
+  },
+};
+
+const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {
+  const x = e.nativeEvent.offsetX;
+  const y = e.nativeEvent.offsetY;
+  return [x, y];
+};
+
+const BlockImgPreview: FC<any> = ({
+  currentImg,
+  statePoint,
+  setStatePoint,
+}) => {
   const canvasPreview: any = useRef(null);
   const ImgPreview: any = useRef(null);
+
+  const [localStatePoint, setLocalStatePoint] = useState(defaultLocalStatePoint);
   let timer: number;
   useEffect(() => {
     resize();
-    
   }, [currentImg]);
 
   useEffect(() => {
-    draw();
-  }, [pointState]);
+    draw({ ...statePoint, ...localStatePoint });
+  }, [localStatePoint]);
+
+  useEffect(() => {
+    setLocalStatePoint((prevState: any) => {
+      const newState = { ...prevState, ...statePoint };
+      if (statePoint.pointState?.x && statePoint.pointState?.y) {
+        const pointPlace = calcWithFunc({ x: statePoint.pointState.x, y: statePoint.pointState.y }, calcPxFromPercent);
+        newState.pointPlace = pointPlace; 
+      }
+
+      return newState;
+    });
+  }, [statePoint]);
+
 
   const resize = () => {
     const canvas = canvasPreview.current;
     const cs = getComputedStyle(ImgPreview.current);
-    const width = parseInt(cs.getPropertyValue('width'), 10);
-    const height = parseInt(cs.getPropertyValue('height'), 10);
+    const width = parseInt(cs.getPropertyValue("width"), 10);
+    const height = parseInt(cs.getPropertyValue("height"), 10);
     canvas.width = width;
     canvas.height = height;
 
-    draw();
+    draw({ ...statePoint, ...localStatePoint });
   };
 
   useLayoutEffect(() => {
-    window.addEventListener('resize', resize);
+    window.addEventListener("resize", resize);
     return () => {
-      window.removeEventListener('resize', resize);
+      window.removeEventListener("resize", resize);
     };
-  }, [pointState]);
+  }, [statePoint]);
 
 
-  const calcWithFunc = (x: number, y: number, func: any) => {
+  const calcWithFunc = (obj: {x: number, y: number}, func: any) => {
     const canvas = canvasPreview.current;
-    const xPercent = func(canvas.width, x);
-    const yPercent = func(canvas.height, y);
+    const xPercent = func(canvas.width, obj.x);
+    const yPercent = func(canvas.height, obj.y);
     return {
       x: xPercent,
-      y: yPercent
+      y: yPercent,
     };
   };
 
-  const draw = (): void => {
+  const draw = (statePoint: any): void => {
     const canvas: HTMLCanvasElement = canvasPreview.current;
-    const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!; 
+    const ctx: CanvasRenderingContext2D = canvas.getContext("2d")!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
-    if (pointState) {
-      const pointValue = calcWithFunc(pointState.x, pointState.y, calcPxFromPercent);
-      ctx.fillStyle = 'red';
+    
+    if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y) {
+      ctx.fillStyle = "red";
       ctx.beginPath();
-      ctx.arc(pointValue.x, pointValue.y, 3, 0, 2 * Math.PI, true);
-      
+
+      ctx.arc(statePoint.pointPlace.x!, statePoint.pointPlace.y!, statePoint.widthPoint, 0, 2 * Math.PI, true);
+
       ctx.fill();
     }
-    
-   
   };
 
-  const setPoint = (e: MouseEvent<HTMLCanvasElement>): void => {
+  /*   const setPoint = (e: MouseEvent<HTMLCanvasElement>): void => {
     const x = e.nativeEvent.offsetX;
     const y = e.nativeEvent.offsetY;
     const percentPoint = calcWithFunc(x, y, calcPercentFromPx);
-    
-    setPointState(percentPoint);
-  };
+
+    // setStatePoint(percentPoint);
+  }; */
 
   const cancelPoint = (e: MouseEvent): void => {
     if (e) {
       e.preventDefault();
     }
-    setPointState(null);
-  };
-  
-  const handleTouchStart = (): void => {
+    setStatePoint(defaultStatePoint);
+    setLocalStatePoint(defaultLocalStatePoint);
     
-    timer = setTimeout(cancelPoint, touchduration); 
+  };
+
+  const onDown = (e: MouseEvent<HTMLCanvasElement>) => {
+    if (e.button === 2) {
+      return false;
+    }
+    const [x,y] = getOffset(e);
+    
+    setLocalStatePoint((prevState: any) => (
+      {
+        ...prevState,
+        activeChange: true,
+        start: { x,y }
+      }
+    ));
+  };
+
+  const onUp = (e: MouseEvent<HTMLCanvasElement>) => {
+  
+    if (statePoint?.activeChange) {
+      const [x,y] = getOffset(e);
+
+      const end = {
+        x,y
+      };
+
+      setLocalStatePoint((prevLState: any) => {
+        setStatePoint((prevState: any) => {
+          
+          return {
+            widthPoint: getWidthPoint(prevLState.start, end),
+            pointPlace: calcWithFunc(calcPlacePoint(prevLState.start, end), calcPercentFromPx)
+          };
+        });
+        return { ...prevLState,
+          activeChange: false,
+          end,
+        };
+      });
+      
+    }
+   
+  };
+
+  const onMove = (e: MouseEvent<HTMLCanvasElement>) => {
+    const [x,y] = getOffset(e);
+    if (statePoint?.activeChange) {
+      const end = {
+        x,y
+      };
+      
+      const currentState = {
+        ...statePoint,
+        ...localStatePoint,
+        end,
+        widthPoint: getWidthPoint(statePoint.start, end),
+        pointPlace: calcPlacePoint(statePoint.start, end)
+      };
+      draw(currentState);
+    }
+  };
+
+  /*   const handleTouchStart = (): void => {
+    timer = setTimeout(cancelPoint, touchduration);
   };
 
   const handleTouchEnd = (): void => {
-    if (timer)
-      clearTimeout(timer);
-  };
+    if (timer) clearTimeout(timer);
+  }; */
 
   return (
     <div className={ styles.blockImgPreview }>
@@ -96,10 +212,12 @@ const BlockImgPreview: FC<any> = ({ currentImg, pointState, setPointState }) => 
       />
       <canvas
         ref={ canvasPreview }
-        onClick={ setPoint }
+        /*       onClick={ setPoint } */
         onContextMenu={ cancelPoint }
-        onTouchEnd={ handleTouchEnd }
-        onTouchStart={ handleTouchStart }
+        onMouseDown={ onDown }
+        onMouseLeave={ onUp }
+        onMouseMove={ onMove }
+        onMouseUp={ onUp }
       />
     </div>
   );

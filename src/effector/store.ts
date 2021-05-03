@@ -79,7 +79,13 @@ export const $kitsImagesSetting = createStore<any>([])
   })
   .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
   .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
-    point: null,
+    point: {
+      widthPoint: null,
+      pointPlace: {
+        x: null,
+        y: null,
+      },
+    },
     items: []
   })));
 

@@ -71,8 +71,8 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     <>
       <BlockImgPreview
         currentImg={ currentImg }
-        pointState={ currentImgSetting.point }
-        setPointState={ setPointImg }
+        setStatePoint={ setPointImg }
+        statePoint={ currentImgSetting.point }
       />
       
       <div className={ styles.kitImages }>
