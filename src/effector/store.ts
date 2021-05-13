@@ -153,7 +153,8 @@ $kitsImagesSetting.watch((state) => {
 });
 
 export const $modalState = createStore<boolean>(false)
-  .on(events.activeModal, (state) => true)
+  .on(events.activeModal, (state) => true) 
+
   .on(events.disableModal, (state) => false);
 
 export const $numberImg = createStore<number>(0)

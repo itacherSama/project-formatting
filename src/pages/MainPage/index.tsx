@@ -4,26 +4,30 @@ import React from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
-import Button from '@material-ui/core/Button';
 import StepButton from '@material-ui/core/StepButton';
-
-import styles from './MainPage.module.css';
 
 import FirstPage from '../FirstPage';
 import ResizePage from '../ResizePage';
 import DownloadPage from '../DownloadPage';
+import { ISettingStepContent } from '../../interfaces/items';
 
 const steps = ['Add images', 'Cropping images', 'Download images'];
 
-function getStepContent(step: number, handleComplete: () => void, handleBack: () => void) {
-  switch (step) {
+
+
+function getStepContent(settingStepContent: ISettingStepContent) {
+  switch (settingStepContent.step) {
   case 0:
-    return <FirstPage />;
+    return (
+      <FirstPage 
+        settingStepContent={ settingStepContent }
+      />
+    );
   case 1:
     return (
       <ResizePage
-        backStep={ handleBack }
-        nextStep={ handleComplete }
+        backStep={ settingStepContent.handleBack }
+        nextStep={ settingStepContent.handleComplete }
       />
     );
   case 2:
@@ -36,6 +40,9 @@ function getStepContent(step: number, handleComplete: () => void, handleBack: ()
 const MainPage: React.FC = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<any>({});
+  
+  const visibleBtnPrev = activeStep !== 0;
+  const visibleBtnNext = activeStep !== steps.length - 1;
 
   const handleNext = () => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
@@ -83,32 +90,7 @@ const MainPage: React.FC = () => {
             { label }
           </StepButton>
           <StepContent>
-            { getStepContent(index, handleComplete, handleBack) }
-            { index !== 1 && (
-              <div className={ styles.actionsContainer }>
-                <div>
-                  { (activeStep !== 0)  && (
-                    <Button
-                      className={ styles.button }
-                      onClick={ handleBack }
-                    >
-                      НАЗАД
-                    </Button>
-                  ) }
-                  { (activeStep !== steps.length - 1)  && (
-                    <Button
-                      className={ styles.button }
-                      color="primary"
-                      onClick={ handleComplete }
-                      variant="contained"
-                    >
-                      ДАЛЕЕ
-                    </Button>
-                  ) }
-                  
-                </div>
-              </div>
-            ) }
+            { getStepContent({ step: index, handleComplete, handleBack, visibleBtnPrevArr: [visibleBtnPrev], visibleBtnNextArr: [visibleBtnNext] }) }
           </StepContent>
         </Step>
       )) }

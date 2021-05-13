@@ -61,6 +61,7 @@
         "ignoreStateless": true
       }
     ],
+    "react/jsx-handler-names": "off",
     "react/no-set-state": "error",
     "react/no-string-refs": "error",
     "react/prefer-es6-class": "error",
@@ -75,7 +76,6 @@
     "react/jsx-closing-bracket-location": "error", 
     "react/jsx-equals-spacing": "error",
     "react/jsx-first-prop-new-line": "error",
-    "react/jsx-handler-names": "error",
     "react/jsx-indent-props": [
       "error",
       2

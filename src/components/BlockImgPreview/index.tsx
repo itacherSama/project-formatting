@@ -35,6 +35,11 @@ const defaultLocalStatePoint = {
     x: null,
     y: null,
   },
+  widthPoint: null,
+  pointPlace: {
+    x: null,
+    y: null,
+  },
 };
 
 const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {
@@ -52,20 +57,26 @@ const BlockImgPreview: FC<any> = ({
   const ImgPreview: any = useRef(null);
 
   const [localStatePoint, setLocalStatePoint] = useState(defaultLocalStatePoint);
+
   let timer: number;
+
   useEffect(() => {
     resize();
   }, [currentImg]);
 
-  useEffect(() => {
-    draw({ ...statePoint, ...localStatePoint });
-  }, [localStatePoint]);
+  // useEffect(() => {
+  //   resize();
+  // }, [currentImg]);
+
+  // useEffect(() => {
+  //   draw({ ...statePoint, ...localStatePoint });
+  // }, [statePoint]);
 
   useEffect(() => {
     setLocalStatePoint((prevState: any) => {
       const newState = { ...prevState, ...statePoint };
-      if (statePoint.pointState?.x && statePoint.pointState?.y) {
-        const pointPlace = calcWithFunc({ x: statePoint.pointState.x, y: statePoint.pointState.y }, calcPxFromPercent);
+      if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y) {
+        const pointPlace = calcWithFunc({ x: statePoint.pointPlace.x, y: statePoint.pointPlace.y }, calcPxFromPercent);
         newState.pointPlace = pointPlace; 
       }
 
@@ -152,7 +163,7 @@ const BlockImgPreview: FC<any> = ({
 
   const onUp = (e: MouseEvent<HTMLCanvasElement>) => {
   
-    if (statePoint?.activeChange) {
+    if (localStatePoint?.activeChange) {
       const [x,y] = getOffset(e);
 
       const end = {
@@ -164,7 +175,9 @@ const BlockImgPreview: FC<any> = ({
           
           return {
             widthPoint: getWidthPoint(prevLState.start, end),
-            pointPlace: calcWithFunc(calcPlacePoint(prevLState.start, end), calcPercentFromPx)
+            pointPlace: calcWithFunc(calcPlacePoint(prevLState.start, end), calcPercentFromPx),
+            start: prevLState.start,
+            end
           };
         });
         return { ...prevLState,
@@ -179,7 +192,7 @@ const BlockImgPreview: FC<any> = ({
 
   const onMove = (e: MouseEvent<HTMLCanvasElement>) => {
     const [x,y] = getOffset(e);
-    if (statePoint?.activeChange) {
+    if (localStatePoint?.activeChange) {
       const end = {
         x,y
       };
@@ -188,8 +201,8 @@ const BlockImgPreview: FC<any> = ({
         ...statePoint,
         ...localStatePoint,
         end,
-        widthPoint: getWidthPoint(statePoint.start, end),
-        pointPlace: calcPlacePoint(statePoint.start, end)
+        widthPoint: getWidthPoint(localStatePoint.start, end),
+        pointPlace: calcPlacePoint(localStatePoint.start, end)
       };
       draw(currentState);
     }

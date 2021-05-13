@@ -1,15 +1,18 @@
 import React from 'react';
 import { useStore } from 'effector-react';
+import { Button, Link } from '@material-ui/core';
 import Dropzone from '../../components/Dropzone';
 import { cancelImg } from '../../effector/event';
 import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
-import { IobjImg } from '../../interfaces/items';
+import { IobjImg, ISettingStepContent } from '../../interfaces/items';
+import ControlsStepperButtons from '../../components/Buttons/controlStepperButtons';
 
-const FirstPage: React.FC = () => {
+const FirstPage: React.FC<any> = (({ settingStepContent }) => {
+  
   const images: IobjImg[] = useStore($images);
-  const disableBtnNext: boolean = images.length === 0;
+  const disabledBtnNext: boolean = images.length === 0;
   return (
     <>
       <div className={ styles.DropzoneWrapper }>
@@ -19,19 +22,16 @@ const FirstPage: React.FC = () => {
         />
 
       </div>
-      { /* <div className={ styles.blockButton }>
+      <div className={ styles.blockButton }>
 
-        <Button
-          color='primary'
-          disabled={ disableBtnNext }
-          variant='contained'
-        >
-          <Link href='/resize'>Далее</Link>
-        </Button>
-      </div> */ }
+        <ControlsStepperButtons
+          disabledBtnNext={ disabledBtnNext }
+          { ...settingStepContent }
+        />
+      </div>
 
     </>
   );
-};
+});
 
 export default FirstPage;
