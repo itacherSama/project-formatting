@@ -2,9 +2,10 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $kitsImages, $isCroppedImages, $color, $quality,
+  $isCroppedImages, $color, $quality,
 } from '../../effector/store';
 import { downloadFiles } from '../../services/fileService';
+import { $kitsImages } from '../../effector/stores/kitsImages';
 
 const DownloadBtn: React.FC = () => {
   const kitsImages = useStore($kitsImages);

@@ -40,3 +40,9 @@ export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any
   }
   return newState;
 };
+
+export const findPointOnCanvas = (obj: {x: number, y: number}, canvas: any, func: any) => {
+  const x = func(canvas.width, obj.x);
+  const y = func(canvas.height, obj.y);
+  return { x,y };
+};

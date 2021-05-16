@@ -164,21 +164,26 @@ export const calcMinMaxValue = (first: number, second: number): number[] => {
   return [first, second];
 };
 
-export const getWidthPoint = (start: any, end: any) => {
+export const getWidthPoint = (firstObj: any, secondObj?: any) => {
   const defaultWidth = 3;
   let newWidth: any = null;
-  const [minX, maxX] = calcMinMaxValue(end.x, start.x);
-  const [minY, maxY] = calcMinMaxValue(end.y, start.y);
+
+  if (!secondObj) {
+    return defaultWidth;
+  }
+
+  const [minX, maxX] = calcMinMaxValue(firstObj.x, secondObj.x);
+  const [minY, maxY] = calcMinMaxValue(firstObj.y, secondObj.y);
 
   newWidth = { 
     x: Math.round((maxX - minX)),
     y: Math.round((maxY - minY))
   };
 
-  const [minNewWidth] = calcMinMaxValue(newWidth.y, newWidth.y);
-  const halfMinNewWidth = Math.round(minNewWidth / 2);
+  const [, maxNewWidth] = calcMinMaxValue(newWidth.x, newWidth.y);
+  
+  return Math.max(maxNewWidth, defaultWidth);
 
-  return halfMinNewWidth <= defaultWidth ? defaultWidth : halfMinNewWidth;
 };
 
 export const calcPlacePoint = (start: any, end: any) => {

@@ -2,7 +2,7 @@ import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import {
-  $images, $kitsImages, $idxKitImages, $modalState, $kitsImagesSetting
+  $modalState
 } from '../../effector/store';
 import {
   setCurrentCropImage, setKitImages,
@@ -16,6 +16,10 @@ import { IobjIdxKitImages, IobjImg, ISettingImg, ISettingsImage } from '../../in
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
+import { $idxKitImages } from '../../effector/stores/idxKitImages';
+import { $kitsImagesSetting } from '../../effector/stores/kitsImagesSetting';
+import { $images } from '../../effector/stores/images';
+import { $kitsImages } from '../../effector/stores/kitsImages';
 
 const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const kitsImages = useStore($kitsImages);

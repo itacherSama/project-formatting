@@ -3,11 +3,11 @@ import { useStore } from 'effector-react';
 import { Button, Link } from '@material-ui/core';
 import Dropzone from '../../components/Dropzone';
 import { cancelImg } from '../../effector/event';
-import { $images } from '../../effector/store';
 import styles from './FirstPage.module.css';
 
 import { IobjImg, ISettingStepContent } from '../../interfaces/items';
 import ControlsStepperButtons from '../../components/Buttons/controlStepperButtons';
+import { $images } from '../../effector/stores/images';
 
 const FirstPage: React.FC<any> = (({ settingStepContent }) => {
   
