@@ -46,3 +46,7 @@ export const findPointOnCanvas = (obj: {x: number, y: number}, canvas: any, func
   const y = func(canvas.height, obj.y);
   return { x,y };
 };
+
+export const copyObject = (object: any) => {
+  return JSON.parse(JSON.stringify(object));
+};

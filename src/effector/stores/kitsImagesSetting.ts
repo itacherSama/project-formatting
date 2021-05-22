@@ -2,9 +2,17 @@ import { createStore } from 'effector';
 import { settingForKitsImagesLocalStorage } from "../store";
 import * as events from "../event";
 import * as effects from "../effect";
-import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
+import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
 import { saveDataInLocalStorage } from '../../services/localStorageService';
 
+
+const initialStatePoint = {
+  widthPoint: null,
+  pointPlace: {
+    x: null,
+    y: null,
+  },
+};
 
 export const $kitsImagesSetting = createStore<any>([])
   .on(events.setKitImagesSettings, (state, { settingImg, idx }) => {
@@ -16,7 +24,11 @@ export const $kitsImagesSetting = createStore<any>([])
   .on(events.setPointImgInKitImages, (state, { pointOnImg, idx }) => {
     const newState = [...state];
     const objSettings = newState[idx];
-    objSettings.point = pointOnImg;
+    if (pointOnImg) {
+      objSettings.point = pointOnImg;
+    } else {
+      objSettings.point = copyObject(initialStatePoint);
+    }
     
     return newState;
   })
@@ -29,13 +41,7 @@ export const $kitsImagesSetting = createStore<any>([])
   })
   .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
   .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
-    point: {
-      widthPoint: null,
-      pointPlace: {
-        x: null,
-        y: null,
-      },
-    },
+    point: copyObject(initialStatePoint),
     items: []
   })));
 

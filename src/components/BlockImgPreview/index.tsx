@@ -60,7 +60,7 @@ const BlockImgPreview: FC<any> = ({
   }, [statePoint]);
   
   useEffect(() => {
-    resize();
+    setTimeout(resize, 0);
   }, [currentImg]);
 
   useEffect(() => {
@@ -80,7 +80,7 @@ const BlockImgPreview: FC<any> = ({
     const height = parseInt(cs.getPropertyValue("height"), 10);
     canvas.width = width;
     canvas.height = height;
-
+    
     setPxStatePoint(calcPxStatePoint(statePoint));
   }; 
 
@@ -110,19 +110,24 @@ const BlockImgPreview: FC<any> = ({
     if (e) {
       e.preventDefault();
     }
-    setStatePoint({});
-    // resetStatePoint();
+    setStatePoint();
   };
 
   const getPercentWidthPoint = (firstObj: any, secondObj?: any) => {
     const widthPoint = calcWidthPoint(firstObj, secondObj);
     const widthPointPercent = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPercentFromPx);
+    
     return widthPointPercent;
   };
 
   const getPxWidthPoint = (widthPoint: number) => {
-    const widthPointPercent = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPxFromPercent);
-    return widthPointPercent;
+    const widthPointPx = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPxFromPercent);
+    const defaultWidthPoint = 3;
+    
+    if (widthPointPx === 0) {
+      return defaultWidthPoint;
+    }
+    return widthPointPx;
   };
 
   const onDown = (e: MouseEvent<HTMLCanvasElement>) => {
