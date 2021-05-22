@@ -5,7 +5,8 @@ import React, {
   useLayoutEffect,
   useRef,
   useState,
-  useMemo
+  useMemo,
+  useCallback
 } from "react";
 import styles from "./BlockImgPreview.module.css";
 import {
@@ -13,7 +14,8 @@ import {
   calcPercentFromPx,
   calcPlacePoint,
   calcPxFromPercent,
-  getWidthPoint,
+  calcWidthPoint,
+  calcWidthPointOnCanvas
 } from "../../services/imageService";
 import { findPointOnCanvas } from "../../utils/differentFunc";
 
@@ -43,30 +45,35 @@ const BlockImgPreview: FC<any> = ({
   const ImgPreview: any = useRef(null);
 
   const [activeChange, setActiveChange] = useState<boolean>(false);
-  let timer: number;
-  const pxStatePoint = useMemo(() => {
-    
-    if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y) {
-      return { widthPoint: statePoint.widthPoint,
-        pointPlace: findPointOnCanvas(statePoint.pointPlace, canvasPreview.current, calcPxFromPercent) };
+  const [pxStatePoint, setPxStatePoint] = useState<any>(null);
+
+  const calcPxStatePoint = useCallback((statePoint) => {
+    if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y && statePoint.pointPlace) {
+      return { 
+        pointPlace: findPointOnCanvas(statePoint.pointPlace, canvasPreview.current, calcPxFromPercent),
+        widthPoint: getPxWidthPoint(statePoint.widthPoint)
+      };
     }
 
     return statePoint;
 
   }, [statePoint]);
-  console.log('pxStatePoint', pxStatePoint);
   
   useEffect(() => {
     resize();
   }, [currentImg]);
 
   useEffect(() => {
-    draw(pxStatePoint);
-    console.log('statePoint',statePoint);
-    
+    setPxStatePoint(calcPxStatePoint(statePoint));
   }, [statePoint]);
 
+  useEffect(() => {
+    draw(pxStatePoint);
+    
+  }, [pxStatePoint]);
+
   const resize = () => {
+    
     const canvas = canvasPreview.current;
     const cs = getComputedStyle(ImgPreview.current);
     const width = parseInt(cs.getPropertyValue("width"), 10);
@@ -74,11 +81,10 @@ const BlockImgPreview: FC<any> = ({
     canvas.width = width;
     canvas.height = height;
 
-    draw(pxStatePoint);
+    setPxStatePoint(calcPxStatePoint(statePoint));
   }; 
 
   useLayoutEffect(() => {
-    resize();
     window.addEventListener("resize", resize);
     return () => {
       window.removeEventListener("resize", resize);
@@ -108,6 +114,17 @@ const BlockImgPreview: FC<any> = ({
     // resetStatePoint();
   };
 
+  const getPercentWidthPoint = (firstObj: any, secondObj?: any) => {
+    const widthPoint = calcWidthPoint(firstObj, secondObj);
+    const widthPointPercent = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPercentFromPx);
+    return widthPointPercent;
+  };
+
+  const getPxWidthPoint = (widthPoint: number) => {
+    const widthPointPercent = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPxFromPercent);
+    return widthPointPercent;
+  };
+
   const onDown = (e: MouseEvent<HTMLCanvasElement>) => {
     if (e.button === 2) {
       return false;
@@ -115,9 +132,10 @@ const BlockImgPreview: FC<any> = ({
     const [x,y] = getOffset(e);
     const newState = { x, y };
     setActiveChange(true);
+    
     setStatePoint({
       ...statePoint,
-      widthPoint: getWidthPoint(newState),
+      widthPoint: getPercentWidthPoint(newState),
       pointPlace: findPointOnCanvas(newState, canvasPreview.current, calcPercentFromPx),
     });
   };
@@ -130,7 +148,7 @@ const BlockImgPreview: FC<any> = ({
       setActiveChange(false);
       setStatePoint( {
         ...statePoint,
-        widthPoint: getWidthPoint(pxStatePoint.pointPlace, { x, y }),
+        widthPoint: getPercentWidthPoint(pxStatePoint.pointPlace, { x, y }),
       });
     }
   };
@@ -141,7 +159,7 @@ const BlockImgPreview: FC<any> = ({
       
       const currentState = {
         ...pxStatePoint,
-        widthPoint: getWidthPoint(pxStatePoint.pointPlace, { x, y }),
+        widthPoint: calcWidthPoint(pxStatePoint.pointPlace, { x, y }),
 
       };
       draw(currentState);

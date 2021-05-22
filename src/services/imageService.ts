@@ -164,7 +164,7 @@ export const calcMinMaxValue = (first: number, second: number): number[] => {
   return [first, second];
 };
 
-export const getWidthPoint = (firstObj: any, secondObj?: any) => {
+export const calcWidthPoint = (firstObj: any, secondObj?: any) => {
   const defaultWidth = 3;
   let newWidth: any = null;
 
@@ -184,6 +184,12 @@ export const getWidthPoint = (firstObj: any, secondObj?: any) => {
   
   return Math.max(maxNewWidth, defaultWidth);
 
+};
+
+export const calcWidthPointOnCanvas = (widthPoint: number, canvas: any, func: any) => {
+  const maxVal = Math.max(canvas.width, canvas.height);
+  const widthPercent =  func(maxVal, widthPoint);
+  return widthPercent;
 };
 
 export const calcPlacePoint = (start: any, end: any) => {
