@@ -69,6 +69,8 @@ const BlockImgPreview: FC<any> = ({
 
   useEffect(() => {
     draw(pxStatePoint);
+    console.log('statePoint', statePoint);
+    console.log('pxStatePoint', pxStatePoint);
     
   }, [pxStatePoint]);
 
@@ -123,7 +125,7 @@ const BlockImgPreview: FC<any> = ({
   const getPxWidthPoint = (widthPoint: number) => {
     const widthPointPx = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPxFromPercent);
     const defaultWidthPoint = 3;
-    
+
     if (widthPointPx === 0) {
       return defaultWidthPoint;
     }
