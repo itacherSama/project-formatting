@@ -1,33 +1,25 @@
 import React, { FC, ChangeEvent } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-const WidthHeightFields:FC<any> = ({ crop, onSetCrop }) => {
+const WidthHeightFields:FC<any> = ({ crop, onSetHeight, onSetWidth }) => {
 
-  const setCropHeight = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { value } = event.target;
-    onSetCrop({ type: 'height', value });
-  };
-
-  const setCropWidth = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { value } = event.target;
-    onSetCrop({ type: 'width', value });
-  };
+  
 
   if (!crop) return <div />;
 
   return (
     <>
       <TextField
+        defaultValue={ crop.width }
         label='Width'
-        onChange={ setCropWidth }
+        onChange={ onSetWidth }
         type='number'
-        value={ crop.width }
       />
       <TextField
+        defaultValue={ crop.height }
         label='Height'
-        onChange={ setCropHeight }
+        onChange={ onSetHeight }
         type='number'
-        value={ crop.height }
       />
     </>
   );

@@ -1,28 +1,28 @@
-import React from 'react';
+/* eslint-disable jsx-a11y/no-static-element-interactions */
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 
 import { useStore } from 'effector-react';
 import CropForm from './CropForm';
-import { $numberImg, $typeCrop } from '../../effector/store';
-import { nextNumberImg } from '../../effector/event';
+import { $typeCrop } from '../../effector/store';
 import { ICrop } from '../../interfaces/components';
 import { ICropFormData, IImgCropValue } from '../../interfaces/items';
 import { getPxFromPercent, getPercentFromPx , getPositionByPoint, calcAspect } from '../../services/imageService';
 
 const typeCropWords = ['px', '%', 'aspect'];
 
-const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {  
-  const numberImg = useStore($numberImg);
+const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {  
   const typeCrop = useStore($typeCrop);
-  const cropperRef = React.useRef<HTMLImageElement>(null);
-  const [cropData, setCropData] = React.useState<any>(null);
-  const [aspectState, setAspectState] = React.useState<ICropFormData>({
+  const cropperRef = useRef<HTMLImageElement>(null);
+  const [cropData, setCropData] = useState<any>(null);
+  const [aspectState, setAspectState] = useState<ICropFormData>({
     width: 4,
     height: 3,
   });
+  const [formKey, setFormKey] = useState(0);
 
-  React.useEffect(() => {
+  useEffect(() => {
     const newAspect = calcAspect(aspectState.width as number, aspectState.height as number);
     if (newAspect && typeCrop.current === typeCropWords[2]) {
       setMyAspect(newAspect as number); 
@@ -58,17 +58,15 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
   };
   
   const transformDataByPointCrop = () => {
-    console.log('point transformDataByPointCrop', point);
-
     if (point) {
-      
       const cropper: any = getCropper();  
       const imgSettings = cropper.getImageData();
       const cropperData = cropper.getData({ rounded: true });
       const getData = getPositionByPoint(cropperData, point, imgSettings);
-      console.log(getData, 'getData');
       
+      cropper.crop();
       cropper.setData({ ...getData });
+
     }
   };
 
@@ -132,25 +130,29 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
 
   };
 
+  const updateFields = () => {
+    setFormKey(Math.random());
+  };
+
   return (
     <>
       <Cropper
         ref={ cropperRef }
-        autoCrop
-        autoCropArea={ 1 }
-        background={ false }
+        autoCrop={ false }
+        background={ false } 
         crop={ onCrop }
         guides={ false }
         ready={ () => {
-          transformDataByPointCrop();
+          transformDataByPointCrop(); 
+          updateFields();
         } }
         responsive
         src={ src }
         viewMode={ 1 }
         zoomable={ false }
       />
-      
       <CropForm
+        key={ formKey }
         aspect={ aspectState }
         crop={ valueCrop }
         getCropImage={ getCropImage }

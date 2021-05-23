@@ -91,16 +91,14 @@ export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgS
   };
 
   const radius = pointFromPx.pointWidth;
-  console.log('radius', radius);
-  console.log('data', data);
   
   const minSide =  radius * 2;
-  const halfHeight = data.height / 2;
 
   const newWidth = Math.max(minSide, data.width);
   const newHeight = Math.max(minSide, data.height);
-  const newLeft = pointFromPx.pointPlace.x - radius;
-  const newTop = pointFromPx.pointPlace.y - radius;
+  
+  const newLeft = pointFromPx.pointPlace.x - (newWidth / 2);
+  const newTop = pointFromPx.pointPlace.y - (newHeight / 2);
 
   return {
     ...data,
