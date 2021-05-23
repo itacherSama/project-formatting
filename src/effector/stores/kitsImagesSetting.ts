@@ -7,7 +7,7 @@ import { saveDataInLocalStorage } from '../../services/localStorageService';
 
 
 const initialStatePoint = {
-  widthPoint: null,
+  pointWidth: null,
   pointPlace: {
     x: null,
     y: null,
@@ -22,10 +22,12 @@ export const $kitsImagesSetting = createStore<any>([])
   })
   .on(events.cancelImg, deleteItemFromArrByIdx)
   .on(events.setPointImgInKitImages, (state, { pointOnImg, idx }) => {
+    console.log('{ pointOnImg, idx }', { pointOnImg, idx });
+    
     const newState = [...state];
     const objSettings = newState[idx];
     if (pointOnImg) {
-      objSettings.point = pointOnImg;
+      objSettings.point = { ...pointOnImg };
     } else {
       objSettings.point = copyObject(initialStatePoint);
     }

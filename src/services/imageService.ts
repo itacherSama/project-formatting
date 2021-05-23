@@ -82,17 +82,30 @@ export const generateImagesBySettings = async (img: HTMLImageElement, settings: 
 };
 
 export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize) => {
-  const pointFromPx = { 
-    x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
-    y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
+  const pointFromPx = {
+    pointPlace: { 
+      x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
+      y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y) 
+    },
+    pointWidth: calcPxFromPercent(imgSettings.naturalHeight, point.pointWidth) 
   };
-  const halfWidth = data.width / 2;
+
+  const radius = pointFromPx.pointWidth;
+  console.log('radius', radius);
+  console.log('data', data);
+  
+  const minSide =  radius * 2;
   const halfHeight = data.height / 2;
-  const newLeft = pointFromPx.x - halfWidth;
-  const newTop = pointFromPx.y - halfHeight;
+
+  const newWidth = Math.max(minSide, data.width);
+  const newHeight = Math.max(minSide, data.height);
+  const newLeft = pointFromPx.pointPlace.x - radius;
+  const newTop = pointFromPx.pointPlace.y - radius;
 
   return {
     ...data,
+    width: newWidth,
+    height: newHeight,
     x: newLeft >= 0 ? newLeft : 0,
     y: newTop >= 0 ? newTop : 0,
   };
@@ -100,8 +113,8 @@ export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgS
 
 export const getPositionByPointDouble = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize) => {
   const pointFromPx = { 
-    x: calcPxFromPercent(imgSettings.naturalWidth, point.x),
-    y: calcPxFromPercent(imgSettings.naturalHeight, point.y) 
+    x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
+    y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y) 
   };
   const halfWidth = data.width / 2;
   const halfHeight = data.height / 2;
@@ -186,9 +199,9 @@ export const calcWidthPoint = (firstObj: any, secondObj?: any) => {
 
 };
 
-export const calcWidthPointOnCanvas = (widthPoint: number, canvas: any, func: any) => {
+export const calcWidthPointOnCanvas = (pointWidth: number, canvas: any, func: any) => {
   const maxVal = Math.max(canvas.width, canvas.height);
-  const widthPercent =  func(maxVal, widthPoint);
+  const widthPercent =  func(maxVal, pointWidth);
   return widthPercent;
 };
 

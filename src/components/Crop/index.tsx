@@ -58,11 +58,16 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
   };
   
   const transformDataByPointCrop = () => {
+    console.log('point transformDataByPointCrop', point);
+
     if (point) {
+      
       const cropper: any = getCropper();  
       const imgSettings = cropper.getImageData();
       const cropperData = cropper.getData({ rounded: true });
       const getData = getPositionByPoint(cropperData, point, imgSettings);
+      console.log(getData, 'getData');
+      
       cropper.setData({ ...getData });
     }
   };
@@ -108,7 +113,8 @@ const Crop: React.FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     };
   
 
-    if (point) {
+    if (point.pointWidth) {
+
       newData = getPositionByPoint(newData, point, imgSettings);
     }
 

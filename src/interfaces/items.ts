@@ -27,8 +27,11 @@ export interface ITypeCrop {
 }
 
 export interface IPointOnImg {
-  x: number;
-  y: number;
+  pointWidth: number,
+  pointPlace: {
+    x: number;
+    y: number;
+  }
 }
 
 export interface ISettingImg {

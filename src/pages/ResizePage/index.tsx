@@ -70,6 +70,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     history.navigate('/');
     return null;
   }
+  
 
   return (
     <>

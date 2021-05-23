@@ -5,9 +5,6 @@ import styles from "./controlStepperButtons.module.css";
 
 
 const ControlsStepperButtons: React.FC<any> = ({ handleBack, handleComplete, visibleBtnPrevArr, visibleBtnNextArr, disabledBtnPrev = false, disabledBtnNext = false }) => {
-
-  console.log('disabledBtnNext', disabledBtnNext);
-  console.log('sss');
   
   return (
     <div>

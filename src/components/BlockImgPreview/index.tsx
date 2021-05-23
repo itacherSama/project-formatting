@@ -22,7 +22,7 @@ import { findPointOnCanvas } from "../../utils/differentFunc";
 const touchduration = 1000;
 
 /* const defaultStatePoint = {
-  widthPoint: null,
+  pointWidth: null,
   pointPlace: {
     x: null,
     y: null,
@@ -39,28 +39,26 @@ const BlockImgPreview: FC<any> = ({
   currentImg,
   statePoint,
   setStatePoint,
-  resetStatePoint,
 }) => {
   const canvasPreview: any = useRef(null);
   const ImgPreview: any = useRef(null);
 
   const [activeChange, setActiveChange] = useState<boolean>(false);
   const [pxStatePoint, setPxStatePoint] = useState<any>(null);
-
-  const calcPxStatePoint = useCallback((statePoint) => {
-    if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y && statePoint.pointPlace) {
+  const calcPxStatePoint = (statePoint: any) => {
+    if (statePoint?.pointPlace?.x && statePoint?.pointPlace?.y && statePoint.pointWidth) {
       return { 
         pointPlace: findPointOnCanvas(statePoint.pointPlace, canvasPreview.current, calcPxFromPercent),
-        widthPoint: getPxWidthPoint(statePoint.widthPoint)
+        pointWidth: getPxWidthPoint(statePoint.pointWidth)
       };
     }
-
+    
     return statePoint;
 
-  }, [statePoint]);
+  };
   
   useEffect(() => {
-    setTimeout(resize, 0);
+    resize();
   }, [currentImg]);
 
   useEffect(() => {
@@ -69,14 +67,12 @@ const BlockImgPreview: FC<any> = ({
 
   useEffect(() => {
     draw(pxStatePoint);
-    console.log('statePoint', statePoint);
-    console.log('pxStatePoint', pxStatePoint);
     
   }, [pxStatePoint]);
 
   const resize = () => {
-    
     const canvas = canvasPreview.current;
+    
     const cs = getComputedStyle(ImgPreview.current);
     const width = parseInt(cs.getPropertyValue("width"), 10);
     const height = parseInt(cs.getPropertyValue("height"), 10);
@@ -91,7 +87,7 @@ const BlockImgPreview: FC<any> = ({
     return () => {
       window.removeEventListener("resize", resize);
     };
-  }, []);
+  }, [statePoint]);
 
   const draw = (statePoint: any): void => {
     const canvas: HTMLCanvasElement = canvasPreview.current;
@@ -102,28 +98,21 @@ const BlockImgPreview: FC<any> = ({
       ctx.fillStyle = "red";
       ctx.beginPath();
 
-      ctx.arc(statePoint.pointPlace.x!, statePoint.pointPlace.y!, statePoint.widthPoint, 0, 2 * Math.PI, true);
+      ctx.arc(statePoint.pointPlace.x!, statePoint.pointPlace.y!, statePoint.pointWidth, 0, 2 * Math.PI, true);
 
       ctx.fill();
     }
   };
 
-  const cancelPoint = (e: MouseEvent): void => {
-    if (e) {
-      e.preventDefault();
-    }
-    setStatePoint();
-  };
-
   const getPercentWidthPoint = (firstObj: any, secondObj?: any) => {
-    const widthPoint = calcWidthPoint(firstObj, secondObj);
-    const widthPointPercent = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPercentFromPx);
+    const pointWidth = calcWidthPoint(firstObj, secondObj);
+    const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
     
     return widthPointPercent;
   };
 
-  const getPxWidthPoint = (widthPoint: number) => {
-    const widthPointPx = calcWidthPointOnCanvas(widthPoint, canvasPreview.current, calcPxFromPercent);
+  const getPxWidthPoint = (pointWidth: number) => {
+    const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPxFromPercent);
     const defaultWidthPoint = 3;
 
     if (widthPointPx === 0) {
@@ -140,10 +129,10 @@ const BlockImgPreview: FC<any> = ({
     const newState = { x, y };
     setActiveChange(true);
     
-    setStatePoint({
-      ...statePoint,
-      widthPoint: getPercentWidthPoint(newState),
-      pointPlace: findPointOnCanvas(newState, canvasPreview.current, calcPercentFromPx),
+    setPxStatePoint({
+      ...pxStatePoint,
+      pointWidth: calcWidthPoint(pxStatePoint.pointPlace),
+      pointPlace: newState,
     });
   };
 
@@ -154,8 +143,10 @@ const BlockImgPreview: FC<any> = ({
 
       setActiveChange(false);
       setStatePoint( {
-        ...statePoint,
-        widthPoint: getPercentWidthPoint(pxStatePoint.pointPlace, { x, y }),
+        ...pxStatePoint,
+        pointWidth: getPercentWidthPoint(pxStatePoint.pointPlace, { x, y }),
+        pointPlace: findPointOnCanvas(pxStatePoint.pointPlace, canvasPreview.current, calcPercentFromPx),
+
       });
     }
   };
@@ -166,13 +157,21 @@ const BlockImgPreview: FC<any> = ({
       
       const currentState = {
         ...pxStatePoint,
-        widthPoint: calcWidthPoint(pxStatePoint.pointPlace, { x, y }),
+        pointWidth: calcWidthPoint(pxStatePoint.pointPlace, { x, y }),
 
       };
       draw(currentState);
       
     }
   };
+
+  const cancelPoint = (e: MouseEvent): void => {
+    if (e) {
+      e.preventDefault();
+    }
+    setStatePoint();
+  };
+
 
   /*   const handleTouchStart = (): void => {
     timer = setTimeout(cancelPoint, touchduration);
