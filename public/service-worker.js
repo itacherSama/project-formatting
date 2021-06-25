@@ -2,6 +2,7 @@
 /* eslint-disable no-restricted-globals */
 
 // Name our cache
+/*
 const staticCacheName = "s-app-v2";
 const assetsUrls = [
   "/index.html",
@@ -33,3 +34,4 @@ async function cacheFirst(request) {
   const cached = await caches.match(request);
   return cached ?? (await fetch(request));
 }
+ */

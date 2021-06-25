@@ -36,8 +36,10 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
 
   }, [currentIdxKitImages]);
+  console.log('kitsImagesSetting', kitsImagesSetting);
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
+    
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
       setKitImagesSettings({
         settingImg,
@@ -77,7 +79,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
       <BlockImgPreview
         currentImg={ currentImg }
         setStatePoint={ setPointImg }
-        statePoint={ currentImgSetting.point }
+        statePoint={ currentImgSetting?.point }
       />
       
       <div className={ styles.kitImages }>

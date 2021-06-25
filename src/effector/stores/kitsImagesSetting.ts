@@ -22,10 +22,9 @@ export const $kitsImagesSetting = createStore<any>([])
   })
   .on(events.cancelImg, deleteItemFromArrByIdx)
   .on(events.setPointImgInKitImages, (state, { pointOnImg, idx }) => {
-    console.log('{ pointOnImg, idx }', { pointOnImg, idx });
-    
     const newState = [...state];
     const objSettings = newState[idx];
+
     if (pointOnImg) {
       objSettings.point = { ...pointOnImg };
     } else {
@@ -41,16 +40,16 @@ export const $kitsImagesSetting = createStore<any>([])
     
     return newState;
   })
-  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
+  // .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
   .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
-    point: copyObject(initialStatePoint),
+    point: initialStatePoint,
     items: []
   })));
 
-$kitsImagesSetting.watch((state) => {
+/* $kitsImagesSetting.watch((state) => {
   if (state.length === 0) {
     return;
   }
-  saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
+  // saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
   
-});
+}); */
