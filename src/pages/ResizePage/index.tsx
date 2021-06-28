@@ -1,12 +1,17 @@
 import React from 'react';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
+import { $modalState } from '../../effector/store';
 import {
-  $modalState
-} from '../../effector/store';
-import {
-  setCurrentCropImage, setKitImages,
-  nextKitImages, previousKitImages, activeModal, disableModal, cancelCropImg, setPointImg, setKitImagesSettings
+  setCurrentCropImage,
+  setKitImages,
+  nextKitImages,
+  previousKitImages,
+  activeModal,
+  disableModal,
+  cancelCropImg,
+  setPointImg,
+  setKitImagesSettings,
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
@@ -39,20 +44,18 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
 
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
-
-
   }, [currentIdxKitImages]);
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
       setKitImagesSettings({
         settingImg,
-        idx: currentIdxKitImages
+        idx: currentIdxKitImages,
       });
       setKitImages({
         kitImages: [...currenKitImg, fileImg],
-        idx: currentIdxKitImages });
+        idx: currentIdxKitImages,
+      });
     });
   };
 
@@ -78,58 +81,39 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     return null;
   }
 
-
   return (
     <>
-      <BlockImgPreview
-        currentImg={ currentImg }
-        setStatePoint={ setPointImg }
-        statePoint={ currentImgSetting?.point }
-      />
+      <BlockImgPreview currentImg={currentImg} setStatePoint={setPointImg} statePoint={currentImgSetting?.point} />
 
-      <div className={ styles.kitImages }>
+      <div className={styles.kitImages}>
         <Gallery
-          files={ currenKitImg }
-          onActiveModal={ onActiveModal }
-          onCancelCropImg={ cancelCropImg }
-          settings={ currentImgSetting.items }
+          files={currenKitImg}
+          onActiveModal={onActiveModal}
+          onCancelCropImg={cancelCropImg}
+          settings={currentImgSetting.items}
         />
       </div>
-      <CustomModal
-        onCloseModal={ onCloseModal }
-        open={ modalState }
-      >
-        <div className={ styles.crop }>
+      <CustomModal onCloseModal={onCloseModal} open={modalState}>
+        <div className={styles.crop}>
           <Crop
-            addCropedImg={ addCropedImg }
-            onCloseModal={ onCloseModal }
-            point={ currentImgSetting.point }
-            src={ currentImg.preview! }
+            addCropedImg={addCropedImg}
+            onCloseModal={onCloseModal}
+            point={currentImgSetting.point}
+            src={currentImg.preview!}
           />
         </div>
       </CustomModal>
 
-      {
-        images.length > 0 && (
-          <div className={ styles.buttons }>
-
-            <Button
-              color='primary'
-              onClick={ currentIdxKitImages === 0 ? backStep : onPreviousImage }
-              variant='contained'
-            >
-              Назад
-            </Button>
-            <Button
-              color='primary'
-              onClick={ onNextImage }
-              variant='contained'
-            >
-              Далее
-            </Button>
-          </div>
-        )
-      }
+      {images.length > 0 && (
+        <div className={styles.buttons}>
+          <Button color="primary" onClick={currentIdxKitImages === 0 ? backStep : onPreviousImage} variant="contained">
+            Назад
+          </Button>
+          <Button color="primary" onClick={onNextImage} variant="contained">
+            Далее
+          </Button>
+        </div>
+      )}
     </>
   );
 };

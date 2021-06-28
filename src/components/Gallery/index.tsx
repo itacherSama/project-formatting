@@ -17,66 +17,42 @@ const heightForPreview = 180;
 
 const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, settings }) => {
   const masonryOptions: Masonry.MasonryOptions = {
-    itemSelector: `.${ styles.gridImage }`,
+    itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
     columnWidth: 1,
     gutter: 10,
   };
 
-  const childElements = !!files.length && files.map((file: IobjImg, idx: number) => {
-    const currentSettings = settings[idx];
-    const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
-    const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
+  const childElements =
+    !!files.length &&
+    files.map((file: IobjImg, idx: number) => {
+      const currentSettings = settings[idx];
+      const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
+      const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
 
-    const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
-    return (
-      <li
-        key={ idx }
-        className={ cn(
-          styles.gridImage,
-          {
+      const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
+      return (
+        <li
+          key={idx}
+          className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],
-          },
+          })}>
+          <img alt={`img_${idx}`} className={styles.gridItemImg} src={file.preview} />
 
-        ) }
-      >
-        <img
-          alt={ `img_${idx}` }
-          className={ styles.gridItemImg }
-          src={ file.preview }
-        />
-
-        <div className={ styles.closeBtn }>
-          <CloseButton
-            idx={ idx }
-            onCancel={ onCancelCropImg }
-          />
-        </div>
-
-      </li>
-    );
-  });
+          <div className={styles.closeBtn}>
+            <CloseButton idx={idx} onCancel={onCancelCropImg} />
+          </div>
+        </li>
+      );
+    });
 
   return (
-    <Masonry
-      className={ styles.grid }
-      elementType="ul"
-      options={ masonryOptions }
-    >
-      { childElements }
-      <li
-        className={
-          cn( styles.gridImage, styles.gridItemAdd )
-        }
-        onClick={ onActiveModal }
-      >
-        <IconButton
-          aria-label="add"
-          className={ styles.iconButton }
-          color='primary'
-        >
-          <AddIcon fontSize='large' />
+    <Masonry className={styles.grid} elementType="ul" options={masonryOptions}>
+      {childElements}
+      <li className={cn(styles.gridImage, styles.gridItemAdd)} onClick={onActiveModal}>
+        <IconButton aria-label="add" className={styles.iconButton} color="primary">
+          <AddIcon fontSize="large" />
         </IconButton>
       </li>
     </Masonry>

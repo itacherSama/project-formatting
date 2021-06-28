@@ -4,7 +4,7 @@ import { basename } from './router';
 import history from './history';
 import { IMyLink } from '../interfaces/items';
 
-function noOp(){}
+function noOp() {}
 
 const createOnClickAnchor = (callback: any) => {
   return (e: React.MouseEvent<HTMLAnchorElement>) => {
@@ -14,12 +14,8 @@ const createOnClickAnchor = (callback: any) => {
   };
 };
 
-export default ({ href, onClick = noOp, children, ...rest }: IMyLink ): React.ReactElement => (
-  <a
-    href={ basename + href }
-    onClick={ createOnClickAnchor(onClick) }
-    { ...rest }
-  >
-    { children }
+export default ({ href, onClick = noOp, children, ...rest }: IMyLink): React.ReactElement => (
+  <a href={basename + href} onClick={createOnClickAnchor(onClick)} {...rest}>
+    {children}
   </a>
 );

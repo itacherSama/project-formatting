@@ -1,9 +1,8 @@
 import { createStore } from 'effector';
-import * as events from "../event";
-import * as effects from "../effect";
+import * as events from '../event';
+import * as effects from '../effect';
 import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
 import { saveDataInLocalStorage } from '../../services/localStorageService';
-
 
 const initialStatePoint = {
   pointWidth: null,
@@ -41,17 +40,17 @@ export const $kitsImagesSetting = createStore<any>([])
     return newState;
   })
   .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => {
-
     return dataFromLocalStorage;
   })
-  .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
-    point: initialStatePoint,
-    items: []
-  })));
+  .on(events.setLengthKitsImages, (state, length) =>
+    setLengthKitsImagesFunc(state, length, {
+      point: initialStatePoint,
+      items: [],
+    })
+  );
 
 $kitsImagesSetting.watch((state) => {
   if (state.length !== 0) {
     saveDataInLocalStorage('settingForKitsImages', state);
   }
 });
-

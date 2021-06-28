@@ -13,14 +13,15 @@ export const convertFromBase64 = (el: any, idx: number) => {
     });
 };
 
-export const toBase64 = (file: any) => new Promise((resolve, reject) => {  
-  const reader = new FileReader();
-  reader.readAsDataURL(file);
-  reader.onload = () => resolve(reader.result);
-  reader.onerror = (error) => reject(error);
-});
+export const toBase64 = (file: any) =>
+  new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.readAsDataURL(file);
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+  });
 
-export const convertBase64ItemsInFiles = (items: string[],) => {
+export const convertBase64ItemsInFiles = (items: string[]) => {
   const promiseArr = items.map((el: any, idx: number) => {
     return convertFromBase64(el, idx);
   });
@@ -29,13 +30,13 @@ export const convertBase64ItemsInFiles = (items: string[],) => {
 
   return Promise.allSettled(promiseArr).then((results: any) => {
     // console.log('promise res', results);
-    
+
     results.forEach((result: any) => {
-    // console.log('promise item', result);
+      // console.log('promise item', result);
 
       arrItems.push(result.value);
     });
-    
+
     return arrItems;
   });
 };
@@ -51,7 +52,7 @@ export const convertFilesInBase64Items = (items: IobjImg[]): Promise<string[]> =
     results.forEach((result: any) => {
       arrItems.push(result.value);
     });
-    
+
     return Promise.resolve(arrItems);
   });
 };

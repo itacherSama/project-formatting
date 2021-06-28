@@ -2,7 +2,7 @@ import { createBrowserHistory } from 'history';
 import parse from 'url-parse';
 import deepEqual from 'deep-equal';
 
-const isNode = new Function('try {return this===global;}catch(e){return false;}') //eslint-disable-line
+const isNode = new Function('try {return this===global;}catch(e){return false;}'); //eslint-disable-line
 let history: any;
 
 if (!isNode()) {
@@ -10,10 +10,12 @@ if (!isNode()) {
   history.navigate = function (path: any, state: any) {
     const parsedPath = parse(path);
     const location = history.location;
-    if (parsedPath.pathname === location.pathname &&
+    if (
+      parsedPath.pathname === location.pathname &&
       parsedPath.query === location.search &&
       parsedPath.hash === location.hash &&
-      deepEqual(state, location.state)) {
+      deepEqual(state, location.state)
+    ) {
       return;
     }
     const args = Array.from(arguments);

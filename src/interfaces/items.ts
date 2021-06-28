@@ -1,4 +1,3 @@
-
 export interface IobjIdxKitImages {
   maxIdx: number;
   idx: number;
@@ -10,9 +9,9 @@ export interface IvalueOfSelect {
 }
 
 export interface IMyLink {
-  href: string,
-  onClick?: () => void,
-  children?: any
+  href: string;
+  onClick?: () => void;
+  children?: any;
 }
 
 export interface ICropFormData {
@@ -23,15 +22,14 @@ export interface ICropFormData {
 export interface ITypeCrop {
   current: string;
   last: string | null;
-
 }
 
 export interface IPointOnImg {
-  pointWidth: number,
+  pointWidth: number;
   pointPlace: {
     x: number;
     y: number;
-  }
+  };
 }
 
 export interface ISettingImg {
@@ -66,5 +64,9 @@ export interface IImgSettingsNaturalSize {
 }
 
 export interface ISettingStepContent {
-  step: number, handleComplete?: () => void, handleBack?: () => void, visibleBtnPrevArr?: Array<boolean>, visibleBtnNextArr?: Array<boolean>
-} 
+  step: number;
+  handleComplete?: () => void;
+  handleBack?: () => void;
+  visibleBtnPrevArr?: Array<boolean>;
+  visibleBtnNextArr?: Array<boolean>;
+}

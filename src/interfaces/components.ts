@@ -15,12 +15,12 @@ export interface ICrop {
 export interface ICustomModal {
   children: any;
   open: boolean;
-  onCloseModal: () => void; 
+  onCloseModal: () => void;
 }
 
 export interface IThumb {
   file: IobjImg;
-} 
+}
 
 export interface IGallery {
   files: IobjImg[];

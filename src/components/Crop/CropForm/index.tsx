@@ -1,14 +1,22 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button'; 
+import Button from '@material-ui/core/Button';
 import Select from '@material-ui/core/Select';
 import MenuItem from '@material-ui/core/MenuItem';
-import styles from '../Crop.module.css'; 
+import styles from '../Crop.module.css';
 import { setTypeCrop } from '../../../effector/event';
 import WidthHeightFields from './WidthHeightFields';
 
 import { ICropForm } from '../../../interfaces/components';
 
-const CropForm: React.FC<ICropForm> = ({ onSetCrop, crop, aspect, onSetAspect, typeCrop, typeCropWords, getCropImage }) => {
+const CropForm: React.FC<ICropForm> = ({
+  onSetCrop,
+  crop,
+  aspect,
+  onSetAspect,
+  typeCrop,
+  typeCropWords,
+  getCropImage,
+}) => {
   const [formKey, setFormKey] = useState(0);
 
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
@@ -26,13 +34,13 @@ const CropForm: React.FC<ICropForm> = ({ onSetCrop, crop, aspect, onSetAspect, t
     onSetCrop({ type: 'width', value });
   };
 
-  const onChangeAspectWidth =  (event: ChangeEvent<HTMLTextAreaElement>): void => {
+  const onChangeAspectWidth = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const width = value;
     onSetAspect((prevState: any) => {
       return {
         ...prevState,
-        width
+        width,
       };
     });
   };
@@ -43,7 +51,7 @@ const CropForm: React.FC<ICropForm> = ({ onSetCrop, crop, aspect, onSetAspect, t
     onSetAspect((prevState: any) => {
       return {
         ...prevState,
-        height
+        height,
       };
     });
   };
@@ -51,51 +59,29 @@ const CropForm: React.FC<ICropForm> = ({ onSetCrop, crop, aspect, onSetAspect, t
   useEffect(() => {
     setFormKey(Math.random());
   }, [typeCrop]);
-  
 
-  const generateFields = useCallback((crop: any, setWidth: any, setHeight: any) => { 
-    return (
-      <WidthHeightFields
-        key={ formKey }
-        crop={ crop }
-        onSetHeight={ setHeight }
-        onSetWidth={ setWidth }
-      />
-    );
-  }, [typeCrop]);
-  
+  const generateFields = useCallback(
+    (crop: any, setWidth: any, setHeight: any) => {
+      return <WidthHeightFields key={formKey} crop={crop} onSetHeight={setHeight} onSetWidth={setWidth} />;
+    },
+    [typeCrop]
+  );
+
   return (
-    <form
-      autoComplete='off'
-      className={ styles.cropForm }
-      noValidate
-    >
-      
-      { (typeCrop !== typeCropWords[2]) ?
-        generateFields(crop, onChangeCropWidth, onChangeCropHeight) :
-        generateFields(aspect, onChangeAspectWidth, onChangeAspectHeight) }
-      <Select
-        onChange={ onChangeTypeCrop }
-        value={ typeCrop }
-      >
-        {
-          typeCropWords.map((word: string, idx: number) => {
-
-            return (
-              <MenuItem
-                key={ `${word}_${idx}` }
-                value={ word }
-              >
-                { word }
-              </MenuItem>
-            );
-          })
-        }
+    <form autoComplete="off" className={styles.cropForm} noValidate>
+      {typeCrop !== typeCropWords[2]
+        ? generateFields(crop, onChangeCropWidth, onChangeCropHeight)
+        : generateFields(aspect, onChangeAspectWidth, onChangeAspectHeight)}
+      <Select onChange={onChangeTypeCrop} value={typeCrop}>
+        {typeCropWords.map((word: string, idx: number) => {
+          return (
+            <MenuItem key={`${word}_${idx}`} value={word}>
+              {word}
+            </MenuItem>
+          );
+        })}
       </Select>
-      <Button
-        color='primary'
-        onClick={ getCropImage }
-      >
+      <Button color="primary" onClick={getCropImage}>
         Save
       </Button>
     </form>

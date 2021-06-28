@@ -46,6 +46,12 @@
     "postpublish": "pinst --enable",
     "prepare": "husky install"
   },
+  "lint-staged": {
+    "src/**/*.(jsx|js|ts|tsx)": [
+      "eslint --fix",
+      "prettier --write"
+    ]
+  },
   "eslintConfig": {
     "extends": [
       "react-app",

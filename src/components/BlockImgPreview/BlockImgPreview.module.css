@@ -5,12 +5,12 @@
   margin-bottom: 20px;
 }
 
-.blockImgPreview img { 
+.blockImgPreview img {
   max-width: 30%;
   pointer-events: none;
 }
 
-.blockImgPreview canvas { 
+.blockImgPreview canvas {
   position: absolute;
   z-index: 100;
   left: 50%;

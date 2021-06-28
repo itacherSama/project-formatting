@@ -15,18 +15,22 @@ export const downloadFiles = (kitsItems: IobjImg[][]): void => {
     });
   });
 
-  zip.generateAsync({ type: 'blob' })
-    .then((blob: Blob) => {
-      saveAs(blob, 'myImage.zip');
-    });
+  zip.generateAsync({ type: 'blob' }).then((blob: Blob) => {
+    saveAs(blob, 'myImage.zip');
+  });
 };
 
-
-export const setFiles = (acceptedFiles: IobjImg[], oldFiles: IobjImg[], setImages: (images: IobjImg[]) => void): void => {
+export const setFiles = (
+  acceptedFiles: IobjImg[],
+  oldFiles: IobjImg[],
+  setImages: (images: IobjImg[]) => void
+): void => {
   const prevFiles = [...oldFiles];
-  const newFiles = acceptedFiles.map((file: IobjImg) => Object.assign(file, {
-    preview: URL.createObjectURL(file),
-  }));
+  const newFiles = acceptedFiles.map((file: IobjImg) =>
+    Object.assign(file, {
+      preview: URL.createObjectURL(file),
+    })
+  );
 
   const connectedFiles = prevFiles.concat(newFiles);
   setImages(connectedFiles);

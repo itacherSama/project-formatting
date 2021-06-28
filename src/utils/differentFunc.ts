@@ -3,7 +3,7 @@ import { IobjIdxKitImages } from '../interfaces/items';
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;
 
-  const hasIdx = (newIdx <= state.maxIdx) && newIdx > -1;
+  const hasIdx = newIdx <= state.maxIdx && newIdx > -1;
   if (!hasIdx) {
     return state;
   }
@@ -41,10 +41,10 @@ export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any
   return newState;
 };
 
-export const findPointOnCanvas = (obj: {x: number, y: number}, canvas: any, func: any) => {
+export const findPointOnCanvas = (obj: { x: number; y: number }, canvas: any, func: any) => {
   const x = func(canvas.width, obj.x);
   const y = func(canvas.height, obj.y);
-  return { x,y };
+  return { x, y };
 };
 
 export const copyObject = (object: any) => {

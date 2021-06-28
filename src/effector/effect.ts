@@ -10,7 +10,7 @@ export const fetchImagesFx = createEffect(async (data: any) => {
 
 export const fetchSettingsForImagesFx = createEffect((data: any) => data);
 
-export const generateKitsImages = createEffect(async (data: any): Promise<IobjImg[][]>  => {
+export const generateKitsImages = createEffect(async (data: any): Promise<IobjImg[][]> => {
   const [images, settingsForKits] = data;
   const kitsImages = [];
   for (let idx = 0; idx < settingsForKits.length; idx++) {
@@ -23,7 +23,6 @@ export const generateKitsImages = createEffect(async (data: any): Promise<IobjIm
   }
 
   return kitsImages;
-
 });
 
 export const generateKitImagesByPoint = createEffect(async (data: any): Promise<any> => {
@@ -34,4 +33,3 @@ export const generateKitImagesByPoint = createEffect(async (data: any): Promise<
 
   return { kitImages, idx };
 });
-

@@ -1,13 +1,11 @@
 import { createStore, sample, guard, combine, restore } from 'effector';
-import * as events from "../event";
-import * as effects from "../effect";
+import * as events from '../event';
+import * as effects from '../effect';
 import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
-import { IobjImg,  IPointOnImg } from '../../interfaces/items';
+import { IobjImg, IPointOnImg } from '../../interfaces/items';
 import { $idxKitImages } from './idxKitImages';
 import { $images } from './images';
 import { $kitsImagesSetting } from './kitsImagesSetting';
-
-
 
 export const $kitsImages = createStore<IobjImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
@@ -49,7 +47,9 @@ guard({
   target: effects.generateKitsImages,
 });
 
-const elementsForGenerateKitImagesByPoint = sample(combine([$idxKitImages, $images, $kitsImagesSetting]), events.setPointImg,
+const elementsForGenerateKitImagesByPoint = sample(
+  combine([$idxKitImages, $images, $kitsImagesSetting]),
+  events.setPointImg,
   (arrayStores: any, pointOnImg: IPointOnImg) => {
     const idx = arrayStores[0].idx;
     return {
@@ -66,8 +66,6 @@ guard({
   filter: ({ pointOnImg }) => pointOnImg !== null,
   target: effects.generateKitImagesByPoint,
 });
-
-
 
 $kitsImages.watch((state) => {
   const hasImages = state.some((kit: any) => kit.length);

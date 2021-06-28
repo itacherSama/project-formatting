@@ -4,14 +4,13 @@ import DownloadBtn from '../../components/DownloadBtn';
 import styles from './DownloadPage.module.css';
 
 const DownloadPage: React.FC = () => {
-
   return (
     <>
-      <div className={ styles.settings }>
+      <div className={styles.settings}>
         <SettingsImg />
       </div>
 
-      <div className={ styles.download }>
+      <div className={styles.download}>
         <DownloadBtn />
       </div>
     </>

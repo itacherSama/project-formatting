@@ -7,7 +7,10 @@ import { $idxKitImages } from './stores/idxKitImages';
 sample({
   source: $idxKitImages,
   clock: events.cancelCropImg,
-  fn: (objIdxCurrentImg: IobjIdxKitImages, currentCropImgIdx: number) => ({ idx: objIdxCurrentImg.idx, idxImg: currentCropImgIdx }),
+  fn: (objIdxCurrentImg: IobjIdxKitImages, currentCropImgIdx: number) => ({
+    idx: objIdxCurrentImg.idx,
+    idxImg: currentCropImgIdx,
+  }),
   target: events.setCancelCropImg,
 });
 
@@ -23,29 +26,25 @@ export const $modalState = createStore<boolean>(false)
 
   .on(events.disableModal, (state) => false);
 
-export const $numberImg = createStore<number>(0)
-  .on(events.nextNumberImg, (state) => state + 1);
+export const $numberImg = createStore<number>(0).on(events.nextNumberImg, (state) => state + 1);
 
-export const $quality = createStore<string>('')
-  .on(events.setColor, (state, color) => color);
+export const $quality = createStore<string>('').on(events.setColor, (state, color) => color);
 
-export const $color = createStore<string>('')
-  .on(events.setQuality, (state, quality) => quality);
+export const $color = createStore<string>('').on(events.setQuality, (state, quality) => quality);
 
-export const $isCroppedImages = createStore<boolean>(false)
-  .on(events.setIsCroppedImages, (state, flag) => flag);
+export const $isCroppedImages = createStore<boolean>(false).on(events.setIsCroppedImages, (state, flag) => flag);
 
-export const $isLocalDataLoaded = createStore<boolean>(false)
-  .on(events.setIsLocalDataLoaded, (state, flag) => flag);
+export const $isLocalDataLoaded = createStore<boolean>(false).on(events.setIsLocalDataLoaded, (state, flag) => flag);
 
-
-export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null })
-  .on(events.setTypeCrop, (state, typeCrop) => {
+export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null }).on(
+  events.setTypeCrop,
+  (state, typeCrop) => {
     return {
       current: typeCrop,
-      last: state.current
+      last: state.current,
     };
-  });
+  }
+);
 
 const getValueLS = async (key: string, cb: any) => {
   const val = await localStorage.getItem(key);
