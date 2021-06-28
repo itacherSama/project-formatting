@@ -22,8 +22,8 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
     columnWidth: 1,
     gutter: 10,
   };
-  
-  const childElements = files.map((file: IobjImg, idx: number) => {
+
+  const childElements = !!files.length && files.map((file: IobjImg, idx: number) => {
     const currentSettings = settings[idx];
     const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
     const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
@@ -66,8 +66,8 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
     >
       { childElements }
       <li
-        className={ 
-          cn( styles.gridImage, styles.gridItemAdd ) 
+        className={
+          cn( styles.gridImage, styles.gridItemAdd )
         }
         onClick={ onActiveModal }
       >

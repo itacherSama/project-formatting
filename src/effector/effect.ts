@@ -23,12 +23,12 @@ export const generateKitsImages = createEffect(async (data: any): Promise<IobjIm
   }
 
   return kitsImages;
-  
+
 });
 
 export const generateKitImagesByPoint = createEffect(async (data: any): Promise<any> => {
   const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
-  
+
   const imgElement = await getImgFromPreviewFile(fileImage.preview);
   const kitImages = await generateKitImages(imgElement, kitImagesSetting, pointOnImg);
 

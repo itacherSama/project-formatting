@@ -1,19 +1,8 @@
-import { createStore, sample, guard, combine, restore, attach, merge } from 'effector';
-import connectLocalStorage from 'effector-localstorage';
+import { createStore, sample } from 'effector';
 import * as events from './event';
 import * as effects from './effect';
-import { findNewCurrentIdx, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../utils/differentFunc';
-import { saveDataInLocalStorage } from '../services/localStorageService';
-import { IobjIdxKitImages, IobjImg, ITypeCrop, IPointOnImg, ISettingsImage, ISettingsPointAndIdx } from '../interfaces/items';
+import { IobjIdxKitImages, ITypeCrop, IPointOnImg } from '../interfaces/items';
 import { $idxKitImages } from './stores/idxKitImages';
-
-
-export const imagesLocalStorage = connectLocalStorage("images")
-  .onError((err) => console.log(err));
-
-export const settingForKitsImagesLocalStorage = connectLocalStorage("settingForKitsImages")
-  .onError((err) => console.log(err));  
-
 
 sample({
   source: $idxKitImages,
@@ -29,11 +18,8 @@ sample({
   target: events.setPointImgInKitImages,
 });
 
-
-
-
 export const $modalState = createStore<boolean>(false)
-  .on(events.activeModal, (state) => true) 
+  .on(events.activeModal, (state) => true)
 
   .on(events.disableModal, (state) => false);
 
@@ -49,6 +35,10 @@ export const $color = createStore<string>('')
 export const $isCroppedImages = createStore<boolean>(false)
   .on(events.setIsCroppedImages, (state, flag) => flag);
 
+export const $isLocalDataLoaded = createStore<boolean>(false)
+  .on(events.setIsLocalDataLoaded, (state, flag) => flag);
+
+
 export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null })
   .on(events.setTypeCrop, (state, typeCrop) => {
     return {
@@ -57,6 +47,13 @@ export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null })
     };
   });
 
+const getValueLS = async (key: string, cb: any) => {
+  const val = await localStorage.getItem(key);
+  if (typeof val === 'string') {
+    const objVal = JSON.parse(val);
+    cb(objVal);
+  }
+};
 
-effects.fetchImagesFx(imagesLocalStorage.init([]));
-effects.fetchSettingsForImagesFx(settingForKitsImagesLocalStorage.init([]));
+getValueLS('images', effects.fetchImagesFx);
+getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);

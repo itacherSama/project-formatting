@@ -1,16 +1,15 @@
 import { convertFilesInBase64Items } from './base64Service';
 
-const nameItems = ['images', 'settingForKitsImages'];
-
-export const saveDataInLocalStorage = (localName: string, data: any, saveFunc: any): void => {
-  if (localName === nameItems[0]) {
+export const saveDataInLocalStorage = (localName: string, data: any, type = "string"): void => {
+  if (type === 'files') {
     const convertedDataToBase64 = convertFilesInBase64Items(data);
     convertedDataToBase64.then((results: string[]) => {
-      saveFunc(results);
+      console.log('results', results);
+      saveData(localName, results);
     }
     );
   } else {
-    saveFunc(data);
+    saveData(localName, data);
 
   }
 

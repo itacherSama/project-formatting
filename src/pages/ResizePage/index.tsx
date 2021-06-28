@@ -31,21 +31,26 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const currentImg: IobjImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages];
   const modalState: boolean = useStore($modalState);
+  /*
+  console.log('images', images);
+  console.log('currenKitImg', currenKitImg);
+  console.log('currentImgSetting', currentImgSetting);
+  */
 
   React.useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
 
+
   }, [currentIdxKitImages]);
-  console.log('kitsImagesSetting', kitsImagesSetting);
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-    
+
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
       setKitImagesSettings({
         settingImg,
-        idx: currentIdxKitImages 
+        idx: currentIdxKitImages
       });
-      setKitImages({ 
+      setKitImages({
         kitImages: [...currenKitImg, fileImg],
         idx: currentIdxKitImages });
     });
@@ -72,7 +77,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     history.navigate('/');
     return null;
   }
-  
+
 
   return (
     <>
@@ -81,7 +86,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
         setStatePoint={ setPointImg }
         statePoint={ currentImgSetting?.point }
       />
-      
+
       <div className={ styles.kitImages }>
         <Gallery
           files={ currenKitImg }
@@ -107,7 +112,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
       {
         images.length > 0 && (
           <div className={ styles.buttons }>
-        
+
             <Button
               color='primary'
               onClick={ currentIdxKitImages === 0 ? backStep : onPreviousImage }

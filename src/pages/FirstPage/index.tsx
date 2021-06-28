@@ -10,9 +10,10 @@ import ControlsStepperButtons from '../../components/Buttons/controlStepperButto
 import { $images } from '../../effector/stores/images';
 
 const FirstPage: React.FC<any> = (({ settingStepContent }) => {
-  
+
   const images: IobjImg[] = useStore($images);
   const disabledBtnNext: boolean = images.length === 0;
+
   return (
     <>
       <div className={ styles.DropzoneWrapper }>

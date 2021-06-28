@@ -1,5 +1,4 @@
 import { createStore } from 'effector';
-import { settingForKitsImagesLocalStorage } from "../store";
 import * as events from "../event";
 import * as effects from "../effect";
 import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
@@ -15,6 +14,7 @@ const initialStatePoint = {
 };
 
 export const $kitsImagesSetting = createStore<any>([])
+  .on(events.setKitsImagesSettings, (state, kits) => kits)
   .on(events.setKitImagesSettings, (state, { settingImg, idx }) => {
     const newState = [...state];
     newState[idx].items.push(settingImg);
@@ -30,26 +30,28 @@ export const $kitsImagesSetting = createStore<any>([])
     } else {
       objSettings.point = copyObject(initialStatePoint);
     }
-    
+
     return newState;
   })
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
     const newState = [...state];
     const objSettings = newState[idx];
     objSettings.items.splice(idxImg, 1);
-    
+
     return newState;
   })
-  // .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
+  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => {
+
+    return dataFromLocalStorage;
+  })
   .on(events.setLengthKitsImages, ((state, length) => setLengthKitsImagesFunc(state, length, {
     point: initialStatePoint,
     items: []
   })));
 
-/* $kitsImagesSetting.watch((state) => {
-  if (state.length === 0) {
-    return;
+$kitsImagesSetting.watch((state) => {
+  if (state.length !== 0) {
+    saveDataInLocalStorage('settingForKitsImages', state);
   }
-  // saveDataInLocalStorage('settingForKitsImages', state, settingForKitsImagesLocalStorage);
-  
-}); */
+});
+

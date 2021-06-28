@@ -35,7 +35,7 @@ export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any
   if (length > state.length) {
     const needIncreaseLength = length - state.length;
     const newItems = new Array(needIncreaseLength).fill(0).map((el: any) => copyObject(newItem));
-    
+
     newState.push(...newItems);
   }
   return newState;
