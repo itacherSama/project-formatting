@@ -41,9 +41,6 @@
     "eslint:fix": "eslint --ext .jsx,.js,.ts,.tsx --fix src/",
     "prettier:write": "prettier --write src/",
     "tsc": "tsc --noEmit --skipLibCheck",
-    "postinstall": "husky install",
-    "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable",
     "prepare": "husky install"
   },
   "lint-staged": {
@@ -71,8 +68,6 @@
     ]
   },
   "devDependencies": {
-    "@commitlint/cli": "^12.1.4",
-    "@commitlint/config-conventional": "^12.1.4",
     "@types/classnames": "^2.2.11",
     "@types/deep-equal": "^1.0.1",
     "@types/file-saver": "^2.0.1",

@@ -43,12 +43,7 @@ export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null }).o
       current: typeCrop,
       last: state.current,
     };
-
-
   }
-
-
-
 );
 
 const getValueLS = async (key: string, cb: any) => {
