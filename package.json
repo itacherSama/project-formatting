@@ -43,7 +43,8 @@
     "tsc": "tsc --noEmit --skipLibCheck",
     "postinstall": "husky install",
     "prepublishOnly": "pinst --disable",
-    "postpublish": "pinst --enable"
+    "postpublish": "pinst --enable",
+    "prepare": "husky install"
   },
   "eslintConfig": {
     "extends": [
