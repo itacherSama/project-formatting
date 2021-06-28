@@ -43,6 +43,8 @@ export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null }).o
       current: typeCrop,
       last: state.current,
     };
+
+
   }
 
 
