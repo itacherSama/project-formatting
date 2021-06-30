@@ -42,24 +42,36 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   console.log('currentImgSetting', currentImgSetting);
   */
 
-  React.useEffect(() => {
+
+
+
+  React.useEffect(() =>  {
+
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
-  }, [currentIdxKitImages]);
+  }, [currentIdxKitImages] );
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
-      setKitImagesSettings({
+      setKitImagesSettings(     {
         settingImg,
         idx: currentIdxKitImages,
-      });
+
+      })
+
+
+
+      ;
       setKitImages({
-        kitImages: [...currenKitImg, fileImg],
+        kitImages: [ ...currenKitImg, fileImg],
         idx: currentIdxKitImages,
       });
     });
+
+
   };
 
-  const onPreviousImage = () => {
+
+  const onPreviousImage = () =>   {
     previousKitImages();
   };
 
