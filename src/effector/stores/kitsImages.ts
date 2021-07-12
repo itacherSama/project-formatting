@@ -51,7 +51,7 @@ const elementsForGenerateKitImagesByPoint = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting]),
   events.setPointImg,
   (arrayStores: any, pointOnImg: IPointOnImg) => {
-    const idx = arrayStores[0].idx;
+    const { idx } = arrayStores[0];
     return {
       idx,
       fileImage: arrayStores[1][idx],

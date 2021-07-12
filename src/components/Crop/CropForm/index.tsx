@@ -37,23 +37,19 @@ const CropForm: React.FC<ICropForm> = ({
   const onChangeAspectWidth = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const width = value;
-    onSetAspect((prevState: any) => {
-      return {
+    onSetAspect((prevState: any) => ({
         ...prevState,
         width,
-      };
-    });
+      }));
   };
 
   const onChangeAspectHeight = (event: ChangeEvent<HTMLTextAreaElement>): void => {
     const { value } = event.target;
     const height = value;
-    onSetAspect((prevState: any) => {
-      return {
+    onSetAspect((prevState: any) => ({
         ...prevState,
         height,
-      };
-    });
+      }));
   };
 
   useEffect(() => {
@@ -61,9 +57,7 @@ const CropForm: React.FC<ICropForm> = ({
   }, [typeCrop]);
 
   const generateFields = useCallback(
-    (crop: any, setWidth: any, setHeight: any) => {
-      return <WidthHeightFields key={formKey} crop={crop} onSetHeight={setHeight} onSetWidth={setWidth} />;
-    },
+    (crop: any, setWidth: any, setHeight: any) => <WidthHeightFields key={formKey} crop={crop} onSetHeight={setHeight} onSetWidth={setWidth} />,
     [typeCrop]
   );
 
@@ -72,14 +66,12 @@ const CropForm: React.FC<ICropForm> = ({
       {typeCrop !== typeCropWords[2]
         ? generateFields(crop, onChangeCropWidth, onChangeCropHeight)
         : generateFields(aspect, onChangeAspectWidth, onChangeAspectHeight)}
-      <Select onChange={onChangeTypeCrop} value={typeCrop}>
-        {typeCropWords.map((word: string, idx: number) => {
-          return (
-            <MenuItem key={`${word}_${idx}`} value={word}>
-              {word}
-            </MenuItem>
-          );
-        })}
+      <Select value={typeCrop} onChange={onChangeTypeCrop}>
+        {typeCropWords.map((word: string, idx: number) => (
+          <MenuItem key={`${word}_${idx}`} value={word}>
+            {word}
+          </MenuItem>
+          ))}
       </Select>
       <Button color="primary" onClick={getCropImage}>
         Save

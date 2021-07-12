@@ -139,20 +139,20 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
           transformDataByPointCrop();
           updateFields();
         }}
-        responsive
         src={src}
         viewMode={1}
         zoomable={false}
+        responsive
       />
       <CropForm
         key={formKey}
         aspect={aspectState}
         crop={valueCrop}
         getCropImage={getCropImage}
-        onSetAspect={setAspectState}
-        onSetCrop={setMyDataCrop}
         typeCrop={typeCrop.current}
         typeCropWords={typeCropWords}
+        onSetAspect={setAspectState}
+        onSetCrop={setMyDataCrop}
       />
     </>
   );

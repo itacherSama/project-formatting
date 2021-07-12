@@ -42,11 +42,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   console.log('currentImgSetting', currentImgSetting);
   */
 
-
-
-
   React.useEffect(() =>  {
-
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages] );
 
@@ -58,18 +54,13 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
 
       })
 
-
-
       ;
       setKitImages({
         kitImages: [ ...currenKitImg, fileImg],
         idx: currentIdxKitImages,
       });
     });
-
-
   };
-
 
   const onPreviousImage = () =>   {
     previousKitImages();
@@ -100,28 +91,28 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
       <div className={styles.kitImages}>
         <Gallery
           files={currenKitImg}
+          settings={currentImgSetting.items}
           onActiveModal={onActiveModal}
           onCancelCropImg={cancelCropImg}
-          settings={currentImgSetting.items}
         />
       </div>
-      <CustomModal onCloseModal={onCloseModal} open={modalState}>
+      <CustomModal open={modalState} onCloseModal={onCloseModal}>
         <div className={styles.crop}>
           <Crop
             addCropedImg={addCropedImg}
-            onCloseModal={onCloseModal}
             point={currentImgSetting.point}
             src={currentImg.preview!}
+            onCloseModal={onCloseModal}
           />
         </div>
       </CustomModal>
 
       {images.length > 0 && (
         <div className={styles.buttons}>
-          <Button color="primary" onClick={currentIdxKitImages === 0 ? backStep : onPreviousImage} variant="contained">
+          <Button color="primary" variant="contained" onClick={currentIdxKitImages === 0 ? backStep : onPreviousImage}>
             Назад
           </Button>
-          <Button color="primary" onClick={onNextImage} variant="contained">
+          <Button color="primary" variant="contained" onClick={onNextImage}>
             Далее
           </Button>
         </div>

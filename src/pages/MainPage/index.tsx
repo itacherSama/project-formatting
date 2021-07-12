@@ -63,7 +63,7 @@ const MainPage: React.FC = () => {
   };
 
   return (
-    <Stepper activeStep={activeStep} nonLinear orientation="vertical">
+    <Stepper activeStep={activeStep} orientation="vertical" nonLinear>
       {steps.map((label: string, index: number) => (
         <Step key={label}>
           <StepButton completed={completed[index]} onClick={handleStep(index)}>

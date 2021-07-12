@@ -6,8 +6,8 @@ const WidthHeightFields: FC<any> = ({ crop, onSetHeight, onSetWidth }) => {
 
   return (
     <>
-      <TextField defaultValue={crop.width} label="Width" onChange={onSetWidth} type="number" />
-      <TextField defaultValue={crop.height} label="Height" onChange={onSetHeight} type="number" />
+      <TextField defaultValue={crop.width} label="Width" type="number" onChange={onSetWidth} />
+      <TextField defaultValue={crop.height} label="Height" type="number" onChange={onSetHeight} />
     </>
   );
 };

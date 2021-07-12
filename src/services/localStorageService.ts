@@ -1,5 +1,10 @@
 import { convertFilesInBase64Items } from './base64Service';
 
+const saveData = (localName: string, data: any) => {
+  const convertedDataToString = JSON.stringify(data);
+  localStorage.setItem(localName, convertedDataToString);
+};
+
 export const saveDataInLocalStorage = (localName: string, data: any, type = 'string'): void => {
   if (type === 'files') {
     const convertedDataToBase64 = convertFilesInBase64Items(data);
@@ -10,9 +15,4 @@ export const saveDataInLocalStorage = (localName: string, data: any, type = 'str
   } else {
     saveData(localName, data);
   }
-};
-
-const saveData = (localName: string, data: any) => {
-  const convertedDataToString = JSON.stringify(data);
-  localStorage.setItem(localName, convertedDataToString);
 };

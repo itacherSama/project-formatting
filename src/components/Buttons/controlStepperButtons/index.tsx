@@ -10,26 +10,24 @@ const ControlsStepperButtons: React.FC<any> = ({
   visibleBtnNextArr,
   disabledBtnPrev = false,
   disabledBtnNext = false,
-}) => {
-  return (
-    <div>
-      {visibleBtnPrevArr.every((el: any) => el === true) && (
-        <Button className={styles.button} disabled={disabledBtnPrev} onClick={handleBack}>
-          НАЗАД
-        </Button>
+}) => (
+  <div>
+    {visibleBtnPrevArr.every((el: any) => el === true) && (
+      <Button className={styles.button} disabled={disabledBtnPrev} onClick={handleBack}>
+        НАЗАД
+      </Button>
       )}
-      {visibleBtnNextArr.every((el: any) => el === true) && (
-        <Button
-          className={styles.button}
-          color="primary"
-          disabled={disabledBtnNext}
-          onClick={handleComplete}
-          variant="contained">
-          ДАЛЕЕ
-        </Button>
+    {visibleBtnNextArr.every((el: any) => el === true) && (
+      <Button
+        className={styles.button}
+        color="primary"
+        disabled={disabledBtnNext}
+        variant="contained"
+        onClick={handleComplete}>
+        ДАЛЕЕ
+      </Button>
       )}
-    </div>
+  </div>
   );
-};
 
 export default ControlsStepperButtons;

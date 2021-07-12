@@ -9,7 +9,7 @@ if (!isNode()) {
   history = createBrowserHistory();
   history.navigate = function (path: any, state: any) {
     const parsedPath = parse(path);
-    const location = history.location;
+    const { location } = history;
     if (
       parsedPath.pathname === location.pathname &&
       parsedPath.query === location.search &&

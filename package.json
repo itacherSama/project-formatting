@@ -1,4 +1,8 @@
 {
+  "resolutions": {
+    "**/@typescript-eslint/eslint-plugin": "^4.1.1",
+    "**/@typescript-eslint/parser": "^4.1.1"
+  },
   "name": "project-formatting",
   "version": "0.1.0",
   "private": false,
@@ -45,7 +49,7 @@
   },
   "lint-staged": {
     "src/**/*.(jsx|js|ts|tsx)": [
-      "eslint --fix",
+      "eslint --fix ",
       "prettier --write"
     ]
   },
@@ -80,8 +84,8 @@
     "@types/react-router-dom": "^5.1.7",
     "@types/universal-router": "^8.0.0",
     "@types/url-parse": "^1.4.3",
-    "@typescript-eslint/eslint-plugin": "^4.12.0",
-    "@typescript-eslint/parser": "^4.12.0",
+    "@typescript-eslint/eslint-plugin": "^4.28.1",
+    "@typescript-eslint/parser": "^4.28.1",
     "eslint": "^7.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.1.0",

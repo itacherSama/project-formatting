@@ -7,15 +7,13 @@ import {
   ISettingsImage,
 } from '../interfaces/items';
 
-export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => {
-  return new Promise(function (resolve, reject) {
+export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
     const img: HTMLImageElement = new Image();
     img.onload = function () {
       resolve(img);
     };
     img.src = preview;
   });
-};
 
 export const calcProportion = (firstArg: number, necessarySize: number, secondArg: number): number => {
   const propotion: number = Math.round(firstArg * (necessarySize / secondArg));
@@ -25,9 +23,8 @@ export const calcProportion = (firstArg: number, necessarySize: number, secondAr
 export const getTypeByPropotion = (proportionWidth: number, proportionHeight: number, types: string[]): string => {
   if (proportionWidth / proportionHeight > 1) {
     return types[0];
-  } else {
-    return types[1];
   }
+    return types[1];
 };
 
 export const calcPxFromPercent = (naturalSize: number, val: any): number => {
@@ -92,7 +89,7 @@ export const generateImagesBySettings = async (img: HTMLImageElement, settings: 
   });
 };
 
-export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize) => {
+export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize): ISettingImg => {
   const pointFromPx = {
     pointPlace: {
       x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
@@ -124,7 +121,7 @@ export const getPositionByPointDouble = (
   data: ICropFormData,
   point: IPointOnImg,
   imgSettings: IImgSettingsNaturalSize
-) => {
+): ISettingImg => {
   const pointFromPx = {
     x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y),
@@ -190,12 +187,12 @@ export const generateKitImages = async (
 
 export const calcMinMaxValue = (first: number, second: number): number[] => {
   if (first > second) {
-    [first, second] = [second, first];
+    return [second, first];
   }
   return [first, second];
 };
 
-export const calcWidthPoint = (firstObj: any, secondObj?: any) => {
+export const calcWidthPoint = (firstObj: ISettingImg, secondObj?: ISettingImg): number => {
   const defaultWidth = 3;
   let newWidth: any = null;
 

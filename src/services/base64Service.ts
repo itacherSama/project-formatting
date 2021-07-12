@@ -1,7 +1,6 @@
 import { IobjImg } from '../interfaces/items';
 
-export const convertFromBase64 = (el: any, idx: number) => {
-  return fetch(el)
+export const convertFromBase64 = (el: any, idx: number) => fetch(el)
     .then((res) => res.blob())
     .then((blob) => {
       const file = new File([blob], `${idx.toString()}.jpg`, { type: 'image/jpg' });
@@ -11,7 +10,6 @@ export const convertFromBase64 = (el: any, idx: number) => {
 
       return newFile;
     });
-};
 
 export const toBase64 = (file: any) =>
   new Promise((resolve, reject) => {
@@ -22,9 +20,7 @@ export const toBase64 = (file: any) =>
   });
 
 export const convertBase64ItemsInFiles = (items: string[]) => {
-  const promiseArr = items.map((el: any, idx: number) => {
-    return convertFromBase64(el, idx);
-  });
+  const promiseArr = items.map((el: any, idx: number) => convertFromBase64(el, idx));
 
   const arrItems: any[] = [];
 
@@ -42,9 +38,7 @@ export const convertBase64ItemsInFiles = (items: string[]) => {
 };
 
 export const convertFilesInBase64Items = (items: IobjImg[]): Promise<string[]> => {
-  const promiseArr = items.map((el: any) => {
-    return toBase64(el);
-  });
+  const promiseArr = items.map((el: any) => toBase64(el));
 
   const arrItems: any[] = [];
 

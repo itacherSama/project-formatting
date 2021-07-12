@@ -17,7 +17,7 @@ const DownloadBtn: React.FC = () => {
   };
 
   return (
-    <Button color="primary" disabled={checkProperty} onClick={onDownloadFiles} variant="contained">
+    <Button color="primary" disabled={checkProperty} variant="contained" onClick={onDownloadFiles}>
       Скачать изображения
     </Button>
   );

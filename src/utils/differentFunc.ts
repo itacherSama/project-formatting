@@ -14,27 +14,19 @@ export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): I
   };
 };
 
-const executeFuncIfNotArray = (item: any, func: (el: any) => any): any => {
-  if (Array.isArray(item)) {
-    return item.map((el: any) => {
-      return executeFuncIfNotArray(el, func);
-    });
-  } else {
-    return func(item);
-  }
-};
-
-export const deleteItemFromArrByIdx = (state: any, idx: number) => {
+export const deleteItemFromArrByIdx = (state: any, idx: number): Array<any> => {
   const newState = [...state];
   newState.splice(idx, 1);
   return newState;
 };
 
+export const copyObject = (object: any) => JSON.parse(JSON.stringify(object));
+
 export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any) => {
   const newState = [...state];
   if (length > state.length) {
     const needIncreaseLength = length - state.length;
-    const newItems = new Array(needIncreaseLength).fill(0).map((el: any) => copyObject(newItem));
+    const newItems = new Array(needIncreaseLength).fill(0).map(() => copyObject(newItem));
 
     newState.push(...newItems);
   }
@@ -45,8 +37,4 @@ export const findPointOnCanvas = (obj: { x: number; y: number }, canvas: any, fu
   const x = func(canvas.width, obj.x);
   const y = func(canvas.height, obj.y);
   return { x, y };
-};
-
-export const copyObject = (object: any) => {
-  return JSON.parse(JSON.stringify(object));
 };

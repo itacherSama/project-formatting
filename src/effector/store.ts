@@ -38,12 +38,10 @@ export const $isLocalDataLoaded = createStore<boolean>(false).on(events.setIsLoc
 
 export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null }).on(
   events.setTypeCrop,
-  (state, typeCrop) => {
-    return {
+  (state, typeCrop) => ({
       current: typeCrop,
       last: state.current,
-    };
-  }
+    })
 );
 
 const getValueLS = async (key: string, cb: any) => {

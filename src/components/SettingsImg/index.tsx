@@ -31,32 +31,28 @@ const SettingsImg: React.FC = () => {
 
   return (
     <div className={styles.selects}>
-      <Grid container spacing={4}>
-        <Grid item xs={6}>
+      <Grid spacing={4} container>
+        <Grid xs={6} item>
           <FormControl fullWidth>
             <InputLabel id="quality-select-label">Quality</InputLabel>
-            <Select id="quality-select" labelId="quality-select-label" onChange={onSetColor} value={quality}>
-              {qualities.map((el: string, idx: number) => {
-                return (
-                  <MenuItem key={`${idx}_${el}`} value={el}>
-                    {el}
-                  </MenuItem>
-                );
-              })}
+            <Select id="quality-select" labelId="quality-select-label" value={quality} onChange={onSetColor}>
+              {qualities.map((el: string, idx: number) => (
+                <MenuItem key={`${idx}_${el}`} value={el}>
+                  {el}
+                </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Grid>
-        <Grid item xs={6}>
+        <Grid xs={6} item>
           <FormControl fullWidth>
             <InputLabel id="color-select-label">Colors</InputLabel>
-            <Select id="color-select" labelId="color-select-label" onChange={onSetQuality} value={color}>
-              {colors.map((el: string, idx: number) => {
-                return (
-                  <MenuItem key={`${idx}_${el}`} value={el}>
-                    {el}
-                  </MenuItem>
-                );
-              })}
+            <Select id="color-select" labelId="color-select-label" value={color} onChange={onSetQuality}>
+              {colors.map((el: string, idx: number) => (
+                <MenuItem key={`${idx}_${el}`} value={el}>
+                  {el}
+                </MenuItem>
+                ))}
             </Select>
           </FormControl>
         </Grid>

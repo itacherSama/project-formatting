@@ -14,10 +14,10 @@ const CustomModal: React.FC<ICustomModal> = ({ children, open, onCloseModal }) =
         timeout: 500,
       }}
       className={styles.dialog}
-      closeAfterTransition
-      onClose={onCloseModal}
       open={open}
-      scroll="body">
+      scroll="body"
+      closeAfterTransition
+      onClose={onCloseModal}>
       {children}
     </Dialog>
   );
