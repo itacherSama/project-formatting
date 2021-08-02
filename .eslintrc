@@ -30,7 +30,9 @@
     "rules":{
       "@typescript-eslint/lines-between-class-members":0,
       "@typescript-eslint/no-inferrable-types":0,
+      " @typescript-eslint/no-explicit-any": 1,
       "@typescript-eslint/no-non-null-assertion":0,
+      "@typescript-eslint/no-use-before-define": 1,
       "@typescript-eslint/comma-dangle":[
         2,
         {
@@ -45,22 +47,7 @@
         }
       ],
       "@typescript-eslint/indent":0,
-      "import/no-extraneous-dependencies":[
-        2,
-        {
-          "devDependencies":[
-            "**/*.test.js",
-            "**/*.test.jsx",
-            "**/*.spec.js",
-            "**/*.spec.jsx",
-            "**/*.test.ts",
-            "**/*.test.tsx",
-            "**/*.spec.ts",
-            "**/*.spec.tsx",
-            "**/setupTests.ts"
-          ]
-        }
-      ],
+      "import/no-extraneous-dependencies": 1,
       "padded-blocks":[
         2,
         "never"
@@ -138,6 +125,7 @@
           "maxEOF":0
         }
       ],
+      
       "react-hooks/exhaustive-deps":1,
       "react-hooks/rules-of-hooks":1,
       "react/jsx-props-no-spreading":0,

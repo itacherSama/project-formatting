@@ -24,12 +24,14 @@ export interface ITypeCrop {
   last: string | null;
 }
 
+export interface IPointPlace {
+  x: number;
+  y: number;
+}
+
 export interface IPointOnImg {
   pointWidth: number;
-  pointPlace: {
-    x: number;
-    y: number;
-  };
+  pointPlace: IPointPlace;
 }
 
 export interface ISettingImg {

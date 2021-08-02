@@ -4,12 +4,12 @@ import IconButton from '@material-ui/core/IconButton';
 
 import styles from './CloseButton.module.css';
 
-interface CloseButton {
+interface ICloseButton {
   onCancel: (idx: number) => void;
   idx: number;
 }
 
-const CloseButton: React.FC<CloseButton> = ({ idx, onCancel }) => {
+const CloseButton: React.FC<ICloseButton> = ({ idx, onCancel }) => {
   const handleCansel = (event: React.MouseEvent<HTMLButtonElement>): void => {
     event.stopPropagation();
     onCancel(idx);

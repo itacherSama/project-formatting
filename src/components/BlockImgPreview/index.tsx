@@ -1,4 +1,4 @@
-import React, {MouseEvent, FC, useEffect, useLayoutEffect, useRef, useState, useCallback} from 'react';
+import React from 'react';
 import styles from './BlockImgPreview.module.css';
 import {
   calcPercentFromPx,
@@ -7,34 +7,24 @@ import {
   calcWidthPointOnCanvas,
 } from '../../services/imageService';
 import { findPointOnCanvas } from '../../utils/differentFunc';
-import { IPointOnImg } from '../../interfaces/items';
+import { IPointOnImg, IPointPlace } from '../../interfaces/items';
 
-// const touchduration = 1000;
-
-/* const defaultStatePoint = {
-  pointWidth: null,
-  pointPlace: {
-    x: null,
-    y: null,
-  },
-};
- */
-const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {
+const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
   const x = e.nativeEvent.offsetX;
   const y = e.nativeEvent.offsetY;
   return [x, y];
 };
 
-const BlockImgPreview: FC<{
+const BlockImgPreview: React.FC<{
   statePoint: IPointOnImg;
   currentImg: any,
   setStatePoint: any,
 }> = ({ currentImg, statePoint, setStatePoint }) => {
-  const canvasPreview: any = useRef(null);
-  const ImgPreview: any = useRef(null);
+  const canvasPreview: any = React.useRef(null);
+  const ImgPreview: any = React.useRef(null);
 
-  const [activeChange, setActiveChange] = useState<boolean>(false);
-  const [pxStatePoint, setPxStatePoint] = useState<any>(null);
+  const [activeChange, setActiveChange] = React.useState<boolean>(false);
+  const [pxStatePoint, setPxStatePoint] = React.useState<any>(null);
 
   const getPxWidthPoint = (pointWidth: number) => {
     const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPxFromPercent);
@@ -46,7 +36,7 @@ const BlockImgPreview: FC<{
     return widthPointPx;
   };
 
-  const calcPxStatePoint = (argStatePoint: IPointOnImg): IPointOnImg => {
+  const calcPxStatePoint = React.useCallback((argStatePoint: IPointOnImg): IPointOnImg => {
     if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth) {
       return {
         pointPlace: findPointOnCanvas(argStatePoint.pointPlace, canvasPreview.current, calcPxFromPercent),
@@ -55,9 +45,9 @@ const BlockImgPreview: FC<{
     }
 
     return statePoint;
-  };
+  }, [statePoint]);
 
-  const resize = () => {
+  const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
 
     const cs = getComputedStyle(ImgPreview.current);
@@ -67,7 +57,7 @@ const BlockImgPreview: FC<{
     canvas.height = height;
 
     setPxStatePoint(calcPxStatePoint(statePoint));
-  };
+  }, [calcPxStatePoint, statePoint]);
 
   const draw = (argStatePoint: IPointOnImg): void => {
     const canvas: HTMLCanvasElement = canvasPreview.current;
@@ -84,33 +74,33 @@ const BlockImgPreview: FC<{
     }
   };
 
-  useEffect(() => {
+  React.useEffect(() => {
     resize();
   }, [resize, currentImg]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     setPxStatePoint(calcPxStatePoint(statePoint));
   }, [statePoint, calcPxStatePoint]);
 
-  useEffect(() => {
+  React.useEffect(() => {
     draw(pxStatePoint);
   }, [pxStatePoint]);
 
-  useLayoutEffect(() => {
+  React.useLayoutEffect(() => {
     window.addEventListener('resize', resize);
     return () => {
       window.removeEventListener('resize', resize);
     };
-  }, [statePoint]);
+  }, [statePoint, resize]);
 
-  const getPercentWidthPoint = (firstObj: any, secondObj?: any) => {
+  const getPercentWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) => {
     const pointWidth = calcWidthPoint(firstObj, secondObj);
     const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
 
     return widthPointPercent;
   };
 
-  const onDown = (e: MouseEvent<HTMLCanvasElement>): void | false => {
+  const onDown = (e: React.MouseEvent<HTMLCanvasElement>): void | false => {
     if (e.button === 2) {
       return false;
     }
@@ -125,7 +115,7 @@ const BlockImgPreview: FC<{
     });
   };
 
-  const onUp = (e: MouseEvent<HTMLCanvasElement>) => {
+  const onUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (activeChange) {
       const [x, y] = getOffset(e);
 
@@ -138,7 +128,7 @@ const BlockImgPreview: FC<{
     }
   };
 
-  const onMove = (e: MouseEvent<HTMLCanvasElement>) => {
+  const onMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const [x, y] = getOffset(e);
     if (activeChange) {
       const currentState = {
@@ -149,7 +139,7 @@ const BlockImgPreview: FC<{
     }
   };
 
-  const cancelPoint = (e: MouseEvent): void => {
+  const cancelPoint = (e: React.MouseEvent): void => {
     if (e) {
       e.preventDefault();
     }

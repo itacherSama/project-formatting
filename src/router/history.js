@@ -3,11 +3,12 @@ import parse from 'url-parse';
 import deepEqual from 'deep-equal';
 
 const isNode = new Function('try {return this===global;}catch(e){return false;}'); //eslint-disable-line
-let history: any;
+// eslint-disable-next-line import/no-mutable-exports
+let history;
 
 if (!isNode()) {
   history = createBrowserHistory();
-  history.navigate = function (path: any, state: any) {
+  history.navigate = (path, state) => {
     const parsedPath = parse(path);
     const { location } = history;
     if (
@@ -18,6 +19,7 @@ if (!isNode()) {
     ) {
       return;
     }
+    // eslint-disable-next-line no-undef
     const args = Array.from(arguments);
     args.splice(0, 2);
     return history.push(...[path, state, ...args]);

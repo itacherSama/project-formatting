@@ -1,4 +1,4 @@
-import { IobjIdxKitImages } from '../interfaces/items';
+import { IPointPlace, IobjIdxKitImages } from '../interfaces/items';
 
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;
@@ -14,15 +14,15 @@ export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): I
   };
 };
 
-export const deleteItemFromArrByIdx = (state: any, idx: number): Array<any> => {
+export const deleteItemFromArrByIdx = <T>(state: Array<T>, idx: number): Array<T> => {
   const newState = [...state];
   newState.splice(idx, 1);
   return newState;
 };
 
-export const copyObject = (object: any) => JSON.parse(JSON.stringify(object));
+export const copyObject = <T>(object: T): T => JSON.parse(JSON.stringify(object));
 
-export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any) => {
+export const setLengthKitsImagesFunc = <T>(state: Array<T>, length: number, newItem: T): Array<T> => {
   const newState = [...state];
   if (length > state.length) {
     const needIncreaseLength = length - state.length;
@@ -33,7 +33,7 @@ export const setLengthKitsImagesFunc = (state: any, length: number, newItem: any
   return newState;
 };
 
-export const findPointOnCanvas = (obj: { x: number; y: number }, canvas: any, func: any) => {
+export const findPointOnCanvas = (obj: IPointPlace, canvas: HTMLCanvasElement, func: any): IPointPlace  => {
   const x = func(canvas.width, obj.x);
   const y = func(canvas.height, obj.y);
   return { x, y };

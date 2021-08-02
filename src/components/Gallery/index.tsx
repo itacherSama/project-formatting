@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseButton from '../Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from '../../services/imageService';
 import { IGallery } from '../../interfaces/components';
-import { IobjImg, ISettingImg } from '../../interfaces/items';
+import { IobjImg } from '../../interfaces/items';
 
 import styles from './Gallery.module.css';
 
@@ -26,6 +26,8 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
   const childElements =
     !!files.length &&
     files.map((file: IobjImg, idx: number) => {
+      console.log('Пофиксить отображение картинки в li');
+      
       const currentSettings = settings[idx];
       const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
       const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
@@ -33,6 +35,7 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (
         <li
+          // eslint-disable-next-line react/no-array-index-key
           key={idx}
           className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
@@ -50,8 +53,8 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
   return (
     <Masonry className={styles.grid} elementType="ul" options={masonryOptions}>
       {childElements}
-      <li className={cn(styles.gridImage, styles.gridItemAdd)} onClick={onActiveModal}>
-        <IconButton aria-label="add" className={styles.iconButton} color="primary">
+      <li className={cn(styles.gridImage, styles.gridItemAdd)}>
+        <IconButton aria-label="add" className={styles.iconButton} color="primary" onClick={onActiveModal}>
           <AddIcon fontSize="large" />
         </IconButton>
       </li>

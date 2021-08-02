@@ -1,4 +1,4 @@
-import React, { FC, ChangeEvent } from 'react';
+import React, { FC } from 'react';
 import TextField from '@material-ui/core/TextField';
 
 const WidthHeightFields: FC<any> = ({ crop, onSetHeight, onSetWidth }) => {

@@ -94,7 +94,7 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     }
 
     let newData: any = {
-      [typeValue]: parseInt(newValue),
+      [typeValue]: parseInt(newValue, 10),
     };
 
     if (typeCrop.current === typeCropWords[1]) {

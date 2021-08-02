@@ -1,4 +1,4 @@
-import {
+import { IPointPlace,
   ICropFormData,
   IPointOnImg,
   IImgSettingsNaturalSize,
@@ -7,9 +7,9 @@ import {
   ISettingsImage,
 } from '../interfaces/items';
 
-export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve, reject) => {
+export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve) => {
     const img: HTMLImageElement = new Image();
-    img.onload = function () {
+    img.onload = () => {
       resolve(img);
     };
     img.src = preview;
@@ -27,29 +27,27 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
     return types[1];
 };
 
-export const calcPxFromPercent = (naturalSize: number, val: any): number => {
+export const calcPxFromPercent = (naturalSize: number, val: number): number => {
   const pixelVal = Math.round(naturalSize * (val / 100));
   return pixelVal;
 };
 
-export const calcPercentFromPx = (naturalSize: number, val: any): number => {
+export const calcPercentFromPx = (naturalSize: number, val: number): number => {
   const percentVal = Math.round((val / naturalSize) * 100);
   return percentVal;
 };
 
-export const getPxFromPercent = (image: HTMLImageElement, objCrop: any) => {
-  objCrop.width = calcPxFromPercent(image.naturalWidth, objCrop.width);
-  objCrop.height = calcPxFromPercent(image.naturalHeight, objCrop.height);
+export const getPxFromPercent = (image: HTMLImageElement, objCrop: ICropFormData): ICropFormData => ({
+    ...objCrop,
+    width: calcPxFromPercent(image.naturalWidth, objCrop.width), 
+    height: calcPxFromPercent(image.naturalHeight, objCrop.height),
+  });
 
-  return objCrop;
-};
-
-export const getPercentFromPx = (image: HTMLImageElement, objCrop: any) => {
-  objCrop.width = calcPercentFromPx(image.naturalWidth, objCrop.width);
-  objCrop.height = calcPercentFromPx(image.naturalHeight, objCrop.height);
-
-  return objCrop;
-};
+export const getPercentFromPx = (image: HTMLImageElement, objCrop: ICropFormData): ICropFormData => ({
+  ...objCrop,
+  width: calcPercentFromPx(image.naturalWidth, objCrop.width), 
+  height: calcPercentFromPx(image.naturalHeight, objCrop.height),
+});
 
 export const calcAspect = (width: number, height: number): number | boolean => {
   if (height <= 0 || width <= 0) {
@@ -59,7 +57,7 @@ export const calcAspect = (width: number, height: number): number | boolean => {
   return aspect;
 };
 
-export const generateImagesBySettings = async (img: HTMLImageElement, settings: ISettingImg): Promise<any> => {
+export const generateImagesBySettings = async (img: HTMLImageElement, settings: ISettingImg): Promise<Blob> => {
   const canvas = document.createElement('canvas');
   canvas.width = settings.width;
   canvas.height = settings.height;
@@ -81,7 +79,10 @@ export const generateImagesBySettings = async (img: HTMLImageElement, settings: 
   return new Promise((resolve, reject) => {
     canvas.toBlob(
       (blob) => {
-        resolve(blob);
+        if (blob) {
+          resolve(blob);
+        }
+        reject();
       },
       'image/jpeg',
       1
@@ -176,6 +177,7 @@ export const generateKitImages = async (
     if (newPoint) {
       settings = getPositionByPointDouble(settings, newPoint, imgElement);
     }
+    // eslint-disable-next-line no-await-in-loop
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
     const fileImg: IobjImg = new File([blobImg], `${idxEl}.jpg`);
     fileImg.preview = URL.createObjectURL(fileImg);
@@ -192,10 +194,9 @@ export const calcMinMaxValue = (first: number, second: number): number[] => {
   return [first, second];
 };
 
-export const calcWidthPoint = (firstObj: ISettingImg, secondObj?: ISettingImg): number => {
+export const calcWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): number => {
   const defaultWidth = 3;
-  let newWidth: any = null;
-
+  
   if (!secondObj) {
     return defaultWidth;
   }
@@ -203,7 +204,7 @@ export const calcWidthPoint = (firstObj: ISettingImg, secondObj?: ISettingImg): 
   const [minX, maxX] = calcMinMaxValue(firstObj.x, secondObj.x);
   const [minY, maxY] = calcMinMaxValue(firstObj.y, secondObj.y);
 
-  newWidth = {
+  const newWidth = {
     x: Math.round(maxX - minX),
     y: Math.round(maxY - minY),
   };
@@ -213,13 +214,13 @@ export const calcWidthPoint = (firstObj: ISettingImg, secondObj?: ISettingImg): 
   return Math.max(maxNewWidth, defaultWidth);
 };
 
-export const calcWidthPointOnCanvas = (pointWidth: number, canvas: any, func: any) => {
+export const calcWidthPointOnCanvas = (pointWidth: number, canvas: HTMLCanvasElement, func: any): number => {
   const maxVal = Math.max(canvas.width, canvas.height);
   const widthPercent = func(maxVal, pointWidth);
   return widthPercent;
 };
 
-export const calcPlacePoint = (start: any, end: any) => {
+export const calcPlacePoint = (start: IPointPlace, end: IPointPlace): IPointPlace => {
   const halfWidth = {
     x: Math.round((end.x! - start.x!) / 2),
     y: Math.round((end.y! - start.y!) / 2),

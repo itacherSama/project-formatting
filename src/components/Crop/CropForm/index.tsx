@@ -57,8 +57,8 @@ const CropForm: React.FC<ICropForm> = ({
   }, [typeCrop]);
 
   const generateFields = useCallback(
-    (crop: any, setWidth: any, setHeight: any) => <WidthHeightFields key={formKey} crop={crop} onSetHeight={setHeight} onSetWidth={setWidth} />,
-    [typeCrop]
+    (cropItem: any, setWidth: any, setHeight: any) => <WidthHeightFields key={formKey} crop={cropItem} onSetHeight={setHeight} onSetWidth={setWidth} />,
+    [formKey]
   );
 
   return (
@@ -67,8 +67,8 @@ const CropForm: React.FC<ICropForm> = ({
         ? generateFields(crop, onChangeCropWidth, onChangeCropHeight)
         : generateFields(aspect, onChangeAspectWidth, onChangeAspectHeight)}
       <Select value={typeCrop} onChange={onChangeTypeCrop}>
-        {typeCropWords.map((word: string, idx: number) => (
-          <MenuItem key={`${word}_${idx}`} value={word}>
+        {typeCropWords.map((word: string) => (
+          <MenuItem key={`${word}`} value={word}>
             {word}
           </MenuItem>
           ))}
