@@ -1,17 +1,17 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { IobjImg } from '../interfaces/items';
+import { IInfoImg } from '../interfaces/items';
 
-export const downloadFiles = (kitsItems: IobjImg[][]): void => {
+export const downloadFiles = (kitsItems: IInfoImg[][]): void => {
   const zip: JSZip = new JSZip();
-  kitsItems.forEach((kit: IobjImg[], idx: number) => {
+  kitsItems.forEach((kit: IInfoImg[], idx: number) => {
     if (!kit.length) {
       return;
     }
     const newFolder = `image_${idx}`;
     const folder: JSZip | null = zip.folder(newFolder);
-    kit.forEach((img: IobjImg) => {
-      folder!.file(img.name!, img, { binary: true });
+    kit.forEach((file: IInfoImg) => {
+      folder!.file(file.infoByFile.name!, file.infoByFile, { binary: true });
     });
   });
 
@@ -21,13 +21,14 @@ export const downloadFiles = (kitsItems: IobjImg[][]): void => {
 };
 
 export const setFiles = (
-  acceptedFiles: IobjImg[],
-  oldFiles: IobjImg[],
-  setImages: (images: IobjImg[]) => void
+  acceptedFiles: File[],
+  oldFiles: IInfoImg[],
+  setImages: (images: IInfoImg[]) => void
 ): void => {
   const prevFiles = [...oldFiles];
-  const newFiles = acceptedFiles.map((file: IobjImg) =>
+  const newFiles = acceptedFiles.map((file: File) =>
     Object.assign(file, {
+      infoByFile: file,
       preview: URL.createObjectURL(file),
     })
   );

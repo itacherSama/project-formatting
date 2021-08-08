@@ -41,7 +41,8 @@ export interface ISettingImg {
   height: number;
 }
 
-export interface IobjImg extends File {
+export interface IInfoImg {
+  infoByFile: File,
   preview?: string;
 }
 

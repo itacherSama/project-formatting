@@ -1,7 +1,6 @@
 import { createStore } from 'effector';
 
 import * as events from '../event';
-import * as effects from '../effect';
 import { findNewCurrentIdx } from '../../utils/differentFunc';
 import { IobjIdxKitImages } from '../../interfaces/items';
 

@@ -22,9 +22,9 @@ sample({
 });
 
 export const $modalState = createStore<boolean>(false)
-  .on(events.activeModal, (state) => true)
+  .on(events.activeModal, () => true)
 
-  .on(events.disableModal, (state) => false);
+  .on(events.disableModal, () => false);
 
 export const $numberImg = createStore<number>(0).on(events.nextNumberImg, (state) => state + 1);
 

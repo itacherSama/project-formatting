@@ -6,7 +6,7 @@ import AddIcon from '@material-ui/icons/Add';
 import CloseButton from '../Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from '../../services/imageService';
 import { IGallery } from '../../interfaces/components';
-import { IobjImg } from '../../interfaces/items';
+import { IInfoImg } from '../../interfaces/items';
 
 import styles from './Gallery.module.css';
 
@@ -25,7 +25,7 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
 
   const childElements =
     !!files.length &&
-    files.map((file: IobjImg, idx: number) => {
+    files.map((file: IInfoImg, idx: number) => {
       console.log('Пофиксить отображение картинки в li');
       
       const currentSettings = settings[idx];

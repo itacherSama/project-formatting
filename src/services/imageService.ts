@@ -3,7 +3,7 @@ import { IPointPlace,
   IPointOnImg,
   IImgSettingsNaturalSize,
   ISettingImg,
-  IobjImg,
+  IInfoImg,
   ISettingsImage,
 } from '../interfaces/items';
 
@@ -170,16 +170,18 @@ export const generateKitImages = async (
   imgElement: HTMLImageElement,
   kitSettings: ISettingsImage,
   newPoint?: IPointOnImg
-): Promise<IobjImg[]> => {
-  const kitImages: IobjImg[] = [];
+): Promise<IInfoImg[]> => {
+  const kitImages: IInfoImg[] = [];
   for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
     let settings = kitSettings.items[idxEl];
     if (newPoint) {
       settings = getPositionByPointDouble(settings, newPoint, imgElement);
     }
-    // eslint-disable-next-line no-await-in-loop
+    
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
-    const fileImg: IobjImg = new File([blobImg], `${idxEl}.jpg`);
+    const fileImg: IInfoImg = {
+      infoByFile: new File([blobImg], `${idxEl}.jpg`),
+    };
     fileImg.preview = URL.createObjectURL(fileImg);
 
     kitImages.push(fileImg);

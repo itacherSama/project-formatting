@@ -1,7 +1,7 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles } from '../services/base64Service';
 import { getImgFromPreviewFile, generateKitImages } from '../services/imageService';
-import { IobjImg } from '../interfaces/items';
+import { IInfoImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
   const req = await convertBase64ItemsInFiles(data);
@@ -10,7 +10,7 @@ export const fetchImagesFx = createEffect(async (data: any) => {
 
 export const fetchSettingsForImagesFx = createEffect((data: any) => data);
 
-export const generateKitsImages = createEffect(async (data: any): Promise<IobjImg[][]> => {
+export const generateKitsImages = createEffect(async (data: any): Promise<IInfoImg[][]> => {
   const [images, settingsForKits] = data;
   const kitsImages = [];
   for (let idx = 0; idx < settingsForKits.length; idx++) {

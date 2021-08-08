@@ -7,7 +7,7 @@ import {
   calcWidthPointOnCanvas,
 } from '../../services/imageService';
 import { findPointOnCanvas } from '../../utils/differentFunc';
-import { IPointOnImg, IPointPlace } from '../../interfaces/items';
+import { IInfoImg, IPointOnImg, IPointPlace } from '../../interfaces/items';
 
 const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
   const x = e.nativeEvent.offsetX;
@@ -17,15 +17,22 @@ const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
 
 const BlockImgPreview: React.FC<{
   statePoint: IPointOnImg;
-  currentImg: any,
-  setStatePoint: any,
+  currentImg: IInfoImg,
+  setStatePoint: (item?: IPointOnImg) => void,
 }> = ({ currentImg, statePoint, setStatePoint }) => {
   const canvasPreview: any = React.useRef(null);
   const ImgPreview: any = React.useRef(null);
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
-  const [pxStatePoint, setPxStatePoint] = React.useState<any>(null);
+  const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(statePoint);
+  console.log('=================');
 
+  console.log('currentImg', currentImg);
+  console.log('setStatePoint', setStatePoint);
+  console.log('canvasPreview', canvasPreview);
+  console.log('ImgPreview', ImgPreview);
+  console.log('=================');
+  
   const getPxWidthPoint = (pointWidth: number) => {
     const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPxFromPercent);
     const defaultWidthPoint = 3;
@@ -64,11 +71,11 @@ const BlockImgPreview: React.FC<{
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y) {
+    if (argStatePoint.pointPlace.x && argStatePoint.pointPlace.y) {
       ctx.fillStyle = 'red';
       ctx.beginPath();
 
-      ctx.arc(argStatePoint.pointPlace.x!, argStatePoint.pointPlace.y!, argStatePoint.pointWidth, 0, 2 * Math.PI, true);
+      ctx.arc(argStatePoint.pointPlace.x, argStatePoint.pointPlace.y, argStatePoint.pointWidth, 0, 2 * Math.PI, true);
 
       ctx.fill();
     }

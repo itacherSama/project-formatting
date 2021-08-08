@@ -30,7 +30,7 @@
     "rules":{
       "@typescript-eslint/lines-between-class-members":0,
       "@typescript-eslint/no-inferrable-types":0,
-      " @typescript-eslint/no-explicit-any": 1,
+      "@typescript-eslint/no-explicit-any": 1,
       "@typescript-eslint/no-non-null-assertion":0,
       "@typescript-eslint/no-use-before-define": 1,
       "@typescript-eslint/comma-dangle":[
@@ -48,6 +48,7 @@
       ],
       "@typescript-eslint/indent":0,
       "import/no-extraneous-dependencies": 1,
+      "import/no-mutable-exports": 1,
       "padded-blocks":[
         2,
         "never"
@@ -115,8 +116,9 @@
           "avoidEscape":true
         }
       ],
-      "no-console":0,
-      "no-debugger":2,
+      "no-await-in-loop": 1,
+      "no-console": 0,
+      "no-debugger": 2,
       "no-multiple-empty-lines":[
         2,
         {

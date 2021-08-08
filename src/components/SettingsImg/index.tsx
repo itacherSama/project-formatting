@@ -20,13 +20,13 @@ const SettingsImg: React.FC = () => {
   const quality: string = useStore($quality);
 
   const onSetQuality = (event: React.ChangeEvent<IvalueOfSelect>): void => {
-    const quality = event.target.value;
-    setQuality(quality);
+    const qualityValue = event.target.value;
+    setQuality(qualityValue);
   };
 
   const onSetColor = (event: React.ChangeEvent<IvalueOfSelect>): void => {
-    const color = event.target.value;
-    setColor(color);
+    const colorValue = event.target.value;
+    setColor(colorValue);
   };
 
   return (
@@ -36,8 +36,8 @@ const SettingsImg: React.FC = () => {
           <FormControl fullWidth>
             <InputLabel id="quality-select-label">Quality</InputLabel>
             <Select id="quality-select" labelId="quality-select-label" value={quality} onChange={onSetColor}>
-              {qualities.map((el: string, idx: number) => (
-                <MenuItem key={`${idx}_${el}`} value={el}>
+              {qualities.map((el: string) => (
+                <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>
                 ))}
@@ -48,8 +48,8 @@ const SettingsImg: React.FC = () => {
           <FormControl fullWidth>
             <InputLabel id="color-select-label">Colors</InputLabel>
             <Select id="color-select" labelId="color-select-label" value={color} onChange={onSetQuality}>
-              {colors.map((el: string, idx: number) => (
-                <MenuItem key={`${idx}_${el}`} value={el}>
+              {colors.map((el: string) => (
+                <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>
                 ))}

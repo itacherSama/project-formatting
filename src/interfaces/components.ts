@@ -1,7 +1,7 @@
-import { IobjImg, ISettingImg, IPointOnImg, IImgCropValue, ICropFormData } from './items';
+import { IInfoImg, ISettingImg, IImgCropValue, ICropFormData } from './items';
 
 export interface IDropzone {
-  images: IobjImg[];
+  images: IInfoImg[];
   onCancelImg: (idx: number) => void;
 }
 
@@ -19,18 +19,18 @@ export interface ICustomModal {
 }
 
 export interface IThumb {
-  file: IobjImg;
+  file: IInfoImg;
 }
 
 export interface IGallery {
-  files: IobjImg[];
+  files: IInfoImg[];
   settings: ISettingImg[];
   onActiveModal: () => void;
   onCancelCropImg: (idx: number) => void;
 }
 
 export interface IDropzonePreview {
-  images: IobjImg[];
+  images: IInfoImg[];
   onCancel: (idx: number) => void;
 }
 

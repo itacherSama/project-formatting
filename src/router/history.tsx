@@ -1,14 +1,19 @@
+/* eslint-disable import/no-mutable-exports */
+/* eslint-disable @typescript-eslint/no-explicit-any */ 
+/* eslint-disable prefer-rest-params */ 
+/* eslint-disable func-names */ 
+
 import { createBrowserHistory } from 'history';
 import parse from 'url-parse';
 import deepEqual from 'deep-equal';
 
 const isNode = new Function('try {return this===global;}catch(e){return false;}'); //eslint-disable-line
-// eslint-disable-next-line import/no-mutable-exports
-let history;
+
+let history: any;
 
 if (!isNode()) {
   history = createBrowserHistory();
-  history.navigate = (path, state) => {
+  history.navigate = function (path: string, state: any) {
     const parsedPath = parse(path);
     const { location } = history;
     if (

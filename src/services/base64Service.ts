@@ -1,4 +1,4 @@
-import { IobjImg } from '../interfaces/items';
+import { IInfoImg } from '../interfaces/items';
 
 export const convertFromBase64 = (el: any, idx: number) => fetch(el)
     .then((res) => res.blob())
@@ -37,7 +37,7 @@ export const convertBase64ItemsInFiles = (items: string[]) => {
   });
 };
 
-export const convertFilesInBase64Items = (items: IobjImg[]): Promise<string[]> => {
+export const convertFilesInBase64Items = (items: IInfoImg[]): Promise<string[]> => {
   const promiseArr = items.map((el: any) => toBase64(el));
 
   const arrItems: any[] = [];

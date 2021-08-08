@@ -17,7 +17,7 @@ import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import CustomModal from '../../components/CustomModal';
 import styles from './ResizePage.module.css';
-import { IobjIdxKitImages, IobjImg, ISettingImg, ISettingsImage } from '../../interfaces/items';
+import { IobjIdxKitImages, IInfoImg, ISettingImg, ISettingsImage } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
@@ -28,26 +28,23 @@ import { $kitsImages } from '../../effector/stores/kitsImages';
 
 const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const kitsImages = useStore($kitsImages);
-  const images: IobjImg[] = useStore($images);
+  const images: IInfoImg[] = useStore($images);
   const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
-  const currentImg: IobjImg = images[currentIdxKitImages];
+  const currentImg: IInfoImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages];
   const modalState: boolean = useStore($modalState);
-  /*
-  console.log('images', images);
-  console.log('currenKitImg', currenKitImg);
-  console.log('currentImgSetting', currentImgSetting);
-  */
 
   React.useEffect(() =>  {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
-  }, [currentIdxKitImages] );
+  }, [currentIdxKitImages, kitsImages] );
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IobjImg) => {
+    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: any) => {
+      console.log('fileImg', fileImg);
+      
       setKitImagesSettings(     {
         settingImg,
         idx: currentIdxKitImages,
@@ -67,8 +64,11 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   };
 
   const onNextImage = () => {
-    // eslint-disable-next-line no-unused-expressions
-    currentIdxKitImages === idxKitImages.maxIdx ? nextStep() : nextKitImages();
+    if (currentIdxKitImages === idxKitImages.maxIdx) {
+      nextStep();
+    } else {
+      nextKitImages();
+    }
   };
 
   const onActiveModal = () => {

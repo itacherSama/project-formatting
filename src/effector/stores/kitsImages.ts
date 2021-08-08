@@ -2,12 +2,12 @@ import { createStore, sample, guard, combine, restore } from 'effector';
 import * as events from '../event';
 import * as effects from '../effect';
 import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
-import { IobjImg, IPointOnImg } from '../../interfaces/items';
+import { IInfoImg, IPointOnImg } from '../../interfaces/items';
 import { $idxKitImages } from './idxKitImages';
 import { $images } from './images';
 import { $kitsImagesSetting } from './kitsImagesSetting';
 
-export const $kitsImages = createStore<IobjImg[][]>([])
+export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
   .on([events.setKitImages, effects.generateKitImagesByPoint.doneData], (state, { kitImages, idx }) => {
