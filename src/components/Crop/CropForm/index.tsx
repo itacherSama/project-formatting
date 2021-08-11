@@ -1,7 +1,5 @@
 import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import Button from '@material-ui/core/Button';
-import Select from '@material-ui/core/Select';
-import MenuItem from '@material-ui/core/MenuItem';
+import { Button, Select, MenuItem } from '@material-ui/core';
 import styles from '../Crop.module.css';
 import { setTypeCrop } from '../../../effector/event';
 import WidthHeightFields from './WidthHeightFields';

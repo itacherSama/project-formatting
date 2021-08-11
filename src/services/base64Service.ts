@@ -1,50 +1,52 @@
-import { IInfoImg } from '../interfaces/items';
+import { PossibleStringType, IInfoImg } from '../interfaces/items';
 
-export const convertFromBase64 = (el: any, idx: number) => fetch(el)
+export const convertFromBase64 = (el: string, idx: number): Promise<IInfoImg> => fetch(el)
     .then((res) => res.blob())
     .then((blob) => {
       const file = new File([blob], `${idx.toString()}.jpg`, { type: 'image/jpg' });
-      const newFile = Object.assign(file, {
-        preview: URL.createObjectURL(file),
-      });
 
-      return newFile;
+      return  {
+        infoByFile: file,
+        preview: URL.createObjectURL(file),
+      };
     });
 
-export const toBase64 = (file: any) =>
+export const toBase64 = (file: IInfoImg): Promise<PossibleStringType> =>
   new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(file);
-    reader.onload = () => resolve(reader.result);
+    reader.readAsDataURL(file.infoByFile);
+    reader.onload = () => {
+      resolve(reader.result);
+    };
     reader.onerror = (error) => reject(error);
   });
 
-export const convertBase64ItemsInFiles = (items: string[]) => {
-  const promiseArr = items.map((el: any, idx: number) => convertFromBase64(el, idx));
+export const convertBase64ItemsInFiles = (items: string[]): Promise<IInfoImg[]> => {
+  const promiseArr = items.map((el: string, idx: number) => convertFromBase64(el, idx));
 
-  const arrItems: any[] = [];
+  const arrItems: IInfoImg[] = [];
 
-  return Promise.allSettled(promiseArr).then((results: any) => {
-    // console.log('promise res', results);
-
-    results.forEach((result: any) => {
-      // console.log('promise item', result);
-
-      arrItems.push(result.value);
+  return Promise.allSettled(promiseArr).then((results: PromiseSettledResult<IInfoImg>[]) => {
+    results.forEach((result: PromiseSettledResult<IInfoImg>) => {
+      if (result.status === 'fulfilled') {
+        arrItems.push(result.value);
+      }
     });
 
     return arrItems;
   });
 };
 
-export const convertFilesInBase64Items = (items: IInfoImg[]): Promise<string[]> => {
-  const promiseArr = items.map((el: any) => toBase64(el));
+export const convertFilesInBase64Items = (items: IInfoImg[]): Promise<PossibleStringType[]> => {
+  const promiseArr = items.map((el: IInfoImg) => toBase64(el));
 
-  const arrItems: any[] = [];
+  const arrItems: PossibleStringType[] = [];
 
-  return Promise.allSettled(promiseArr).then((results: any) => {
-    results.forEach((result: any) => {
-      arrItems.push(result.value);
+  return Promise.allSettled(promiseArr).then((results: PromiseSettledResult<PossibleStringType>[]) => {
+    results.forEach((result: PromiseSettledResult<PossibleStringType>) => {
+      if (result.status === 'fulfilled') {
+        arrItems.push(result.value);
+      }
     });
 
     return Promise.resolve(arrItems);

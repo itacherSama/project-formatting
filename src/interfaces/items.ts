@@ -73,3 +73,5 @@ export interface ISettingStepContent {
   visibleBtnPrevArr?: Array<boolean>;
   visibleBtnNextArr?: Array<boolean>;
 }
+
+export type PossibleStringType = string | ArrayBuffer | null;

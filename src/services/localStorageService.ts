@@ -1,3 +1,4 @@
+import { PossibleStringType } from '../interfaces/items';
 import { convertFilesInBase64Items } from './base64Service';
 
 const saveData = (localName: string, data: any) => {
@@ -8,7 +9,7 @@ const saveData = (localName: string, data: any) => {
 export const saveDataInLocalStorage = (localName: string, data: any, type = 'string'): void => {
   if (type === 'files') {
     const convertedDataToBase64 = convertFilesInBase64Items(data);
-    convertedDataToBase64.then((results: string[]) => {
+    convertedDataToBase64.then((results: PossibleStringType[]) => {
       console.log('results', results);
       saveData(localName, results);
     });
