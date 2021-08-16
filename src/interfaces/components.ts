@@ -35,11 +35,12 @@ export interface IDropzonePreview {
 }
 
 export interface ICropForm {
-  onSetCrop: (data: IImgCropValue) => void;
-  onSetAspect: (data: any) => void;
+  onSetCrop: (data: any) => void;
+  // onSetAspect: (data: any) => void;
   getCropImage: () => void;
-  crop: ICropFormData;
-  aspect: ICropFormData;
+  cropPx: ICropFormData;
+  cropPercent: ICropFormData;
+  // aspect: ICropFormData;
   typeCrop: string;
   typeCropWords: string[];
 }

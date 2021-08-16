@@ -37,17 +37,33 @@ export const calcPercentFromPx = (naturalSize: number, val: number): number => {
   return percentVal;
 };
 
-export const getPxFromPercent = (image: HTMLImageElement, objCrop: ICropFormData): ICropFormData => ({
-    ...objCrop,
-    width: calcPxFromPercent(image.naturalWidth, objCrop.width), 
-    height: calcPxFromPercent(image.naturalHeight, objCrop.height),
-  });
+export const getPxFromPercent = (image: HTMLImageElement, objCrop: { width?: number; height?: number }): { width?: number; height?: number } => {
+  if (objCrop.height) {
+    return {
+      height: calcPxFromPercent(image.naturalHeight, objCrop.height),
+    };
+  }
+  if (objCrop.width) {
+    return {
+      width: calcPxFromPercent(image.naturalWidth, objCrop.width),
+    };
+  }
+  return objCrop;
+};
 
-export const getPercentFromPx = (image: HTMLImageElement, objCrop: ICropFormData): ICropFormData => ({
-  ...objCrop,
-  width: calcPercentFromPx(image.naturalWidth, objCrop.width), 
-  height: calcPercentFromPx(image.naturalHeight, objCrop.height),
-});
+export const getPercentFromPx = (image: HTMLImageElement, objCrop: { width?: number; height?: number }): { width?: number; height?: number } => {
+  if (objCrop.height) {
+  return {
+    height: calcPercentFromPx(image.naturalHeight, objCrop.height),
+  };
+}
+if (objCrop.width) {
+  return {
+    width: calcPercentFromPx(image.naturalWidth, objCrop.width),
+  };
+}
+  return objCrop;
+};
 
 export const calcAspect = (width: number, height: number): number | boolean => {
   if (height <= 0 || width <= 0) {

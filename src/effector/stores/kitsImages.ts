@@ -39,10 +39,10 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
 
 guard({
   source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
-  filter: (storeComb: any): any => {
-    console.log('storeComb', storeComb);
-    return storeComb[0].length && storeComb[1].length;
-  },
+  filter: (storeComb: any): any => 
+    // console.log('storeComb', storeComb);
+     storeComb[0].length && storeComb[1].length
+  ,
   target: effects.generateKitsImages,
 });
 

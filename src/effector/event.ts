@@ -27,3 +27,9 @@ export const setPointImgInKitImages = createEvent<any>();
 export const setKitImagesSettings = createEvent<any>();
 export const setKitsImagesSettings = createEvent<any>();
 export const setIsLocalDataLoaded = createEvent<boolean>();
+
+export const setAspect = createEvent<any>();
+export const cancelAspect = createEvent<any>();
+export const setCropDataPx = createEvent<any>();
+export const setCropDataPercent = createEvent<any>();
+export const setCropperRef = createEvent<any>();

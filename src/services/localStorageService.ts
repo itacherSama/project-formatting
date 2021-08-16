@@ -10,7 +10,7 @@ export const saveDataInLocalStorage = (localName: string, data: any, type = 'str
   if (type === 'files') {
     const convertedDataToBase64 = convertFilesInBase64Items(data);
     convertedDataToBase64.then((results: PossibleStringType[]) => {
-      console.log('results', results);
+      // console.log('results', results);
       saveData(localName, results);
     });
   } else {

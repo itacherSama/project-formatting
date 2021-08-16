@@ -1,7 +1,8 @@
 import { createStore, sample } from 'effector';
+import { getPercentFromPx } from 'services/imageService';
 import * as events from './event';
 import * as effects from './effect';
-import { IobjIdxKitImages, ITypeCrop, IPointOnImg } from '../interfaces/items';
+import { IobjIdxKitImages, ITypeCrop, IPointOnImg, ICropFormData } from '../interfaces/items';
 import { $idxKitImages } from './stores/idxKitImages';
 
 sample({
@@ -54,3 +55,37 @@ const getValueLS = async (key: string, cb: any) => {
 
 getValueLS('images', effects.fetchImagesFx);
 getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);
+
+export const $aspect = createStore<ICropFormData>({
+  width: 4,
+  height: 3,
+});
+
+export const $cropDataPx = createStore<any>({
+  width: 200,
+  height: 200,
+}).on(events.setCropDataPx, (state, newStateValue) => ({
+  ...state, 
+  ...newStateValue,
+}));
+
+export const $cropDataPercent = createStore<any>({
+  width: 4,
+  height: 3,
+});
+
+export const $cropperRef = createStore<any>(null);
+
+$cropDataPx.on(events.setCropDataPx, (state, data) => ({ ...state, ...data }));
+$cropDataPercent.on(events.setCropDataPercent, (state, data) => ({ ...state, ...data }));
+$cropperRef.on(events.setCropperRef, (state, data) => data);
+
+sample({
+  clock: events.setCropDataPx,
+  source: $cropperRef,
+  fn: (cropZoneData, cropData) => {
+    const value = getPercentFromPx(cropZoneData.current, { ...cropData });
+    return value;
+  },
+  target: events.setCropDataPercent,
+});

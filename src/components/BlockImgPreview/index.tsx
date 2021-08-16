@@ -25,13 +25,6 @@ const BlockImgPreview: React.FC<{
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
   const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(statePoint);
-  console.log('=================');
-
-  console.log('currentImg', currentImg);
-  console.log('setStatePoint', setStatePoint);
-  console.log('canvasPreview', canvasPreview);
-  console.log('ImgPreview', ImgPreview);
-  console.log('=================');
   
   const getPxWidthPoint = (pointWidth: number) => {
     const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPxFromPercent);

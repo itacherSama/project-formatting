@@ -1,13 +1,13 @@
 import React, { FC } from 'react';
 import TextField from '@material-ui/core/TextField';
 
-const WidthHeightFields: FC<any> = ({ crop, onSetHeight, onSetWidth }) => {
+const WidthHeightFields: FC<any> = ({ crop, setValue }) => {
   if (!crop) return <div />;
 
   return (
     <>
-      <TextField defaultValue={crop.width} label="Width" type="number" onChange={onSetWidth} />
-      <TextField defaultValue={crop.height} label="Height" type="number" onChange={onSetHeight} />
+      <TextField label="Width" name="width" type="number" value={crop.width} onChange={setValue} />
+      <TextField label="Height" name="height" type="number" value={crop.height} onChange={setValue} />
     </>
   );
 };

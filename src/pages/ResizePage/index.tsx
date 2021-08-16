@@ -43,7 +43,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: any) => {
-      console.log('fileImg', fileImg);
+      // console.log('fileImg', fileImg);
       
       setKitImagesSettings(     {
         settingImg,

@@ -278,14 +278,7 @@
         }
       ],
       "sort-keys":0,
-      "no-unused-vars":[
-        2,
-        {
-          "vars":"all",
-          "args":"after-used",
-          "ignoreRestSiblings":false
-        }
-      ],
+      "no-unused-vars": 1,
       "object-curly-newline":0,
       "lines-between-class-members":"off"
     },
