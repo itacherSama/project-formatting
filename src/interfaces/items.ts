@@ -19,6 +19,11 @@ export interface ICropFormData {
   width: number;
 }
 
+export interface ICropFormDataAspect  {
+  value: number;
+  sides: ICropFormData;
+}
+
 export interface ITypeCrop {
   current: string;
   last: string | null;
@@ -75,3 +80,5 @@ export interface ISettingStepContent {
 }
 
 export type PossibleStringType = string | ArrayBuffer | null;
+
+export interface ICropNewData{ width?: number; height?: number }

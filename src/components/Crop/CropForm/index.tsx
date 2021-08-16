@@ -1,61 +1,62 @@
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
-import { Button, Select, MenuItem } from '@material-ui/core';
+import React, { ChangeEvent, useCallback } from 'react';
+import { Button, Select, MenuItem, TextField } from '@material-ui/core';
+import { ICropFormData } from 'interfaces/items';
 import styles from '../Crop.module.css';
-import { setTypeCrop } from '../../../effector/event';
-import WidthHeightFields from './WidthHeightFields';
 
 import { ICropForm } from '../../../interfaces/components';
 
 const CropForm: React.FC<ICropForm> = ({
   onSetCrop,
+  onSetAspect,
   cropPx,
   cropPercent,
-  // aspect,
-  // onSetAspect,
+  aspect,
   typeCrop,
   typeCropWords,
   getCropImage,
+  setTypeCrop,
 }) => {
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
     setTypeCrop(newTypeCrop);
-  }; 
- 
-  const onSetValue = ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { name, value } = target;
-    onSetCrop({ [name]: parseInt(value, 10) }); 
   };
 
-  // const onChangeAspectWidth = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-  //   const { value } = event.target;
-  //   const width = value;
-  //   onSetAspect((prevState: any) => ({
-  //       ...prevState,
-  //       width,
-  //     }));
-  // };
+  const onSetValue = ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
+    const { name, value } = target;
+    const newValue = { [name]: parseInt(value, 10) };
+    if (typeCrop === 'aspect') {
+      onSetAspect(newValue);
+      return;
+    }
 
-  // const onChangeAspectHeight = (event: ChangeEvent<HTMLTextAreaElement>): void => {
-  //   const { value } = event.target;
-  //   const height = value;
-  //   onSetAspect((prevState: any) => ({
-  //       ...prevState,
-  //       height,
-  //     }));
-  // };
+    onSetCrop(newValue);
+  };
+
+  const generateInputs = useCallback(() => {
+    let crop: ICropFormData = cropPx;
+    if (typeCrop === '%') {
+      crop = cropPercent;
+    } else if (typeCrop === 'aspect') {
+      crop = aspect;
+    }
+
+    return (
+      <>
+        <TextField label="Width" name="width" type="number" value={crop.width} onChange={onSetValue} />
+        <TextField label="Height" name="height" type="number" value={crop.height} onChange={onSetValue} />
+      </>
+    );
+  }, [typeCrop, cropPx, cropPercent, aspect]);
 
   return (
     <form autoComplete="off" className={styles.cropForm} noValidate>
-      {/* typeCrop !== typeCropWords[2]
-        ? */ 
-        <WidthHeightFields crop={typeCrop === 'px' ? cropPx : cropPercent} setValue={onSetValue} />
-       /*  : generateFields(aspect, onChangeAspectWidth, onChangeAspectHeight) */}
+      {generateInputs()}
       <Select value={typeCrop} onChange={onChangeTypeCrop}>
         {typeCropWords.map((word: string) => (
           <MenuItem key={`${word}`} value={word}>
             {word}
           </MenuItem>
-          ))}
+        ))}
       </Select>
       <Button color="primary" onClick={getCropImage}>
         Save

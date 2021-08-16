@@ -1,8 +1,8 @@
 import { createStore, sample } from 'effector';
-import { getPercentFromPx } from 'services/imageService';
+import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
 import * as events from './event';
 import * as effects from './effect';
-import { IobjIdxKitImages, ITypeCrop, IPointOnImg, ICropFormData } from '../interfaces/items';
+import { IobjIdxKitImages, ITypeCrop, IPointOnImg, ICropFormData, ICropFormDataAspect } from '../interfaces/items';
 import { $idxKitImages } from './stores/idxKitImages';
 
 sample({
@@ -37,12 +37,9 @@ export const $isCroppedImages = createStore<boolean>(false).on(events.setIsCropp
 
 export const $isLocalDataLoaded = createStore<boolean>(false).on(events.setIsLocalDataLoaded, (state, flag) => flag);
 
-export const $typeCrop = createStore<ITypeCrop>({ current: 'px', last: null }).on(
+export const $typeCrop = createStore<string>('px').on(
   events.setTypeCrop,
-  (state, typeCrop) => ({
-      current: typeCrop,
-      last: state.current,
-    })
+  (state, typeCrop) => typeCrop
 );
 
 const getValueLS = async (key: string, cb: any) => {
@@ -56,9 +53,17 @@ const getValueLS = async (key: string, cb: any) => {
 getValueLS('images', effects.fetchImagesFx);
 getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);
 
-export const $aspect = createStore<ICropFormData>({
-  width: 4,
-  height: 3,
+export const $aspect = createStore<ICropFormDataAspect>((function (){
+  const startValue = { width: 4,
+    height: 3 };
+  return {
+    sides: startValue,
+    value: calcAspect(startValue),
+  };
+}())).on(events.setAspect, (state, newValue) => {
+  const newValues = { ...state.sides, ...newValue };
+
+  return { sides: newValues, value: calcAspect(newValues) };
 });
 
 export const $cropDataPx = createStore<any>({
@@ -70,8 +75,8 @@ export const $cropDataPx = createStore<any>({
 }));
 
 export const $cropDataPercent = createStore<any>({
-  width: 4,
-  height: 3,
+  width: 50,
+  height: 50,
 });
 
 export const $cropperRef = createStore<any>(null);
@@ -84,7 +89,7 @@ sample({
   clock: events.setCropDataPx,
   source: $cropperRef,
   fn: (cropZoneData, cropData) => {
-    const value = getPercentFromPx(cropZoneData.current, { ...cropData });
+    const value = transformPxAndPercent(cropZoneData.current, { ...cropData }, calcPercentFromPx);
     return value;
   },
   target: events.setCropDataPercent,

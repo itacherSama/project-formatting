@@ -1,19 +1,15 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
-import { setCropDataPx, setCropDataPercent, setCropperRef } from 'effector/event';
+import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from 'effector/event';
+import { ICropNewData } from 'interfaces/items';
 import CropForm from './CropForm';
-import { /* $aspect, */ $cropDataPercent, $cropDataPx, $typeCrop } from '../../effector/store';
+import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '../../effector/store';
 import { ICrop } from '../../interfaces/components';
-// import { IImgCropValue } from '../../interfaces/items';
-import {
-  /* getPxFromPercent, getPercentFromPx, */ getPercentFromPx,
-  getPositionByPoint,
-  getPxFromPercent,
-} from '../../services/imageService';
+import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '../../services/imageService';
 
 const typeCropWords = ['px', '%', 'aspect'];
 
@@ -22,11 +18,7 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const cropDataPx = useStore($cropDataPx);
   const cropDataPercent = useStore($cropDataPercent);
-  // console.log('cropDataPx', cropDataPx);
-  // console.log('cropDataPercent', cropDataPercent);
-
-  // const aspectState = useStore($aspect);
-  const [formKey, setFormKey] = useState(0);
+  const aspect = useStore($aspect);
 
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
@@ -46,16 +38,17 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     setCropDataPx(newData);
   };
 
-  const onSetCrop = (newValue: any) => {
+  const onSetCrop = (newValue: ICropNewData) => {
     const cropper: any = getCropper();
     const currenValues = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
+    console.log('newValue', newValue);
 
     let newValuesCrop = null;
     let valueByPoint = null;
 
-    if (typeCrop.current === '%') {
-      const transformNewValue = getPxFromPercent(cropperRef.current!, newValue);
+    if (typeCrop === '%') {
+      const transformNewValue = transformPxAndPercent(cropperRef.current!, newValue, calcPxFromPercent);
       newValuesCrop = { ...currenValues, ...transformNewValue };
     } else {
       newValuesCrop = { ...currenValues, ...newValue };
@@ -95,8 +88,23 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     onCloseModal();
   };
 
-  const updateFields = () => {
-    setFormKey(Math.random());
+  useEffect(() => {
+    const cropper: any = getCropper();
+    if (typeCrop === 'aspect') {
+      cropper.setAspectRatio(aspect.value);
+    }
+  }, [aspect]);
+
+  const cancelMyAspect = (): void => {
+    const cropper: any = getCropper();
+    cropper.setAspectRatio(NaN);
+  };
+
+  const onTypeCrop = (newType: string): void => {
+    if (typeCrop === 'aspect') {
+      cancelMyAspect();
+    }
+    setTypeCrop(newType);
   };
 
   return (
@@ -109,7 +117,6 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
         guides={false}
         ready={() => {
           transformDataByPointCrop();
-          updateFields();
         }}
         src={src}
         viewMode={1}
@@ -117,14 +124,14 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
         responsive
       />
       <CropForm
-        key={formKey}
-        // aspect={aspectState}
+        aspect={aspect.sides}
         cropPercent={cropDataPercent}
         cropPx={cropDataPx}
         getCropImage={getCropImage}
-        typeCrop={typeCrop.current}
+        setTypeCrop={onTypeCrop}
+        typeCrop={typeCrop}
         typeCropWords={typeCropWords}
-        // onSetAspect={setAspectState}
+        onSetAspect={setAspect}
         onSetCrop={onSetCrop}
       />
     </>

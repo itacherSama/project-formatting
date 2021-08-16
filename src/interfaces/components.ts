@@ -1,4 +1,4 @@
-import { IInfoImg, ISettingImg, IImgCropValue, ICropFormData } from './items';
+import { IInfoImg, ISettingImg, IImgCropValue, ICropFormData, ICropNewData } from './items';
 
 export interface IDropzone {
   images: IInfoImg[];
@@ -35,12 +35,13 @@ export interface IDropzonePreview {
 }
 
 export interface ICropForm {
-  onSetCrop: (data: any) => void;
-  // onSetAspect: (data: any) => void;
+  onSetCrop: (data: ICropNewData) => void;
+  onSetAspect: (data: ICropNewData) => void;
   getCropImage: () => void;
   cropPx: ICropFormData;
   cropPercent: ICropFormData;
-  // aspect: ICropFormData;
+  aspect: ICropFormData;
   typeCrop: string;
   typeCropWords: string[];
+  setTypeCrop: (data: string) => void
 }

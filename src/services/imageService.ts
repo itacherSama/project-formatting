@@ -1,4 +1,4 @@
-import { IPointPlace,
+import { ICropNewData, IPointPlace,
   ICropFormData,
   IPointOnImg,
   IImgSettingsNaturalSize,
@@ -37,37 +37,24 @@ export const calcPercentFromPx = (naturalSize: number, val: number): number => {
   return percentVal;
 };
 
-export const getPxFromPercent = (image: HTMLImageElement, objCrop: { width?: number; height?: number }): { width?: number; height?: number } => {
+export const transformPxAndPercent = (image: HTMLImageElement, objCrop: ICropNewData, fnTransform: (naturalSize: number, val: number) => number): ICropNewData => {
+  let height = null;
+  let width = null;
+  const transformedValues: { width?: number; height?: number } = {};
   if (objCrop.height) {
-    return {
-      height: calcPxFromPercent(image.naturalHeight, objCrop.height),
-    };
+      height = fnTransform(image.naturalHeight, objCrop.height);
+      transformedValues.height = height;
   }
   if (objCrop.width) {
-    return {
-      width: calcPxFromPercent(image.naturalWidth, objCrop.width),
-    };
+      width = fnTransform(image.naturalWidth, objCrop.width);
+      transformedValues.width = width;
   }
-  return objCrop;
+  return transformedValues;
 };
 
-export const getPercentFromPx = (image: HTMLImageElement, objCrop: { width?: number; height?: number }): { width?: number; height?: number } => {
-  if (objCrop.height) {
-  return {
-    height: calcPercentFromPx(image.naturalHeight, objCrop.height),
-  };
-}
-if (objCrop.width) {
-  return {
-    width: calcPercentFromPx(image.naturalWidth, objCrop.width),
-  };
-}
-  return objCrop;
-};
-
-export const calcAspect = (width: number, height: number): number | boolean => {
+export const calcAspect = ({ width, height }: ICropFormData): number => {
   if (height <= 0 || width <= 0) {
-    return false;
+    return 1;
   }
   const aspect = width / height;
   return aspect;

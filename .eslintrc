@@ -119,6 +119,7 @@
       "no-await-in-loop": 1,
       "no-console": 0,
       "no-debugger": 2,
+      "func-names": 0,
       "no-multiple-empty-lines":[
         2,
         {
