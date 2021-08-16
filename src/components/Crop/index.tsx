@@ -93,7 +93,7 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
     if (typeCrop === 'aspect') {
       cropper.setAspectRatio(aspect.value);
     }
-  }, [aspect]);
+  }, [aspect, typeCrop]);
 
   const cancelMyAspect = (): void => {
     const cropper: any = getCropper();
@@ -112,6 +112,7 @@ const Crop: FC<ICrop> = ({ addCropedImg, src, onCloseModal, point }) => {
       <Cropper
         ref={cropperRef}
         autoCrop={false}
+        autoCropArea={1}
         background={false}
         crop={onCrop}
         guides={false}
