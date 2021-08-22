@@ -33,6 +33,9 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
+  console.log('kitsImages', kitsImages);
+  console.log('currenKitImg', currenKitImg);
+  
   const currentImg: IInfoImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages];
   const modalState: boolean = useStore($modalState);

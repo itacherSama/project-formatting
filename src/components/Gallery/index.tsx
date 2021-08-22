@@ -22,21 +22,18 @@ const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, se
     columnWidth: 1,
     gutter: 10,
   };
-
+  
   const childElements =
-    !!files.length &&
+  !!files?.length &&
     files.map((file: IInfoImg, idx: number) => {
-      console.log('Пофиксить отображение картинки в li');
-      
       const currentSettings = settings[idx];
       const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
       const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
-
+      
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (
         <li
-          // eslint-disable-next-line react/no-array-index-key
-          key={idx}
+          key={file.infoByFile.lastModified}
           className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],

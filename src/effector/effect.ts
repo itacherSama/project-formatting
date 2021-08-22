@@ -30,6 +30,7 @@ export const generateKitImagesByPoint = createEffect(async (data: any): Promise<
 
   const imgElement = await getImgFromPreviewFile(fileImage.preview);
   const kitImages = await generateKitImages(imgElement, kitImagesSetting, pointOnImg);
+console.log('kitImages..........', kitImages); 
 
   return { kitImages, idx };
 });

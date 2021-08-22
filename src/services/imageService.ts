@@ -176,16 +176,19 @@ export const generateKitImages = async (
 ): Promise<IInfoImg[]> => {
   const kitImages: IInfoImg[] = [];
   for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
-    let settings = kitSettings.items[idxEl];
-    if (newPoint) {
-      settings = getPositionByPointDouble(settings, newPoint, imgElement);
-    }
+    console.log('kitSettingsыыыы', kitSettings);
     
+    const settings = kitSettings.items[idxEl];
+  /*   if (newPoint) {
+      settings = getPositionByPointDouble(settings, newPoint, imgElement);
+    } */
+    
+    // eslint-disable-next-line no-await-in-loop
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
     const fileImg: IInfoImg = {
       infoByFile: new File([blobImg], `${idxEl}.jpg`),
     };
-    fileImg.preview = URL.createObjectURL(fileImg);
+    fileImg.preview = URL.createObjectURL(fileImg.infoByFile);
 
     kitImages.push(fileImg);
   }

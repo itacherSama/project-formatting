@@ -11,6 +11,9 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
   .on([events.setKitImages, effects.generateKitImagesByPoint.doneData], (state, { kitImages, idx }) => {
+    console.log(' kitImages, idx');
+    console.log(kitImages, idx);
+    
     if (kitImages.length === 0) {
       return state;
     }

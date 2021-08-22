@@ -39,7 +39,10 @@ export const $kitsImagesSetting = createStore<any>([])
 
     return newState;
   })
-  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => dataFromLocalStorage)
+  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => {
+    console.log('dataFromLocalStorage', dataFromLocalStorage);
+    return dataFromLocalStorage;
+  })
   .on(events.setLengthKitsImages, (state, length) =>
     setLengthKitsImagesFunc(state, length, {
       point: initialStatePoint,
@@ -48,7 +51,7 @@ export const $kitsImagesSetting = createStore<any>([])
   );
 
 $kitsImagesSetting.watch((state) => {
-  if (state.length !== 0) {
+  console.log('state settings', state);
+  
     saveDataInLocalStorage('settingForKitsImages', state);
-  }
 });
