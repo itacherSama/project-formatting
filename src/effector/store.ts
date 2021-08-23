@@ -2,7 +2,7 @@ import { createStore, sample } from 'effector';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
 import * as events from './event';
 import * as effects from './effect';
-import { IobjIdxKitImages, ITypeCrop, IPointOnImg, ICropFormData, ICropFormDataAspect } from '../interfaces/items';
+import { IobjIdxKitImages, IPointOnImg, ICropFormDataAspect } from '../interfaces/items';
 import { $idxKitImages } from './stores/idxKitImages';
 
 sample({
@@ -15,12 +15,14 @@ sample({
   target: events.setCancelCropImg,
 });
 
-sample({
-  source: $idxKitImages,
-  clock: events.setPointImg,
-  fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
-  target: events.setPointImgInKitImages,
-});
+// sample({
+//   source: $idxKitImages,
+//   clock: events.setPointImg,
+//   fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
+//   target: events.setPointImgInKitImages,
+// });
+
+events.setPointImg.watch(data => console.log(' events.setPointImg', data));
 
 export const $modalState = createStore<boolean>(false)
   .on(events.activeModal, () => true)

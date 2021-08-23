@@ -5,31 +5,41 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import CloseButton from '../Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from '../../services/imageService';
-import { IGallery } from '../../interfaces/components';
-import { IInfoImg } from '../../interfaces/items';
+import { IInfoImg, ISettingImg } from '../../interfaces/items';
 
 import styles from './Gallery.module.css';
 
-const typesBlock = ['width', 'height'];
-
-const widthForPreview = 160;
-const heightForPreview = 180;
-
-const Gallery: React.FC<IGallery> = ({ files, onActiveModal, onCancelCropImg, settings }) => {
+const Gallery: React.FC<{
+  files: IInfoImg[];
+  settings: ISettingImg[];
+  onActiveModal: () => void;
+  onCancelCropImg: (idx: number) => void;
+  typesBlock?: string[];
+  widthForPreview?: number;
+  heightForPreview?: number;
+}> = ({
+  files,
+  onActiveModal,
+  onCancelCropImg,
+  settings = [],
+  typesBlock = ['width', 'height'],
+  widthForPreview = 160,
+  heightForPreview = 180,
+}) => {
   const masonryOptions: Masonry.MasonryOptions = {
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
     columnWidth: 1,
     gutter: 10,
   };
-  
+
   const childElements =
-  !!files?.length &&
+    !!files?.length &&
     files.map((file: IInfoImg, idx: number) => {
       const currentSettings = settings[idx];
       const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
       const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
-      
+
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (
         <li

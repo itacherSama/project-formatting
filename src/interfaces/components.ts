@@ -5,13 +5,6 @@ export interface IDropzone {
   onCancelImg: (idx: number) => void;
 }
 
-export interface ICrop {
-  src: string;
-  point: any;
-  addCropedImg: (base64Img: string, settingImg: ISettingImg) => void;
-  onCloseModal: () => void;
-}
-
 export interface ICustomModal {
   children: any;
   open: boolean;
@@ -20,13 +13,6 @@ export interface ICustomModal {
 
 export interface IThumb {
   file: IInfoImg;
-}
-
-export interface IGallery {
-  files: IInfoImg[];
-  settings: ISettingImg[];
-  onActiveModal: () => void;
-  onCancelCropImg: (idx: number) => void;
 }
 
 export interface IDropzonePreview {

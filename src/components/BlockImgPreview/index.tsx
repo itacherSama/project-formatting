@@ -17,15 +17,15 @@ const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
 
 const BlockImgPreview: React.FC<{
   statePoint: IPointOnImg;
-  currentImg: IInfoImg,
-  setStatePoint: (item?: IPointOnImg) => void,
+  currentImg: IInfoImg;
+  setStatePoint: (pxStatePoint?: any, newDataForPointWidth?: IPointPlace, canvas?: any) => void;
 }> = ({ currentImg, statePoint, setStatePoint }) => {
   const canvasPreview: any = React.useRef(null);
   const ImgPreview: any = React.useRef(null);
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
-  const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(statePoint);
-  
+  const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>();
+
   const getPxWidthPoint = (pointWidth: number) => {
     const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPxFromPercent);
     const defaultWidthPoint = 3;
@@ -36,16 +36,19 @@ const BlockImgPreview: React.FC<{
     return widthPointPx;
   };
 
-  const calcPxStatePoint = React.useCallback((argStatePoint: IPointOnImg): IPointOnImg => {
-    if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth) {
-      return {
-        pointPlace: findPointOnCanvas(argStatePoint.pointPlace, canvasPreview.current, calcPxFromPercent),
-        pointWidth: getPxWidthPoint(argStatePoint.pointWidth),
-      };
-    }
+  const calcPxStatePoint = React.useCallback(
+    (argStatePoint: IPointOnImg): IPointOnImg => {
+      if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth) {
+        return {
+          pointPlace: findPointOnCanvas(argStatePoint.pointPlace, canvasPreview.current, calcPxFromPercent),
+          pointWidth: getPxWidthPoint(argStatePoint.pointWidth),
+        };
+      }
 
-    return statePoint;
-  }, [statePoint]);
+      return statePoint;
+    },
+    [statePoint]
+  );
 
   const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
@@ -64,7 +67,7 @@ const BlockImgPreview: React.FC<{
     const ctx: CanvasRenderingContext2D = canvas.getContext('2d')!;
     ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-    if (argStatePoint.pointPlace.x && argStatePoint.pointPlace.y) {
+    if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y) {
       ctx.fillStyle = 'red';
       ctx.beginPath();
 
@@ -83,7 +86,9 @@ const BlockImgPreview: React.FC<{
   }, [statePoint, calcPxStatePoint]);
 
   React.useEffect(() => {
-    draw(pxStatePoint);
+    if (pxStatePoint) {
+      draw(pxStatePoint);
+    }
   }, [pxStatePoint]);
 
   React.useLayoutEffect(() => {
@@ -121,10 +126,15 @@ const BlockImgPreview: React.FC<{
 
       setActiveChange(false);
       setStatePoint({
-        ...pxStatePoint,
-        pointWidth: getPercentWidthPoint(pxStatePoint.pointPlace, { x, y }),
-        pointPlace: findPointOnCanvas(pxStatePoint.pointPlace, canvasPreview.current, calcPercentFromPx),
+        pxStatePoint,
+        newDataForPointWidth: { x, y },
+        canvas: canvasPreview.current,
       });
+      // setStatePoint({
+      //   ...pxStatePoint,
+      //   pointWidth: getPercentWidthPoint(pxStatePoint.pointPlace, { x, y }),
+      //   pointPlace: findPointOnCanvas(pxStatePoint.pointPlace, canvasPreview.current, calcPercentFromPx),
+      // });
     }
   };
 

@@ -1,4 +1,5 @@
-import { createStore } from 'effector';
+import { calcPercentFromPx } from 'services/imageService';
+import { createStore, forward } from 'effector';
 import * as events from '../event';
 import * as effects from '../effect';
 import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
@@ -13,10 +14,19 @@ const initialStatePoint = {
 };
 
 export const $kitsImagesSetting = createStore<any>([])
-  .on(events.setKitsImagesSettings, (state, kits) => kits)
-  .on(events.setKitImagesSettings, (state, { settingImg, idx }) => {
+  // .on(events.setKitsImagesSettings, (state, kits) => kits)
+  .on(events.setKitImagesSettings, (state, { settingImg, idx, dataByNaturalSize }) => {
     const newState = [...state];
-    newState[idx].items.push(settingImg);
+
+    const { naturalWidth, naturalHeight } = dataByNaturalSize;
+    const percentData = {
+      x: calcPercentFromPx(naturalWidth, settingImg.x),
+      y: calcPercentFromPx(naturalHeight, settingImg.y),
+      width: calcPercentFromPx(naturalWidth, settingImg.width),
+      height: calcPercentFromPx(naturalHeight, settingImg.height),
+    };
+
+    newState[idx].items.push(percentData);
     return newState;
   })
   .on(events.cancelImg, deleteItemFromArrByIdx)
@@ -29,7 +39,7 @@ export const $kitsImagesSetting = createStore<any>([])
     } else {
       objSettings.point = copyObject(initialStatePoint);
     }
-
+    
     return newState;
   })
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
@@ -51,7 +61,7 @@ export const $kitsImagesSetting = createStore<any>([])
   );
 
 $kitsImagesSetting.watch((state) => {
-  console.log('state settings', state);
+  console.log('cur state', state);
   
     saveDataInLocalStorage('settingForKitsImages', state);
 });

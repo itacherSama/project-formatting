@@ -17,7 +17,7 @@ import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
 import CustomModal from '../../components/CustomModal';
 import styles from './ResizePage.module.css';
-import { IobjIdxKitImages, IInfoImg, ISettingImg, ISettingsImage } from '../../interfaces/items';
+import { IobjIdxKitImages, IInfoImg, ISettingImg, ISettingsImage, IImgSettingsNaturalSize } from '../../interfaces/items';
 import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
@@ -33,28 +33,23 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
-  console.log('kitsImages', kitsImages);
-  console.log('currenKitImg', currenKitImg);
   
   const currentImg: IInfoImg = images[currentIdxKitImages];
-  const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages];
+  const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);
 
   React.useEffect(() =>  {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages, kitsImages] );
 
-  const addCropedImg = (base64Img: string, settingImg: ISettingImg) => {
-    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: any) => {
-      // console.log('fileImg', fileImg);
-      
-      setKitImagesSettings(     {
+  const addCropedImg = (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
+    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
+      setKitImagesSettings(
+        {
         settingImg,
+        dataByNaturalSize,
         idx: currentIdxKitImages,
-
-      })
-
-      ;
+       });
       setKitImages({
         kitImages: [ ...currenKitImg, fileImg],
         idx: currentIdxKitImages,
@@ -94,7 +89,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
       <div className={styles.kitImages}>
         <Gallery
           files={currenKitImg}
-          settings={currentImgSetting.items}
+          settings={currentImgSetting?.items}
           onActiveModal={onActiveModal}
           onCancelCropImg={cancelCropImg}
         />
@@ -103,7 +98,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
         <div className={styles.crop}>
           <Crop
             addCropedImg={addCropedImg}
-            point={currentImgSetting.point}
+            point={currentImgSetting?.point}
             src={currentImg.preview!}
             onCloseModal={onCloseModal}
           />
