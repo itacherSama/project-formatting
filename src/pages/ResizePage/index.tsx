@@ -11,7 +11,7 @@ import {
   disableModal,
   cancelCropImg,
   setPointImg,
-  setKitImagesSettings,
+  addKitImageSettings,
 } from '../../effector/event';
 import Gallery from '../../components/Gallery';
 import Crop from '../../components/Crop';
@@ -33,7 +33,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
-  
+
   const currentImg: IInfoImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);
@@ -44,7 +44,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
 
   const addCropedImg = (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
     convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
-      setKitImagesSettings(
+      addKitImageSettings(
         {
         settingImg,
         dataByNaturalSize,
@@ -86,14 +86,14 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     <>
       <BlockImgPreview currentImg={currentImg} setStatePoint={setPointImg} statePoint={currentImgSetting?.point} />
 
-      <div className={styles.kitImages}>
+      {/* <div className={styles.kitImages}>
         <Gallery
           files={currenKitImg}
           settings={currentImgSetting?.items}
           onActiveModal={onActiveModal}
           onCancelCropImg={cancelCropImg}
         />
-      </div>
+      </div> */}
       <CustomModal open={modalState} onCloseModal={onCloseModal}>
         <div className={styles.crop}>
           <Crop

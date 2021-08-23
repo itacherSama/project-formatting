@@ -10,7 +10,7 @@ import { $kitsImagesSetting } from './kitsImagesSetting';
 export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
-  .on([events.setKitImages, effects.generateKitImagesByPoint.doneData], (state, { kitImages, idx }) => {
+  .on([events.setKitImages/* effects.generateKitImagesByPoint.doneData */], (state, { kitImages, idx }) => {
     if (kitImages.length === 0) {
       return state;
     }
@@ -39,7 +39,7 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
 
 guard({
   source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
-  filter: (storeComb: any): any => 
+  filter: (storeComb: any): any =>
     // console.log('storeComb', storeComb);
      storeComb[0].length && storeComb[1].length
   ,
@@ -63,7 +63,7 @@ const elementsForGenerateKitImagesByPoint = sample(
 guard({
   source: elementsForGenerateKitImagesByPoint,
   filter: ({ pointOnImg }) => pointOnImg !== null,
-  target: effects.generateKitImagesByPoint,
+  target: effects.getNewSettingsForKitImages,
 });
 
 $kitsImages.watch((state) => {

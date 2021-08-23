@@ -24,7 +24,7 @@ export const setSettingForKitsImages = createEvent<any>();
 export const setkitsImages = createEvent<any>();
 export const setPointImg = createEvent<any>();
 export const setPointImgInKitImages = createEvent<any>();
-export const setKitImagesSettings = createEvent<any>();
+export const addKitImageSettings = createEvent<any>();
 export const setKitsImagesSettings = createEvent<any>();
 export const setIsLocalDataLoaded = createEvent<boolean>();
 

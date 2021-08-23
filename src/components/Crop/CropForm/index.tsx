@@ -1,21 +1,29 @@
 import React, { ChangeEvent, useCallback } from 'react';
 import { Button, Select, MenuItem, TextField } from '@material-ui/core';
-import { ICropFormData } from 'interfaces/items';
+import { ICropFormData, ICropNewData } from 'interfaces/items';
 import styles from '../Crop.module.css';
 
-import { ICropForm } from '../../../interfaces/components';
-
-const CropForm: React.FC<ICropForm> = ({
+const CropForm: React.FC< {
+  onSetCrop: (data: ICropNewData) => void;
+  onSetAspect: (data: ICropNewData) => void;
+  getCropImage: () => void;
+  cropPx: ICropFormData;
+  cropPercent: ICropFormData;
+  aspect: ICropFormData;
+  typeCrop: string;
+  typeCropWords?: string[];
+  setTypeCrop: (data: string) => void
+}> = ({
   onSetCrop,
   onSetAspect,
   cropPx,
   cropPercent,
   aspect,
   typeCrop,
-  typeCropWords,
   getCropImage,
   setTypeCrop,
-}) => {
+  typeCropWords = ['px', '%', 'aspect'],
+  }) => {
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
     setTypeCrop(newTypeCrop);

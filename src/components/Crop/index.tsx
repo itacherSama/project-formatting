@@ -10,8 +10,6 @@ import CropForm from './CropForm';
 import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '../../effector/store';
 import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '../../services/imageService';
 
-const typeCropWords = ['px', '%', 'aspect'];
-
 const Crop: FC<{
   src: string;
   point: any;
@@ -80,7 +78,7 @@ const Crop: FC<{
     const cropper: any = getCropper();
     const cropperData = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
-    
+
     const dataByImg = {
       x: cropperData.x,
       y: cropperData.y,
@@ -137,7 +135,6 @@ const Crop: FC<{
         getCropImage={getCropImage}
         setTypeCrop={onTypeCrop}
         typeCrop={typeCrop}
-        typeCropWords={typeCropWords}
         onSetAspect={setAspect}
         onSetCrop={onSetCrop}
       />

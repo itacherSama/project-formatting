@@ -56,6 +56,7 @@
       "no-plusplus":0,
       "indent":0,
       "object-property-newline":0,
+      "no-param-reassign": 1,
       "comma-dangle":[
         2,
         {
@@ -128,7 +129,7 @@
           "maxEOF":0
         }
       ],
-      
+
       "react-hooks/exhaustive-deps":1,
       "react-hooks/rules-of-hooks":1,
       "react/jsx-props-no-spreading":0,

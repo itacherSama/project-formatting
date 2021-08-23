@@ -1,6 +1,6 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles } from '../services/base64Service';
-import { getImgFromPreviewFile, generateKitImages } from '../services/imageService';
+import { getImgFromPreviewFile, generateKitImages, generateNewSettingsForKitImages } from '../services/imageService';
 import { IInfoImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
@@ -25,12 +25,21 @@ export const generateKitsImages = createEffect(async (data: any): Promise<IInfoI
   return kitsImages;
 });
 
-export const generateKitImagesByPoint = createEffect(async (data: any): Promise<any> => {
+export const getNewSettingsForKitImages = createEffect(async (data: any): Promise<any> => {
   const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
 
   const imgElement = await getImgFromPreviewFile(fileImage.preview);
-  const kitImages = await generateKitImages(imgElement, kitImagesSetting, pointOnImg);
-  console.log('kitImages', kitImages);
-  
-  return { kitImages, idx };
+  const newSettingsForKitImages = generateNewSettingsForKitImages(imgElement, kitImagesSetting, pointOnImg);
+
+  return { newSettingsForKitImages, idx };
 });
+
+// export const generateNewSettingsForKitImages = createEffect(async (data: any): any => {
+//   const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
+//
+//   const imgElement = await getImgFromPreviewFile(fileImage.preview);
+//   const kitImages = await generateNewSettingsForKitImages(imgElement, kitImagesSetting, pointOnImg);
+//   console.log('kitImages', kitImages);
+//
+//   return { kitImages, idx };
+// });

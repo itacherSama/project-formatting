@@ -24,11 +24,6 @@ export interface ICropFormDataAspect  {
   sides: ICropFormData;
 }
 
-export interface ITypeCrop {
-  current: string;
-  last: string | null;
-}
-
 export interface IPointPlace {
   x: number;
   y: number;

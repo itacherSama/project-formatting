@@ -6,6 +6,7 @@ import { ICropNewData, IPointPlace,
   IInfoImg,
   ISettingsImage,
 } from '../interfaces/items';
+import { findPointOnCanvas } from '../utils/differentFunc';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve) => {
     const img: HTMLImageElement = new Image();
@@ -130,8 +131,12 @@ export const getPositionByPointDouble = (
     x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y),
   };
-  const halfWidth = data.width / 2;
-  const halfHeight = data.height / 2;
+    const dataFromPx = {
+        width: calcPxFromPercent(imgSettings.naturalWidth, data.width),
+        height: calcPxFromPercent(imgSettings.naturalHeight, data.height),
+    };
+  const halfWidth = dataFromPx.width / 2;
+  const halfHeight = dataFromPx.height / 2;
 
   let newPoints: any = {
     newLeft: pointFromPx.x - halfWidth,
@@ -163,7 +168,7 @@ export const getPositionByPointDouble = (
   }
 
   return {
-    ...data,
+    ...dataFromPx,
     x: newPoints.newLeft >= 0 ? newPoints.newLeft : 0,
     y: newPoints.newTop >= 0 ? newPoints.newTop : 0,
   };
@@ -171,16 +176,11 @@ export const getPositionByPointDouble = (
 
 export const generateKitImages = async (
   imgElement: HTMLImageElement,
-  kitSettings: ISettingsImage,
-  newPoint?: IPointOnImg
+  kitSettings: ISettingsImage
 ): Promise<IInfoImg[]> => {
   const kitImages: IInfoImg[] = [];
   for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
-    let settings = kitSettings.items[idxEl];
-    if (newPoint) {
-      settings = getPositionByPointDouble(settings, newPoint, imgElement);
-    }
-    
+    const settings = kitSettings.items[idxEl];
     // eslint-disable-next-line no-await-in-loop
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
     const fileImg: IInfoImg = {
@@ -193,6 +193,27 @@ export const generateKitImages = async (
   return kitImages;
 };
 
+export const generateNewSettingsForKitImages = (
+    imgElement: HTMLImageElement,
+    kitSettings: ISettingsImage,
+    newPoint?: IPointOnImg
+): ISettingsImage => {
+    const newKitSettings: any[] = [];
+    for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
+        let settings = kitSettings.items[idxEl];
+        if (newPoint) {
+            settings = getPositionByPointDouble(settings, newPoint, imgElement);
+        }
+
+        newKitSettings.push(settings);
+    }
+
+    return {
+        items: newKitSettings,
+        point: newPoint || kitSettings.point,
+    };
+};
+
 export const calcMinMaxValue = (first: number, second: number): number[] => {
   if (first > second) {
     return [second, first];
@@ -202,7 +223,7 @@ export const calcMinMaxValue = (first: number, second: number): number[] => {
 
 export const calcWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): number => {
   const defaultWidth = 3;
-  
+
   if (!secondObj) {
     return defaultWidth;
   }
@@ -239,3 +260,25 @@ export const calcPlacePoint = (start: IPointPlace, end: IPointPlace): IPointPlac
 
   return newPointPlace;
 };
+
+export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) => {
+    const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvas, calcPxFromPercent);
+    const defaultWidthPoint = 3;
+
+    if (widthPointPx === 0) {
+        return defaultWidthPoint;
+    }
+    return widthPointPx;
+};
+
+export const calcPxStatePoint =
+    (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement ): IPointOnImg => {
+        if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth) {
+            return {
+                pointPlace: findPointOnCanvas(argStatePoint.pointPlace, canvas, calcPxFromPercent),
+                pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
+            };
+        }
+
+        return argStatePoint;
+    };

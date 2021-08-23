@@ -22,8 +22,6 @@ sample({
 //   target: events.setPointImgInKitImages,
 // });
 
-events.setPointImg.watch(data => console.log(' events.setPointImg', data));
-
 export const $modalState = createStore<boolean>(false)
   .on(events.activeModal, () => true)
 
@@ -72,7 +70,7 @@ export const $cropDataPx = createStore<any>({
   width: 200,
   height: 200,
 }).on(events.setCropDataPx, (state, newStateValue) => ({
-  ...state, 
+  ...state,
   ...newStateValue,
 }));
 

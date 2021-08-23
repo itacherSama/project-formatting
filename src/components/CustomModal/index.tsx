@@ -2,9 +2,12 @@ import React from 'react';
 import Backdrop from '@material-ui/core/Backdrop';
 import Dialog from '@material-ui/core/Dialog';
 import styles from './CustomModal.module.css';
-import { ICustomModal } from '../../interfaces/components';
 
-const CustomModal: React.FC<ICustomModal> = ({ children, open, onCloseModal }) => {
+const CustomModal: React.FC<{
+    children: any;
+    open: boolean;
+    onCloseModal: () => void;
+}> = ({ children, open, onCloseModal }) => {
   if (!open) return <div />;
 
   return (
