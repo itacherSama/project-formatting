@@ -86,14 +86,14 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
     <>
       <BlockImgPreview currentImg={currentImg} setStatePoint={setPointImg} statePoint={currentImgSetting?.point} />
 
-      {/* <div className={styles.kitImages}>
+      <div className={styles.kitImages}>
         <Gallery
           files={currenKitImg}
           settings={currentImgSetting?.items}
           onActiveModal={onActiveModal}
           onCancelCropImg={cancelCropImg}
         />
-      </div> */}
+      </div>
       <CustomModal open={modalState} onCloseModal={onCloseModal}>
         <div className={styles.crop}>
           <Crop

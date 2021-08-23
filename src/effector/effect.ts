@@ -1,6 +1,11 @@
 import { createEffect } from 'effector';
 import { convertBase64ItemsInFiles } from '../services/base64Service';
-import { getImgFromPreviewFile, generateKitImages, generateNewSettingsForKitImages } from '../services/imageService';
+import {
+  getImgFromPreviewFile,
+  generateKitImages,
+  generateNewSettingsForKitImages,
+  transformSettingsByFunc,
+} from '../services/imageService';
 import { IInfoImg } from '../interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
@@ -30,6 +35,7 @@ export const getNewSettingsForKitImages = createEffect(async (data: any): Promis
 
   const imgElement = await getImgFromPreviewFile(fileImage.preview);
   const newSettingsForKitImages = generateNewSettingsForKitImages(imgElement, kitImagesSetting, pointOnImg);
+  const transformedSettings = transformSettingsByFunc(newSettingsForKitImages, imgElement);
 
   return { newSettingsForKitImages, idx };
 });

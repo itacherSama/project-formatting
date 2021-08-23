@@ -32,9 +32,3 @@ export const setLengthKitsImagesFunc = <T>(state: Array<T>, length: number, newI
   }
   return newState;
 };
-
-export const findPointOnCanvas = (obj: IPointPlace, canvas: HTMLCanvasElement, func: any): IPointPlace  => {
-  const x = func(canvas.width, obj.x);
-  const y = func(canvas.height, obj.y);
-  return { x, y };
-};

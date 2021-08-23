@@ -6,7 +6,6 @@ import { ICropNewData, IPointPlace,
   IInfoImg,
   ISettingsImage,
 } from '../interfaces/items';
-import { findPointOnCanvas } from '../utils/differentFunc';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve) => {
     const img: HTMLImageElement = new Image();
@@ -273,12 +272,30 @@ export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) =
 
 export const calcPxStatePoint =
     (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement ): IPointOnImg => {
-        if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth) {
+        if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
             return {
-                pointPlace: findPointOnCanvas(argStatePoint.pointPlace, canvas, calcPxFromPercent),
+                pointPlace: {
+                    x: calcPercentFromPx(canvas.width, argStatePoint.pointPlace.x ),
+                    y: calcPercentFromPx(canvas.height, argStatePoint.pointPlace.y ),
+                },
                 pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
             };
         }
 
         return argStatePoint;
     };
+
+export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) => {
+    const pointWidth = calcWidthPoint(firstObj, secondObj);
+    // const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
+
+    return pointWidth;
+};
+
+export const transformSettingsByFunc = (kitSettings: ISettingsImage, imgElement: HTMLImageElement) => {
+    const transormedSettings = {};
+    // transormedSettings.point = {
+    //
+    // };
+    return {};
+};
