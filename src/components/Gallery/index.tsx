@@ -60,7 +60,7 @@ const Gallery: React.FC<{
   return (
     <Masonry className={styles.grid} elementType="ul" options={masonryOptions}>
       {childElements}
-      <li className={cn(styles.gridImage, styles.gridItemAdd)}>
+      <li key="addBtn" className={cn(styles.gridImage, styles.gridItemAdd)}>
         <IconButton aria-label="add" className={styles.iconButton} color="primary" onClick={onActiveModal}>
           <AddIcon fontSize="large" />
         </IconButton>

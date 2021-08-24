@@ -115,21 +115,10 @@ const Crop: FC<{
     setTypeCrop('px');
   }, []);
 
-  const cancelMyAspect = (): void => {
-    const cropper: any = getCropper();
-    cropper.setAspectRatio(NaN);
-  };
-
   const onTypeCrop = (newType: string): void => {
-    console.log('cropDataPx', cropDataPx);
-
-    if (typeCrop === 'aspect' && newType !== 'aspect') {
-      cancelMyAspect();
-    }
-
     if (typeCrop === 'aspect' && newType !== 'aspect') {
       const cropper: any = getCropper();
-      cropper.setData({ ...cropDataPx });
+      cropper.setAspectRatio(NaN).setData({ ...cropDataPx });
     }
 
     setTypeCrop(newType);
