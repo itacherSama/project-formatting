@@ -1,5 +1,5 @@
 import { calcPercentFromPx } from 'services/imageService';
-import { createStore, forward } from 'effector';
+import { createStore, forward, sample } from 'effector';
 import * as events from '../event';
 import * as effects from '../effect';
 import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
@@ -68,5 +68,5 @@ export const $kitsImagesSetting = createStore<any>([])
 $kitsImagesSetting.watch((state) => {
     console.log('want to save settingForKitsImages', state);
 
-    // saveDataInLocalStorage('settingForKitsImages', state);
+    saveDataInLocalStorage('settingForKitsImages', state);
 });

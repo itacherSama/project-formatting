@@ -44,10 +44,6 @@ export const generateKitImagesBySettings = createEffect(async (data: any): Promi
   return { kitImages, idx };
 });
 
-generateKitImagesBySettings.doneData.watch((state) => {
-  console.log('effects.generateKitImagesBySettings.doneData', state);
-});
-
 const handleGenerateKitItemsBySettings = async (fileImage: IInfoImg, kitImagesSetting: ISettingsImage): Promise<IInfoImg[]> => {
   const imgElement = await getImgFromPreviewFile(fileImage.preview!);
   const pxSettings = transformSettingsInPx(kitImagesSetting, imgElement);

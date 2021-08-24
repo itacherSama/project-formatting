@@ -51,16 +51,6 @@ export interface ISettingsImage {
   items: ISettingImg[];
 }
 
-export interface ISettingsPointAndIdx {
-  pointOnImg: IPointOnImg;
-  idx: number;
-}
-
-export interface IImgCropValue {
-  type: string;
-  value: string;
-}
-
 export interface IImgSettingsNaturalSize {
   naturalWidth: number;
   naturalHeight: number;

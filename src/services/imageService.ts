@@ -180,7 +180,6 @@ export const generateKitImages = async (
   const kitImages: IInfoImg[] = [];
   for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
     const settings = kitSettings.items[idxEl];
-    // eslint-disable-next-line no-await-in-loop
     const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
     const fileImg: IInfoImg = {
       infoByFile: new File([blobImg], `${idxEl}.jpg`),

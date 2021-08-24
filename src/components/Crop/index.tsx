@@ -1,18 +1,18 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { FC, useEffect, useRef } from 'react';
+import React, { FC, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
 import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from 'effector/event';
-import { ICropNewData, IImgSettingsNaturalSize, ISettingImg } from 'interfaces/items';
+import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/items';
 import CropForm from './CropForm';
 import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '../../effector/store';
 import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '../../services/imageService';
 
 const Crop: FC<{
   src: string;
-  point: any;
+  point: IPointOnImg;
   addCropedImg: (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize ) => void;
   onCloseModal: () => void;
 }> = ({ addCropedImg, src, onCloseModal, point }) => {
@@ -22,10 +22,10 @@ const Crop: FC<{
   const cropDataPercent = useStore($cropDataPercent);
   const aspect = useStore($aspect);
 
+  let changeActive = false;
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
-
     return cropper;
   };
 
@@ -34,9 +34,20 @@ const Crop: FC<{
   }, [cropperRef]);
 
   const onCrop = () => {
+    if (changeActive) {
+      changeActive = false;
+      return;
+    }
     const cropper: any = getCropper();
-    const newData = cropper.getData({ rounded: true });
+    let newData = cropper.getData({ rounded: true });
+    const imgSettings = cropper.getImageData();
 
+    if (point.pointWidth) {
+      newData = getPositionByPoint(newData, point, imgSettings);
+    }
+    changeActive = true;
+
+    cropper.setData(newData);
     setCropDataPx(newData);
   };
 

@@ -16,7 +16,6 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
     }
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
-      console.log('newState', newState);
       return newState;
   })
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
@@ -40,7 +39,6 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
 guard({
   source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
   filter: (storeComb: any): any =>
-    // console.log('storeComb', storeComb);
      storeComb[0].length && storeComb[1].length
   ,
   target: effects.generateKitsImages,

@@ -13,5 +13,5 @@ $images.watch((state) => {
   events.setLengthKitsImages(state.length);
   events.setCurrentIdx(state.length);
 
-  // saveDataInLocalStorage('images', state, 'files');
+  saveDataInLocalStorage('images', state, 'files');
 });
