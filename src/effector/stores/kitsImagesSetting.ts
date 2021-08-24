@@ -14,13 +14,13 @@ const initialStatePoint = {
 };
 
 export const $kitsImagesSetting = createStore<any>([])
-    .on(effects.getNewSettingsForKitImages.doneData, (state, { transformedSettings, idx }) => {
-        const newState = [...state];
-        newState.splice(idx, 1, transformedSettings);
+  .on(effects.getNewSettingsForKitImages.doneData, (state, { transformedSettings, idx }) => {
+    const newState = [...state];
+    newState.splice(idx, 1, transformedSettings);
 
-        return newState;
-    })
-    .on(events.addKitImageSettings, (state, { settingImg, idx, dataByNaturalSize }) => {
+    return newState;
+  })
+  .on(events.addKitImageSettings, (state, { settingImg, idx, dataByNaturalSize }) => {
     const newState = [...state];
 
     const { naturalWidth, naturalHeight } = dataByNaturalSize;
@@ -66,7 +66,7 @@ export const $kitsImagesSetting = createStore<any>([])
   );
 
 $kitsImagesSetting.watch((state) => {
-    console.log('want to save settingForKitsImages', state);
+  console.log('want to save settingForKitsImages', state);
 
-    saveDataInLocalStorage('settingForKitsImages', state);
+  saveDataInLocalStorage('settingForKitsImages', state);
 });

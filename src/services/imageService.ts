@@ -1,4 +1,6 @@
-import { ICropNewData, IPointPlace,
+import {
+  ICropNewData,
+  IPointPlace,
   ICropFormData,
   IPointOnImg,
   IImgSettingsNaturalSize,
@@ -7,7 +9,8 @@ import { ICropNewData, IPointPlace,
   ISettingsImage,
 } from '../interfaces/items';
 
-export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> => new Promise((resolve) => {
+export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> =>
+  new Promise((resolve) => {
     const img: HTMLImageElement = new Image();
     img.onload = () => {
       resolve(img);
@@ -24,7 +27,7 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   if (proportionWidth / proportionHeight > 1) {
     return types[0];
   }
-    return types[1];
+  return types[1];
 };
 
 export const calcPxFromPercent = (naturalSize: number, val: number): number => {
@@ -37,17 +40,21 @@ export const calcPercentFromPx = (naturalSize: number, val: number): number => {
   return percentVal;
 };
 
-export const transformPxAndPercent = (image: HTMLImageElement, objCrop: ICropNewData, fnTransform: (naturalSize: number, val: number) => number): ICropNewData => {
+export const transformPxAndPercent = (
+  image: HTMLImageElement,
+  objCrop: ICropNewData,
+  fnTransform: (naturalSize: number, val: number) => number
+): ICropNewData => {
   let height = null;
   let width = null;
   const transformedValues: { width?: number; height?: number } = {};
   if (objCrop.height) {
-      height = fnTransform(image.naturalHeight, objCrop.height);
-      transformedValues.height = height;
+    height = fnTransform(image.naturalHeight, objCrop.height);
+    transformedValues.height = height;
   }
   if (objCrop.width) {
-      width = fnTransform(image.naturalWidth, objCrop.width);
-      transformedValues.width = width;
+    width = fnTransform(image.naturalWidth, objCrop.width);
+    transformedValues.width = width;
   }
   return transformedValues;
 };
@@ -93,7 +100,11 @@ export const generateImagesBySettings = async (img: HTMLImageElement, settings: 
   });
 };
 
-export const getPositionByPoint = (data: ICropFormData, point: IPointOnImg, imgSettings: IImgSettingsNaturalSize): ISettingImg => {
+export const getPositionByPoint = (
+  data: ICropFormData,
+  point: IPointOnImg,
+  imgSettings: IImgSettingsNaturalSize
+): ISettingImg => {
   const pointFromPx = {
     pointPlace: {
       x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
@@ -130,10 +141,10 @@ export const getPositionByPointDouble = (
     x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y),
   };
-    const dataFromPx = {
-        width: calcPxFromPercent(imgSettings.naturalWidth, data.width),
-        height: calcPxFromPercent(imgSettings.naturalHeight, data.height),
-    };
+  const dataFromPx = {
+    width: calcPxFromPercent(imgSettings.naturalWidth, data.width),
+    height: calcPxFromPercent(imgSettings.naturalHeight, data.height),
+  };
   const halfWidth = dataFromPx.width / 2;
   const halfHeight = dataFromPx.height / 2;
 
@@ -192,21 +203,21 @@ export const generateKitImages = async (
 };
 
 export const generateNewSettingsForKitImages = (
-    imgElement: HTMLImageElement,
-    settings: ISettingImg[],
-    newPoint: IPointOnImg
+  imgElement: HTMLImageElement,
+  settings: ISettingImg[],
+  newPoint: IPointOnImg
 ): ISettingsImage => {
-    const newKitSettings: any[] = [];
-    for (let idxEl = 0; idxEl < settings.length; idxEl++) {
-        let currentSetting = settings[idxEl];
-        currentSetting = getPositionByPointDouble(currentSetting, newPoint, imgElement);
+  const newKitSettings: any[] = [];
+  for (let idxEl = 0; idxEl < settings.length; idxEl++) {
+    let currentSetting = settings[idxEl];
+    currentSetting = getPositionByPointDouble(currentSetting, newPoint, imgElement);
 
-        newKitSettings.push(currentSetting);
-    }
-    return {
-        items: newKitSettings,
-        point: newPoint,
-    };
+    newKitSettings.push(currentSetting);
+  }
+  return {
+    items: newKitSettings,
+    point: newPoint,
+  };
 };
 
 export const calcMinMaxValue = (first: number, second: number): number[] => {
@@ -257,67 +268,66 @@ export const calcPlacePoint = (start: IPointPlace, end: IPointPlace): IPointPlac
 };
 
 export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) => {
-    const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvas, calcPxFromPercent);
-    const defaultWidthPoint = 3;
+  const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvas, calcPxFromPercent);
+  const defaultWidthPoint = 3;
 
-    if (widthPointPx === 0) {
-        return defaultWidthPoint;
-    }
-    return widthPointPx;
+  if (widthPointPx === 0) {
+    return defaultWidthPoint;
+  }
+  return widthPointPx;
 };
 
-export const calcPxStatePoint =
-    (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement ): IPointOnImg => {
-        if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
-            return {
-                pointPlace: {
-                    x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x ),
-                    y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y ),
-                },
-                pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
-            };
-        }
-
-        return argStatePoint;
+export const calcPxStatePoint = (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement): IPointOnImg => {
+  if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
+    return {
+      pointPlace: {
+        x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x),
+        y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y),
+      },
+      pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
     };
+  }
+
+  return argStatePoint;
+};
 
 export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) => {
-    const pointWidth = calcWidthPoint(firstObj, secondObj);
-    // const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
+  const pointWidth = calcWidthPoint(firstObj, secondObj);
+  // const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
 
-    return pointWidth;
+  return pointWidth;
 };
 
 export const transformSettingsInPercent = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
-    const changedItems = items.map((el: ISettingImg) => {
-        const changedEl = {
-            x: calcPercentFromPx(imgElement.naturalWidth, el.x),
-            y: calcPercentFromPx(imgElement.naturalHeight, el.y),
-            width: calcPercentFromPx(imgElement.naturalWidth, el.width),
-            height: calcPercentFromPx(imgElement.naturalHeight, el.height),
-        };
-        return changedEl;
-    });
-
-    return {
-        point,
-        items: changedItems,
+  const changedItems = items.map((el: ISettingImg) => {
+    const changedEl = {
+      x: calcPercentFromPx(imgElement.naturalWidth, el.x),
+      y: calcPercentFromPx(imgElement.naturalHeight, el.y),
+      width: calcPercentFromPx(imgElement.naturalWidth, el.width),
+      height: calcPercentFromPx(imgElement.naturalHeight, el.height),
     };
+    return changedEl;
+  });
+
+  return {
+    point,
+    items: changedItems,
+  };
 };
 
 export const transformSettingsInPx = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
-    const changedItems = items.map((el: ISettingImg) => {
-        const changedEl = {
-            x: calcPxFromPercent(imgElement.naturalWidth, el.x),
-            y: calcPxFromPercent(imgElement.naturalHeight, el.y),
-            width: calcPxFromPercent(imgElement.naturalWidth, el.width),
-            height: calcPxFromPercent(imgElement.naturalHeight, el.height),
-        };
-        return changedEl;
-    });
-
-    return {
-        point,
-        items: changedItems,
+  const changedItems = items.map((el: ISettingImg) => {
+    const changedEl = {
+      x: calcPxFromPercent(imgElement.naturalWidth, el.x),
+      y: calcPxFromPercent(imgElement.naturalHeight, el.y),
+      width: calcPxFromPercent(imgElement.naturalWidth, el.width),
+      height: calcPxFromPercent(imgElement.naturalHeight, el.height),
     };
+    return changedEl;
+  });
+
+  return {
+    point,
+    items: changedItems,
+  };
 };

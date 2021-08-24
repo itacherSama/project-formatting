@@ -5,8 +5,8 @@ import styles from './DropzonePreview.module.css';
 import { IInfoImg } from '../../../interfaces/items';
 
 const DropzonePreview: React.FC<{
-    images: IInfoImg[];
-    onCancel: (idx: number) => void;
+  images: IInfoImg[];
+  onCancel: (idx: number) => void;
 }> = ({ images, onCancel }) => {
   const Thumbs = images.map((file: IInfoImg, idx: number) => (
     <div key={`${file.infoByFile.name}`} className={styles.ThumbItem}>

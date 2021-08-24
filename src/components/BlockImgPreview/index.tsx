@@ -1,10 +1,6 @@
 import React from 'react';
 import styles from './BlockImgPreview.module.css';
-import {
-  calcPercentFromPx,
-  calcPxStatePoint,
-  calcWidthPoint,
-} from '../../services/imageService';
+import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '../../services/imageService';
 import { IInfoImg, IPointOnImg, IPointPlace } from '../../interfaces/items';
 
 const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
@@ -22,7 +18,9 @@ const BlockImgPreview: React.FC<{
   const ImgPreview: any = React.useRef(null);
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
-  const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(calcPxStatePoint(statePoint, canvasPreview.current));
+  const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(
+    calcPxStatePoint(statePoint, canvasPreview.current)
+  );
 
   const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
@@ -91,13 +89,13 @@ const BlockImgPreview: React.FC<{
       const [x, y] = getOffset(e);
       setActiveChange(false);
 
-       setStatePoint({
-           pointWidth: calcPercentFromPx(ImgPreview.current.width, calcWidthPoint(pxStatePoint.pointPlace, { x, y })),
-            pointPlace: {
-              x: calcPercentFromPx(ImgPreview.current.width, pxStatePoint.pointPlace.x),
-              y: calcPercentFromPx(ImgPreview.current.height, pxStatePoint.pointPlace.y),
-            },
-       });
+      setStatePoint({
+        pointWidth: calcPercentFromPx(ImgPreview.current.width, calcWidthPoint(pxStatePoint.pointPlace, { x, y })),
+        pointPlace: {
+          x: calcPercentFromPx(ImgPreview.current.width, pxStatePoint.pointPlace.x),
+          y: calcPercentFromPx(ImgPreview.current.height, pxStatePoint.pointPlace.y),
+        },
+      });
     }
   };
 

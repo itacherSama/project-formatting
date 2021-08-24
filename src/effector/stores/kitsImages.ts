@@ -10,13 +10,13 @@ import { $kitsImagesSetting } from './kitsImagesSetting';
 export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
-  .on([events.setKitImages, effects.generateKitImagesBySettings.doneData  ], (state, { kitImages, idx }) => {
+  .on([events.setKitImages, effects.generateKitImagesBySettings.doneData], (state, { kitImages, idx }) => {
     if (kitImages.length === 0) {
       return state;
     }
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
-      return newState;
+    return newState;
   })
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
     const newState = [...state];
@@ -38,9 +38,7 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
 
 guard({
   source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
-  filter: (storeComb: any): any =>
-     storeComb[0].length && storeComb[1].length
-  ,
+  filter: (storeComb: any): any => storeComb[0].length && storeComb[1].length,
   target: effects.generateKitsImages,
 });
 
@@ -65,16 +63,16 @@ guard({
 });
 
 const elementsForGenerateKitImagesBySettings = sample(
-    combine([$idxKitImages, $images, $kitsImagesSetting]),
-    $kitsImagesSetting,
-    (arrayStores: any) => {
-      const { idx } = arrayStores[0];
-      return {
-        idx,
-        fileImage: arrayStores[1][idx],
-        kitImagesSetting: arrayStores[2][idx],
-      };
-    }
+  combine([$idxKitImages, $images, $kitsImagesSetting]),
+  $kitsImagesSetting,
+  (arrayStores: any) => {
+    const { idx } = arrayStores[0];
+    return {
+      idx,
+      fileImage: arrayStores[1][idx],
+      kitImagesSetting: arrayStores[2][idx],
+    };
+  }
 );
 
 guard({

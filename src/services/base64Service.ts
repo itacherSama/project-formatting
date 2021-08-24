@@ -1,11 +1,12 @@
 import { PossibleStringType, IInfoImg } from '../interfaces/items';
 
-export const convertFromBase64 = (el: string, idx: number): Promise<IInfoImg> => fetch(el)
+export const convertFromBase64 = (el: string, idx: number): Promise<IInfoImg> =>
+  fetch(el)
     .then((res) => res.blob())
     .then((blob) => {
       const file = new File([blob], `${idx.toString()}.jpg`, { type: 'image/jpg' });
 
-      return  {
+      return {
         infoByFile: file,
         preview: URL.createObjectURL(file),
       };

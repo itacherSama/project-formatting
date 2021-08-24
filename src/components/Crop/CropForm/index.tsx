@@ -3,7 +3,7 @@ import { Button, Select, MenuItem, TextField } from '@material-ui/core';
 import { ICropFormData, ICropNewData } from 'interfaces/items';
 import styles from '../Crop.module.css';
 
-const CropForm: React.FC< {
+const CropForm: React.FC<{
   onSetCrop: (data: ICropNewData) => void;
   onSetAspect: (data: ICropNewData) => void;
   getCropImage: () => void;
@@ -12,7 +12,7 @@ const CropForm: React.FC< {
   aspect: ICropFormData;
   typeCrop: string;
   typeCropWords?: string[];
-  setTypeCrop: (data: string) => void
+  setTypeCrop: (data: string) => void;
 }> = ({
   onSetCrop,
   onSetAspect,
@@ -23,7 +23,7 @@ const CropForm: React.FC< {
   getCropImage,
   setTypeCrop,
   typeCropWords = ['px', '%', 'aspect'],
-  }) => {
+}) => {
   const onChangeTypeCrop = (event: React.ChangeEvent<any>) => {
     const newTypeCrop = event.target.value;
     setTypeCrop(newTypeCrop);

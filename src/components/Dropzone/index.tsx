@@ -9,8 +9,8 @@ import { setFiles } from '../../services/fileService';
 import { IInfoImg } from '../../interfaces/items';
 
 const Dropzone: React.FC<{
-    images: IInfoImg[];
-    onCancelImg: (idx: number) => void;
+  images: IInfoImg[];
+  onCancelImg: (idx: number) => void;
 }> = ({ images, onCancelImg }) => {
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',

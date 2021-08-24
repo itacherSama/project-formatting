@@ -40,7 +40,7 @@ const SettingsImg: React.FC = () => {
                 <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>
-                ))}
+              ))}
             </Select>
           </FormControl>
         </Grid>
@@ -52,7 +52,7 @@ const SettingsImg: React.FC = () => {
                 <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>
-                ))}
+              ))}
             </Select>
           </FormControl>
         </Grid>

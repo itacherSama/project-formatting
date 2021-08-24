@@ -1,7 +1,7 @@
 /* eslint-disable import/no-mutable-exports */
-/* eslint-disable @typescript-eslint/no-explicit-any */ 
-/* eslint-disable prefer-rest-params */ 
-/* eslint-disable func-names */ 
+/* eslint-disable @typescript-eslint/no-explicit-any */
+/* eslint-disable prefer-rest-params */
+/* eslint-disable func-names */
 
 import { createBrowserHistory } from 'history';
 import parse from 'url-parse';

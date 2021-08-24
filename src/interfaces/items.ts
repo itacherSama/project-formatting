@@ -19,7 +19,7 @@ export interface ICropFormData {
   width: number;
 }
 
-export interface ICropFormDataAspect  {
+export interface ICropFormDataAspect {
   value: number;
   sides: ICropFormData;
 }
@@ -42,7 +42,7 @@ export interface ISettingImg {
 }
 
 export interface IInfoImg {
-  infoByFile: File,
+  infoByFile: File;
   preview?: string;
 }
 
@@ -66,4 +66,7 @@ export interface ISettingStepContent {
 
 export type PossibleStringType = string | ArrayBuffer | null;
 
-export interface ICropNewData{ width?: number; height?: number }
+export interface ICropNewData {
+  width?: number;
+  height?: number;
+}

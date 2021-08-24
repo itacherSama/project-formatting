@@ -37,10 +37,7 @@ export const $isCroppedImages = createStore<boolean>(false).on(events.setIsCropp
 
 export const $isLocalDataLoaded = createStore<boolean>(false).on(events.setIsLocalDataLoaded, (state, flag) => flag);
 
-export const $typeCrop = createStore<string>('px').on(
-  events.setTypeCrop,
-  (state, typeCrop) => typeCrop
-);
+export const $typeCrop = createStore<string>('px').on(events.setTypeCrop, (state, typeCrop) => typeCrop);
 
 const getValueLS = async (key: string, cb: any) => {
   const val = await localStorage.getItem(key);
@@ -53,14 +50,15 @@ const getValueLS = async (key: string, cb: any) => {
 getValueLS('images', effects.fetchImagesFx);
 getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);
 
-export const $aspect = createStore<ICropFormDataAspect>((function (){
-  const startValue = { width: 4,
-    height: 3 };
-  return {
-    sides: startValue,
-    value: calcAspect(startValue),
-  };
-}())).on(events.setAspect, (state, newValue) => {
+export const $aspect = createStore<ICropFormDataAspect>(
+  (function () {
+    const startValue = { width: 4, height: 3 };
+    return {
+      sides: startValue,
+      value: calcAspect(startValue),
+    };
+  })()
+).on(events.setAspect, (state, newValue) => {
   const newValues = { ...state.sides, ...newValue };
 
   return { sides: newValues, value: calcAspect(newValues) };

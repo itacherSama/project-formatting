@@ -13,7 +13,7 @@ import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '..
 const Crop: FC<{
   src: string;
   point: IPointOnImg;
-  addCropedImg: (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize ) => void;
+  addCropedImg: (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => void;
   onCloseModal: () => void;
 }> = ({ addCropedImg, src, onCloseModal, point }) => {
   const typeCrop = useStore($typeCrop);

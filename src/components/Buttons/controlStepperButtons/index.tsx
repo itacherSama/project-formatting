@@ -16,7 +16,7 @@ const ControlsStepperButtons: React.FC<any> = ({
       <Button className={styles.button} disabled={disabledBtnPrev} onClick={handleBack}>
         НАЗАД
       </Button>
-      )}
+    )}
     {visibleBtnNextArr.every((el: any) => el === true) && (
       <Button
         className={styles.button}
@@ -26,8 +26,8 @@ const ControlsStepperButtons: React.FC<any> = ({
         onClick={handleComplete}>
         ДАЛЕЕ
       </Button>
-      )}
+    )}
   </div>
-  );
+);
 
 export default ControlsStepperButtons;

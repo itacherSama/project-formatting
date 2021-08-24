@@ -13,6 +13,6 @@ const DownloadPage: React.FC = () => (
       <DownloadBtn />
     </div>
   </>
-  );
+);
 
 export default DownloadPage;
