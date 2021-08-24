@@ -22,6 +22,7 @@ const Crop: FC<{
   const cropDataPercent = useStore($cropDataPercent);
   const aspect = useStore($aspect);
 
+  const [savedPxData, setSavedPxData] = useState(cropDataPx);
   let changeActive = false;
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
@@ -110,15 +111,27 @@ const Crop: FC<{
     }
   }, [aspect, typeCrop]);
 
+  useEffect(() => {
+    setTypeCrop('px');
+  }, []);
+
   const cancelMyAspect = (): void => {
     const cropper: any = getCropper();
     cropper.setAspectRatio(NaN);
   };
 
   const onTypeCrop = (newType: string): void => {
-    if (typeCrop === 'aspect') {
+    console.log('cropDataPx', cropDataPx);
+
+    if (typeCrop === 'aspect' && newType !== 'aspect') {
       cancelMyAspect();
     }
+
+    if (typeCrop === 'aspect' && newType !== 'aspect') {
+      const cropper: any = getCropper();
+      cropper.setData({ ...cropDataPx });
+    }
+
     setTypeCrop(newType);
   };
 
