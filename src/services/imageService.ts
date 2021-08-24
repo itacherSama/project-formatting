@@ -275,8 +275,8 @@ export const calcPxStatePoint =
         if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
             return {
                 pointPlace: {
-                    x: calcPercentFromPx(canvas.width, argStatePoint.pointPlace.x ),
-                    y: calcPercentFromPx(canvas.height, argStatePoint.pointPlace.y ),
+                    x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x ),
+                    y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y ),
                 },
                 pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
             };
