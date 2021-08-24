@@ -10,7 +10,7 @@ import { $kitsImagesSetting } from './kitsImagesSetting';
 export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
-  .on([events.setKitImages/* , effects.generateKitImagesBySettings.doneData */ ], (state, { kitImages, idx }) => {
+  .on([events.setKitImages, effects.generateKitImagesBySettings.doneData  ], (state, { kitImages, idx }) => {
     if (kitImages.length === 0) {
       return state;
     }

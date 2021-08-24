@@ -289,13 +289,30 @@ export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) =>
     return pointWidth;
 };
 
-export const transformSettingsInPx = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
+export const transformSettingsInPercent = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
     const changedItems = items.map((el: ISettingImg) => {
         const changedEl = {
             x: calcPercentFromPx(imgElement.naturalWidth, el.x),
             y: calcPercentFromPx(imgElement.naturalHeight, el.y),
             width: calcPercentFromPx(imgElement.naturalWidth, el.width),
             height: calcPercentFromPx(imgElement.naturalHeight, el.height),
+        };
+        return changedEl;
+    });
+
+    return {
+        point,
+        items: changedItems,
+    };
+};
+
+export const transformSettingsInPx = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
+    const changedItems = items.map((el: ISettingImg) => {
+        const changedEl = {
+            x: calcPxFromPercent(imgElement.naturalWidth, el.x),
+            y: calcPxFromPercent(imgElement.naturalHeight, el.y),
+            width: calcPxFromPercent(imgElement.naturalWidth, el.width),
+            height: calcPxFromPercent(imgElement.naturalHeight, el.height),
         };
         return changedEl;
     });
