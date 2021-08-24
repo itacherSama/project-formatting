@@ -1,4 +1,4 @@
-import { createStore, sample, guard, combine, restore } from 'effector';
+import { createStore, sample, guard, combine, restore, forward } from 'effector';
 import * as events from '../event';
 import * as effects from '../effect';
 import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
@@ -10,14 +10,14 @@ import { $kitsImagesSetting } from './kitsImagesSetting';
 export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
   .on(events.cancelImg, deleteItemFromArrByIdx)
-  .on([events.setKitImages/* effects.generateKitImagesByPoint.doneData */], (state, { kitImages, idx }) => {
+  .on([events.setKitImages/* , effects.generateKitImagesBySettings.doneData */ ], (state, { kitImages, idx }) => {
     if (kitImages.length === 0) {
       return state;
     }
     const newState = [...state];
     newState.splice(idx, 1, kitImages);
-
-    return newState;
+      console.log('newState', newState);
+      return newState;
   })
   .on(events.setCancelCropImg, (state, { idx, idxImg }) => {
     const newState = [...state];
@@ -46,7 +46,7 @@ guard({
   target: effects.generateKitsImages,
 });
 
-const elementsForGenerateKitImagesByPoint = sample(
+const elementsForGenerateSettingsByPoint = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting]),
   events.setPointImg,
   (arrayStores: any, pointOnImg: IPointOnImg) => {
@@ -61,9 +61,28 @@ const elementsForGenerateKitImagesByPoint = sample(
 );
 
 guard({
-  source: elementsForGenerateKitImagesByPoint,
+  source: elementsForGenerateSettingsByPoint,
   filter: ({ pointOnImg }) => pointOnImg !== null,
   target: effects.getNewSettingsForKitImages,
+});
+
+const elementsForGenerateKitImagesBySettings = sample(
+    combine([$idxKitImages, $images, $kitsImagesSetting]),
+    $kitsImagesSetting,
+    (arrayStores: any) => {
+      const { idx } = arrayStores[0];
+      return {
+        idx,
+        fileImage: arrayStores[1][idx],
+        kitImagesSetting: arrayStores[2][idx],
+      };
+    }
+);
+
+guard({
+  source: elementsForGenerateKitImagesBySettings,
+  filter: ({ kitImagesSetting }) => kitImagesSetting?.point?.pointWidth !== null,
+  target: effects.generateKitImagesBySettings,
 });
 
 $kitsImages.watch((state) => {

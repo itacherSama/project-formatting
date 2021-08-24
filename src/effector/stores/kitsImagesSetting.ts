@@ -1,10 +1,9 @@
 import { calcPercentFromPx } from 'services/imageService';
-import { createStore } from 'effector';
+import { createStore, forward } from 'effector';
 import * as events from '../event';
 import * as effects from '../effect';
 import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
 import { saveDataInLocalStorage } from '../../services/localStorageService';
-import { IPointOnImg } from '../../interfaces/items';
 
 const initialStatePoint = {
   pointWidth: null,
@@ -15,9 +14,9 @@ const initialStatePoint = {
 };
 
 export const $kitsImagesSetting = createStore<any>([])
-    .on(effects.getNewSettingsForKitImages.doneData, (state, { newSettingsForKitImages, idx }) => {
+    .on(effects.getNewSettingsForKitImages.doneData, (state, { transformedSettings, idx }) => {
         const newState = [...state];
-        newState.splice(idx, 1, newSettingsForKitImages);
+        newState.splice(idx, 1, transformedSettings);
 
         return newState;
     })
@@ -67,7 +66,7 @@ export const $kitsImagesSetting = createStore<any>([])
   );
 
 $kitsImagesSetting.watch((state) => {
-  console.log('want to save settingForKitsImages', state);
+    console.log('want to save settingForKitsImages', state);
 
     // saveDataInLocalStorage('settingForKitsImages', state);
 });

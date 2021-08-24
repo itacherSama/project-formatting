@@ -23,8 +23,7 @@ const BlockImgPreview: React.FC<{
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
   const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(calcPxStatePoint(statePoint, canvasPreview.current));
-  console.log('statePoint', statePoint);
-  console.log('pxStatePoint', pxStatePoint);
+
   const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
 
@@ -90,34 +89,15 @@ const BlockImgPreview: React.FC<{
   const onUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (activeChange) {
       const [x, y] = getOffset(e);
-
       setActiveChange(false);
-      console.log('up', {
-        ...pxStatePoint,
-        pointWidth: calcWidthPoint(pxStatePoint.pointPlace, { x, y }),
 
-      });
-      console.log('up new', {
-        pointWidth: calcPercentFromPx(ImgPreview.current.width, calcWidthPoint(pxStatePoint.pointPlace, { x, y })),
-        pointPlace: {
-          x: calcPercentFromPx(ImgPreview.current.width, pxStatePoint.pointPlace.x),
-          y: calcPercentFromPx(ImgPreview.current.height, pxStatePoint.pointPlace.y),
-        },
-        // перевод в проценты
-      });
        setStatePoint({
            pointWidth: calcPercentFromPx(ImgPreview.current.width, calcWidthPoint(pxStatePoint.pointPlace, { x, y })),
             pointPlace: {
               x: calcPercentFromPx(ImgPreview.current.width, pxStatePoint.pointPlace.x),
               y: calcPercentFromPx(ImgPreview.current.height, pxStatePoint.pointPlace.y),
             },
-  // перевод в проценты
        });
-
-      // setStatePoint({
-      //   ...pxStatePoint,
-      //   pointWidth: calcWidthPoint(pxStatePoint.pointPlace, { x, y }),
-      // });
     }
   };
 

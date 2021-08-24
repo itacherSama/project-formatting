@@ -194,22 +194,19 @@ export const generateKitImages = async (
 
 export const generateNewSettingsForKitImages = (
     imgElement: HTMLImageElement,
-    kitSettings: ISettingsImage,
-    newPoint?: IPointOnImg
+    settings: ISettingImg[],
+    newPoint: IPointOnImg
 ): ISettingsImage => {
     const newKitSettings: any[] = [];
-    for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
-        let settings = kitSettings.items[idxEl];
-        if (newPoint) {
-            settings = getPositionByPointDouble(settings, newPoint, imgElement);
-        }
+    for (let idxEl = 0; idxEl < settings.length; idxEl++) {
+        let currentSetting = settings[idxEl];
+        currentSetting = getPositionByPointDouble(currentSetting, newPoint, imgElement);
 
-        newKitSettings.push(settings);
+        newKitSettings.push(currentSetting);
     }
-
     return {
         items: newKitSettings,
-        point: newPoint || kitSettings.point,
+        point: newPoint,
     };
 };
 
@@ -292,10 +289,19 @@ export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) =>
     return pointWidth;
 };
 
-export const transformSettingsByFunc = (kitSettings: ISettingsImage, imgElement: HTMLImageElement) => {
-    const transormedSettings = {};
-    // transormedSettings.point = {
-    //
-    // };
-    return {};
+export const transformSettingsInPx = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
+    const changedItems = items.map((el: ISettingImg) => {
+        const changedEl = {
+            x: calcPercentFromPx(imgElement.naturalWidth, el.x),
+            y: calcPercentFromPx(imgElement.naturalHeight, el.y),
+            width: calcPercentFromPx(imgElement.naturalWidth, el.width),
+            height: calcPercentFromPx(imgElement.naturalHeight, el.height),
+        };
+        return changedEl;
+    });
+
+    return {
+        point,
+        items: changedItems,
+    };
 };

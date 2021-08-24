@@ -34,7 +34,7 @@ const Gallery: React.FC<{
   };
 
   const childElements =
-    !!files?.length &&
+    !!files?.length && settings.length &&
     files.map((file: IInfoImg, idx: number) => {
       const currentSettings = settings[idx];
       const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
