@@ -9,23 +9,16 @@ import { IInfoImg, ISettingImg } from '../../interfaces/items';
 
 import styles from './Gallery.module.css';
 
+const typesBlock = ['width', 'height'];
+const widthForPreview = 160;
+const heightForPreview = 180;
+
 const Gallery: React.FC<{
   files: IInfoImg[];
   settings: ISettingImg[];
   onActiveModal: () => void;
   onCancelCropImg: (idx: number) => void;
-  typesBlock?: string[];
-  widthForPreview?: number;
-  heightForPreview?: number;
-}> = ({
-  files,
-  onActiveModal,
-  onCancelCropImg,
-  settings = [],
-  typesBlock = ['width', 'height'],
-  widthForPreview = 160,
-  heightForPreview = 180,
-}) => {
+}> = ({ files, onActiveModal, onCancelCropImg, settings = [] }) => {
   const masonryOptions: Masonry.MasonryOptions = {
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
@@ -48,7 +41,8 @@ const Gallery: React.FC<{
           className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],
-          })}>
+          })}
+        >
           <img alt={`img_${idx}`} className={styles.gridItemImg} src={file.preview} />
 
           <div className={styles.closeBtn}>
