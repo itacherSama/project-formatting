@@ -3,7 +3,7 @@ import SettingsImg from '../../components/SettingsImg';
 import DownloadBtn from '../../components/DownloadBtn';
 import styles from './DownloadPage.module.css';
 
-const DownloadPage: React.FC = () => (
+const DownloadPage: React.FC<any> = () => (
   <>
     <div className={styles.settings}>
       <SettingsImg />

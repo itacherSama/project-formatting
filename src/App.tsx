@@ -1,10 +1,17 @@
 import React from 'react';
+import { Router } from '@reach/router';
+import MainPage from 'pages/MainPage';
+
 import styles from './App.module.css';
 
-const App: React.FC = ({ children }) => (
+const AppRoute: React.FC = () => (
   <div className={styles.container}>
-    <div className={styles.content}>{children}</div>
+    <div className={styles.content}>
+      <Router>
+        <MainPage path="/" />
+      </Router>
+    </div>
   </div>
 );
 
-export default App;
+export default AppRoute;
