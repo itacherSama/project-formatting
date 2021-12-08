@@ -1,7 +1,10 @@
 import React from 'react';
+import { useStore } from 'effector-react';
+import { $stateCropPoint } from 'effector/stores/stateCropPoint';
 import styles from './BlockImgPreview.module.css';
 import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '../../services/imageService';
 import { IInfoImg, IPointOnImg, IPointPlace } from '../../interfaces/items';
+import { setActiveChangeSettings } from '../../effector/event';
 
 const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
   const x = e.nativeEvent.offsetX;
@@ -18,9 +21,12 @@ const BlockImgPreview: React.FC<{
   const ImgPreview: any = React.useRef(null);
 
   const [activeChange, setActiveChange] = React.useState<boolean>(false);
+  const [mouseIntoBlock, setMouseIntoBlock] = React.useState<boolean>(false);
   const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(
     calcPxStatePoint(statePoint, canvasPreview.current)
   );
+
+  const stateCropPoint = useStore($stateCropPoint);
 
   const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
@@ -63,6 +69,10 @@ const BlockImgPreview: React.FC<{
     }
   }, [pxStatePoint]);
 
+  React.useEffect(() => {
+    setActiveChangeSettings(mouseIntoBlock);
+  }, [mouseIntoBlock]);
+
   React.useLayoutEffect(() => {
     window.addEventListener('resize', resize);
     return () => {
@@ -87,7 +97,6 @@ const BlockImgPreview: React.FC<{
   const onUp = (e: React.MouseEvent<HTMLCanvasElement>) => {
     if (activeChange) {
       const [x, y] = getOffset(e);
-      setActiveChange(false);
 
       setStatePoint({
         pointWidth: calcPercentFromPx(ImgPreview.current.width, calcWidthPoint(pxStatePoint.pointPlace, { x, y })),
@@ -96,6 +105,8 @@ const BlockImgPreview: React.FC<{
           y: calcPercentFromPx(ImgPreview.current.height, pxStatePoint.pointPlace.y),
         },
       });
+
+      setActiveChange(false);
     }
   };
 
@@ -108,6 +119,12 @@ const BlockImgPreview: React.FC<{
       };
       draw(currentState);
     }
+    setMouseIntoBlock(true);
+  };
+
+  const onLeave = (e: React.MouseEvent<HTMLCanvasElement>) => {
+    setMouseIntoBlock(false);
+    setActiveChange(false);
   };
 
   const cancelPoint = (e: React.MouseEvent): void => {
@@ -133,7 +150,7 @@ const BlockImgPreview: React.FC<{
         /*       onClick={ setPoint } */
         onContextMenu={cancelPoint}
         onMouseDown={onDown}
-        onMouseLeave={onUp}
+        onMouseLeave={onLeave}
         onMouseMove={onMove}
         onMouseUp={onUp}
       />

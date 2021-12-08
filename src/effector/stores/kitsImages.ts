@@ -6,6 +6,7 @@ import { IInfoImg, IPointOnImg } from '../../interfaces/items';
 import { $idxKitImages } from './idxKitImages';
 import { $images } from './images';
 import { $kitsImagesSetting } from './kitsImagesSetting';
+import { $stateCropPoint } from './stateCropPoint';
 
 export const $kitsImages = createStore<IInfoImg[][]>([])
   .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
@@ -47,6 +48,7 @@ const elementsForGenerateSettingsByPoint = sample(
   events.setPointImg,
   (arrayStores: any, pointOnImg: IPointOnImg) => {
     const { idx } = arrayStores[0];
+
     return {
       idx,
       fileImage: arrayStores[1][idx],
@@ -63,21 +65,23 @@ guard({
 });
 
 const elementsForGenerateKitImagesBySettings = sample(
-  combine([$idxKitImages, $images, $kitsImagesSetting]),
+  combine([$idxKitImages, $images, $kitsImagesSetting, $stateCropPoint]),
   $kitsImagesSetting,
   (arrayStores: any) => {
     const { idx } = arrayStores[0];
+    console.log(arrayStores);
     return {
       idx,
       fileImage: arrayStores[1][idx],
       kitImagesSetting: arrayStores[2][idx],
+      stateCropPoint: arrayStores[3],
     };
   }
 );
 
 guard({
   source: elementsForGenerateKitImagesBySettings,
-  filter: ({ kitImagesSetting }) => kitImagesSetting?.point?.pointWidth !== null,
+  filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
   target: effects.generateKitImagesBySettings,
 });
 
