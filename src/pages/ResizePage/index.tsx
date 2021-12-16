@@ -1,4 +1,5 @@
 import React from 'react';
+import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
 import { $modalState } from '../../effector/store';
@@ -24,7 +25,6 @@ import {
   ISettingsImage,
   IImgSettingsNaturalSize,
 } from '../../interfaces/items';
-import history from '../../router/history';
 import BlockImgPreview from '../../components/BlockImgPreview';
 import { convertFromBase64 } from '../../services/base64Service';
 import { $idxKitImages } from '../../effector/stores/idxKitImages';
@@ -83,8 +83,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   };
 
   if (!currentImg) {
-    history.navigate('/');
-    return null;
+    return <Redirect to="/" />;
   }
 
   return (

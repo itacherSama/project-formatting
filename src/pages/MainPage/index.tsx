@@ -26,7 +26,7 @@ function getStepContent(settingStepContent: ISettingStepContent) {
   }
 }
 
-const MainPage: React.FC = () => {
+const MainPage: React.FC<any> = () => {
   const [activeStep, setActiveStep] = React.useState(0);
   const [completed, setCompleted] = React.useState<any>({});
 

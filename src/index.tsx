@@ -1,13 +1,7 @@
+import React from 'react';
 import ReactDOM from 'react-dom';
-import history from './router/history';
-import router from './router/router';
+import App from 'App';
 
 import './index.css';
 
-const render = async (location: any) => {
-  const element: any = await router.resolve(location);
-  ReactDOM.render(element, document.getElementById('root'));
-};
-
-render(history.location);
-history.listen(render);
+ReactDOM.render(<App />, document.getElementById('root'));
