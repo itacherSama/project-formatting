@@ -27,6 +27,7 @@ export const setPointImgInKitImages = createEvent<any>();
 export const addKitImageSettings = createEvent<any>();
 export const setKitsImagesSettings = createEvent<any>();
 export const setIsLocalDataLoaded = createEvent<boolean>();
+export const setActiveChangeSettings = createEvent<boolean>();
 
 export const setAspect = createEvent<any>();
 export const cancelAspect = createEvent<any>();
