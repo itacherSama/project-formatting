@@ -1,6 +1,6 @@
 FROM node:14.7
 WORKDIR /app
-COPY . .
+COPY ../. .
 
 RUN yarn install
 
