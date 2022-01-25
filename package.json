@@ -38,10 +38,9 @@
     "web-vitals": "^0.2.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "lint": "yarn eslint && yarn tsc",
     "eslint": "eslint --ext .jsx,.js,.ts,.tsx src/",
     "code-style:fix": "yarn eslint:fix && yarn prettier:write",
@@ -90,6 +89,8 @@
     "@types/url-parse": "^1.4.3",
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
+    "@craco/craco": "^6.4.3",
+    "craco-alias": "^3.0.1",
     "eslint": "^7.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.1.0",
