@@ -1,11 +1,9 @@
 # dependencies
 /node_modules
 /.vscode
-# testing
-/coverage
-
-# production
+/.idea
 /build
-
-yarn.lock
+*.log
+*.lock
 .eslintcache
+
