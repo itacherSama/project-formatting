@@ -1,11 +1,11 @@
 import {
-  ICropNewData,
-  IPointPlace,
   ICropFormData,
-  IPointOnImg,
+  ICropNewData,
   IImgSettingsNaturalSize,
-  ISettingImg,
   IInfoImg,
+  IPointOnImg,
+  IPointPlace,
+  ISettingImg,
   ISettingsImage,
 } from '@interfaces/items';
 
@@ -274,6 +274,8 @@ export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) =
   if (widthPointPx === 0) {
     return defaultWidthPoint;
   }
+
+  console.log('getPxWidthPoint widthPointPx', widthPointPx);
   return widthPointPx;
 };
 
@@ -294,20 +296,23 @@ export const calcPxStatePoint = (argStatePoint: IPointOnImg, canvas: HTMLCanvasE
 export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) => {
   const pointWidth = calcWidthPoint(firstObj, secondObj);
   // const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
+  console.log('getWidthPoint pointWidth', pointWidth);
 
   return pointWidth;
 };
 
-export const transformSettingsInPercent = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
-  const changedItems = items.map((el: ISettingImg) => {
-    const changedEl = {
+export const transformSettingsInPercent = (
+  { items, point }: ISettingsImage,
+  imgElement: HTMLImageElement
+): ISettingsImage => {
+  const changedItems = items.map(
+    (el: ISettingImg): ISettingImg => ({
       x: calcPercentFromPx(imgElement.naturalWidth, el.x),
       y: calcPercentFromPx(imgElement.naturalHeight, el.y),
       width: calcPercentFromPx(imgElement.naturalWidth, el.width),
       height: calcPercentFromPx(imgElement.naturalHeight, el.height),
-    };
-    return changedEl;
-  });
+    })
+  );
 
   return {
     point,
@@ -315,16 +320,18 @@ export const transformSettingsInPercent = ({ items, point }: ISettingsImage, img
   };
 };
 
-export const transformSettingsInPx = ({ items, point }: ISettingsImage, imgElement: HTMLImageElement) => {
-  const changedItems = items.map((el: ISettingImg) => {
-    const changedEl = {
+export const transformSettingsInPx = (
+  { items, point }: ISettingsImage,
+  imgElement: HTMLImageElement
+): ISettingsImage => {
+  const changedItems = items.map(
+    (el: ISettingImg): ISettingImg => ({
       x: calcPxFromPercent(imgElement.naturalWidth, el.x),
       y: calcPxFromPercent(imgElement.naturalHeight, el.y),
       width: calcPxFromPercent(imgElement.naturalWidth, el.width),
       height: calcPxFromPercent(imgElement.naturalHeight, el.height),
-    };
-    return changedEl;
-  });
+    })
+  );
 
   return {
     point,
