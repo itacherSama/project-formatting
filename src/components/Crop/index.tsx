@@ -1,5 +1,4 @@
-/* eslint-disable jsx-a11y/no-static-element-interactions */
-import React, { FC, useEffect, useRef, useState } from 'react';
+import React, { FC, useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
 // import 'cropperjs/dist/cropper.css';
 
@@ -22,7 +21,7 @@ const Crop: FC<{
   const cropDataPercent = useStore($cropDataPercent);
   const aspect = useStore($aspect);
 
-  const [savedPxData, setSavedPxData] = useState(cropDataPx);
+  // const [savedPxData, setSavedPxData] = useState(cropDataPx);
   let changeActive = false;
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;

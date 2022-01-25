@@ -20,16 +20,19 @@ const CropForm: React.FC<{
     setTypeCrop(newTypeCrop);
   };
 
-  const onSetValue = ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
-    const { name, value } = target;
-    const newValue = { [name]: parseInt(value, 10) };
-    if (typeCrop === 'aspect') {
-      onSetAspect(newValue);
-      return;
-    }
+  const onSetValue = useCallback(
+    ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
+      const { name, value } = target;
+      const newValue = { [name]: parseInt(value, 10) };
+      if (typeCrop === 'aspect') {
+        onSetAspect(newValue);
+        return;
+      }
 
-    onSetCrop(newValue);
-  };
+      onSetCrop(newValue);
+    },
+    [onSetAspect, onSetCrop, typeCrop]
+  );
 
   const generateInputs = useCallback(() => {
     let crop: ICropFormData = cropPx;
@@ -45,7 +48,7 @@ const CropForm: React.FC<{
         <TextField label="Height" name="height" type="number" value={crop.height} onChange={onSetValue} />
       </>
     );
-  }, [typeCrop, cropPx, cropPercent, aspect]);
+  }, [typeCrop, cropPx, cropPercent, aspect, onSetValue]);
 
   return (
     <form autoComplete="off" className={styles.cropForm} noValidate>

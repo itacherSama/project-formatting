@@ -1,6 +1,4 @@
 import React from 'react';
-import { useStore } from 'effector-react';
-import { $stateCropPoint } from '@effector/stores/stateCropPoint';
 import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '@services/imageService';
 import { IInfoImg, IPointOnImg, IPointPlace } from '@interfaces/items';
 import { setActiveChangeSettings } from '@effector/event';
@@ -26,8 +24,6 @@ const BlockImgPreview: React.FC<{
   const [pxStatePoint, setPxStatePoint] = React.useState<IPointOnImg>(
     calcPxStatePoint(statePoint, canvasPreview.current)
   );
-
-  const stateCropPoint = useStore($stateCropPoint);
 
   const resize = React.useCallback(() => {
     const canvas = canvasPreview.current;
@@ -123,7 +119,7 @@ const BlockImgPreview: React.FC<{
     setMouseIntoBlock(true);
   };
 
-  const onLeave = (e: React.MouseEvent<HTMLCanvasElement>) => {
+  const onLeave = () => {
     setMouseIntoBlock(false);
     setActiveChange(false);
   };
