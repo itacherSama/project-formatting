@@ -1,6 +1,4 @@
-/* eslint-disable guard-for-in */
-/* eslint-disable no-restricted-syntax */
-import React from 'react';
+import React, { useState, FC, ReactElement } from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
@@ -9,7 +7,7 @@ import StepButton from '@material-ui/core/StepButton';
 import FirstPage from '../FirstPage';
 import ResizePage from '../ResizePage';
 import DownloadPage from '../DownloadPage';
-import { ISettingStepContent } from '../../interfaces/items';
+import { ISettingStepContent, ISteps } from '../../interfaces/items';
 
 const steps = ['Add images', 'Cropping images', 'Download images'];
 
@@ -26,40 +24,42 @@ function getStepContent(settingStepContent: ISettingStepContent) {
   }
 }
 
-const MainPage: React.FC<any> = () => {
-  const [activeStep, setActiveStep] = React.useState(0);
-  const [completed, setCompleted] = React.useState<any>({});
+const MainPage: FC = (): ReactElement => {
+  const [activeStep, setActiveStep] = useState(0);
+  const [completed, setCompleted] = useState({} as ISteps);
 
   const visibleBtnPrev = activeStep !== 0;
   const visibleBtnNext = activeStep !== steps.length - 1;
 
-  const handleNext = () => {
+  const handleNext = (): void => {
     setActiveStep((prevActiveStep) => prevActiveStep + 1);
   };
 
-  const handleComplete = () => {
-    const newCompleted: any = completed;
+  const handleComplete = (): void => {
+    const newCompleted: ISteps = completed;
     newCompleted[activeStep] = true;
     setCompleted(newCompleted);
     handleNext();
   };
 
-  const handleStep = (step: number) => () => {
-    const newCompleted: any = completed;
+  const handleStep = (step: number) => (): void => {
+    const newCompleted: ISteps = Object.keys(completed).reduce(
+      (newCompletedSteps: any, keyStep: string) => {
+        if (step < Number(keyStep)) {
+          newCompletedSteps[keyStep] = false;
+        }
 
-    if (newCompleted[step]) {
-      for (const d in newCompleted) {
-        if (step < Number(d)) newCompleted[d] = false;
-      }
-      setActiveStep(step);
-      setCompleted(newCompleted);
-    }
+        return newCompletedSteps;
+      },
+      { ...completed }
+    );
+
+    setActiveStep(step);
+    setCompleted(newCompleted);
   };
 
-  const handleBack = () => {
-    console.log('handleBack');
-
-    setActiveStep((prevActiveStep) => prevActiveStep - 1);
+  const handleBack = (): void => {
+    setActiveStep(2);
   };
 
   return (
