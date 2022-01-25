@@ -1,6 +1,6 @@
 import React, { FC, useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
-// import 'cropperjs/dist/cropper.css';
+import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
 import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from '@effector/event';
