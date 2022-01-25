@@ -1,0 +1,10 @@
+export { default as BlockImgPreview } from './BlockImgPreview';
+export { default as CloseButton } from './Buttons/CloseButton';
+export { default as ControlsStepperButtons } from './Buttons/ControlsStepperButtons';
+export { default as Crop } from './Crop';
+export { default as CustomModal } from './CustomModal';
+export { default as DownloadBtn } from './DownloadBtn';
+export { default as Dropzone } from './Dropzone';
+export { default as Gallery } from './Gallery';
+export { default as SettingsImg } from './SettingsImg';
+export { default as Thumb } from './Thumb';

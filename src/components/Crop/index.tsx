@@ -1,14 +1,14 @@
 /* eslint-disable jsx-a11y/no-static-element-interactions */
 import React, { FC, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-cropper';
-import 'cropperjs/dist/cropper.css';
+// import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
-import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from 'effector/event';
-import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/items';
+import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from '@effector/event';
+import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from '@interfaces/items';
+import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '@effector/store';
+import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '@services/imageService';
 import CropForm from './CropForm';
-import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '../../effector/store';
-import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '../../services/imageService';
 
 const Crop: FC<{
   src: string;

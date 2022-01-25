@@ -1,12 +1,11 @@
 import React from 'react';
 import { useStore } from 'effector-react';
-import Dropzone from '../../components/Dropzone';
-import { cancelImg } from '../../effector/event';
-import styles from './FirstPage.module.css';
+import { cancelImg } from '@effector/event';
 
-import { IInfoImg } from '../../interfaces/items';
-import ControlsStepperButtons from '../../components/Buttons/controlStepperButtons';
-import { $images } from '../../effector/stores/images';
+import { IInfoImg } from '@interfaces/items';
+import { ControlsStepperButtons, Dropzone } from '@components';
+import { $images } from '@effector/stores';
+import styles from './FirstPage.module.css';
 
 const FirstPage: React.FC<any> = ({ settingStepContent }) => {
   const images: IInfoImg[] = useStore($images);

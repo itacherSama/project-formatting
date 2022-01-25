@@ -1,12 +1,12 @@
 import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import cn from 'classnames';
-import styles from './Dropzone.module.css';
 
-import { setImages } from '../../effector/event';
+import { setImages } from '@effector/event';
+import { setFiles } from '@services/fileService';
+import { IInfoImg } from '@interfaces/items';
 import DropzonePreview from './DropzonePreview';
-import { setFiles } from '../../services/fileService';
-import { IInfoImg } from '../../interfaces/items';
+import styles from './Dropzone.module.css';
 
 const Dropzone: React.FC<{
   images: IInfoImg[];
@@ -24,7 +24,8 @@ const Dropzone: React.FC<{
         [styles.isDragAccept]: isDragAccept,
         [styles.isDragReject]: isDragReject,
       })}
-      {...getRootProps()}>
+      {...getRootProps()}
+    >
       <input {...getInputProps()} />
       <DropzonePreview images={images} onCancel={onCancelImg} />
     </div>

@@ -1,14 +1,15 @@
 import React from 'react';
 import { useStore } from 'effector-react';
-import { $stateCropPoint } from 'effector/stores/stateCropPoint';
+import { $stateCropPoint } from '@effector/stores/stateCropPoint';
+import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '@services/imageService';
+import { IInfoImg, IPointOnImg, IPointPlace } from '@interfaces/items';
+import { setActiveChangeSettings } from '@effector/event';
 import styles from './BlockImgPreview.module.css';
-import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '../../services/imageService';
-import { IInfoImg, IPointOnImg, IPointPlace } from '../../interfaces/items';
-import { setActiveChangeSettings } from '../../effector/event';
 
 const getOffset = (e: React.MouseEvent<HTMLCanvasElement>): number[] => {
   const x = e.nativeEvent.offsetX;
   const y = e.nativeEvent.offsetY;
+
   return [x, y];
 };
 

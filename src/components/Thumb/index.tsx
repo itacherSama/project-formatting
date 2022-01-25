@@ -1,6 +1,6 @@
 import React from 'react';
+import { IInfoImg } from '@interfaces/items';
 import styles from './Thumb.module.css';
-import { IInfoImg } from '../../interfaces/items';
 
 const Thumb: React.FC<{
   file: IInfoImg;

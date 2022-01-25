@@ -1,9 +1,9 @@
 import { createStore } from 'effector';
-import * as events from '../event';
+import { deleteItemFromArrByIdx } from '@utils/differentFunc';
+import { saveDataInLocalStorage } from '@services/localStorageService';
+import { IInfoImg } from '@interfaces/items';
 import * as effects from '../effect';
-import { deleteItemFromArrByIdx } from '../../utils/differentFunc';
-import { saveDataInLocalStorage } from '../../services/localStorageService';
-import { IInfoImg } from '../../interfaces/items';
+import * as events from '../event';
 
 export const $images = createStore<IInfoImg[]>([])
   .on([events.setImages, effects.fetchImagesFx.doneData], (state, images) => [...images])

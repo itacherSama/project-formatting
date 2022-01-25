@@ -1,4 +1,4 @@
-import { IPointPlace, IobjIdxKitImages } from '../interfaces/items';
+import { IobjIdxKitImages } from '@interfaces/items';
 
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;

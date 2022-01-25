@@ -1,6 +1,5 @@
 import React from 'react';
-import SettingsImg from '../../components/SettingsImg';
-import DownloadBtn from '../../components/DownloadBtn';
+import { SettingsImg, DownloadBtn } from '@components';
 import styles from './DownloadPage.module.css';
 
 const DownloadPage: React.FC<any> = () => (

@@ -1,8 +1,8 @@
 import { createStore, sample } from 'effector';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
+import { IobjIdxKitImages, ICropFormDataAspect } from '@interfaces/items';
 import * as events from './event';
 import * as effects from './effect';
-import { IobjIdxKitImages, ICropFormDataAspect } from '../interfaces/items';
 import { $idxKitImages } from './stores/idxKitImages';
 
 sample({

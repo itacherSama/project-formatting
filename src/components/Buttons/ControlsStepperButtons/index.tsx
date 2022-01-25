@@ -1,7 +1,7 @@
 import { Button } from '@material-ui/core';
 import React from 'react';
 
-import styles from './controlStepperButtons.module.css';
+import styles from './ControlsStepperButtons.module.css';
 
 const ControlsStepperButtons: React.FC<any> = ({
   handleBack,
@@ -23,7 +23,8 @@ const ControlsStepperButtons: React.FC<any> = ({
         color="primary"
         disabled={disabledBtnNext}
         variant="contained"
-        onClick={handleComplete}>
+        onClick={handleComplete}
+      >
         ДАЛЕЕ
       </Button>
     )}

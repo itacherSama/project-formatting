@@ -2,7 +2,7 @@ import React from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { $modalState } from '../../effector/store';
+import { $modalState } from '@effector/store';
 import {
   setCurrentCropImage,
   setKitImages,
@@ -13,24 +13,15 @@ import {
   cancelCropImg,
   setPointImg,
   addKitImageSettings,
-} from '../../effector/event';
-import Gallery from '../../components/Gallery';
-import Crop from '../../components/Crop';
-import CustomModal from '../../components/CustomModal';
+} from '@effector/event';
+import Gallery from '@components/Gallery';
+import Crop from '@components/Crop';
+import CustomModal from '@components/CustomModal';
+import BlockImgPreview from '@components/BlockImgPreview';
+import { convertFromBase64 } from '@services/base64Service';
+import { $idxKitImages, $kitsImagesSetting, $kitsImages, $images } from '@effector/stores';
+import { IobjIdxKitImages, IInfoImg, ISettingImg, ISettingsImage, IImgSettingsNaturalSize } from '@interfaces/items';
 import styles from './ResizePage.module.css';
-import {
-  IobjIdxKitImages,
-  IInfoImg,
-  ISettingImg,
-  ISettingsImage,
-  IImgSettingsNaturalSize,
-} from '../../interfaces/items';
-import BlockImgPreview from '../../components/BlockImgPreview';
-import { convertFromBase64 } from '../../services/base64Service';
-import { $idxKitImages } from '../../effector/stores/idxKitImages';
-import { $kitsImagesSetting } from '../../effector/stores/kitsImagesSetting';
-import { $images } from '../../effector/stores/images';
-import { $kitsImages } from '../../effector/stores/kitsImages';
 
 const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const kitsImages = useStore($kitsImages);

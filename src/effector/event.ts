@@ -1,5 +1,5 @@
 import { createEvent } from 'effector';
-import { IInfoImg } from '../interfaces/items';
+import { IInfoImg } from '@interfaces/items';
 
 export const setImages = createEvent<IInfoImg[]>();
 export const setCurrentCropImage = createEvent<IInfoImg[]>();

@@ -70,3 +70,7 @@ export interface ICropNewData {
   width?: number;
   height?: number;
 }
+
+export interface ISteps {
+  [propName: string]: boolean;
+}

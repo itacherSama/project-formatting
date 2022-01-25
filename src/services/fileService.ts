@@ -1,6 +1,6 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { IInfoImg } from '../interfaces/items';
+import { IInfoImg } from '@interfaces/items';
 
 export const downloadFiles = (kitsItems: IInfoImg[][]): void => {
   const zip: JSZip = new JSZip();

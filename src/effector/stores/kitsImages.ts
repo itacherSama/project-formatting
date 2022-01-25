@@ -1,8 +1,8 @@
-import { createStore, sample, guard, combine, restore, forward } from 'effector';
+import { createStore, sample, guard, combine, restore } from 'effector';
+import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '@utils/differentFunc';
+import { IInfoImg, IPointOnImg } from '@interfaces/items';
 import * as events from '../event';
 import * as effects from '../effect';
-import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
-import { IInfoImg, IPointOnImg } from '../../interfaces/items';
 import { $idxKitImages } from './idxKitImages';
 import { $images } from './images';
 import { $kitsImagesSetting } from './kitsImagesSetting';

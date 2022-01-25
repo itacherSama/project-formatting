@@ -1,9 +1,9 @@
 import { calcPercentFromPx } from 'services/imageService';
-import { createStore, forward, sample } from 'effector';
+import { createStore } from 'effector';
+import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '@utils/differentFunc';
+import { saveDataInLocalStorage } from '@services/localStorageService';
 import * as events from '../event';
 import * as effects from '../effect';
-import { copyObject, deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '../../utils/differentFunc';
-import { saveDataInLocalStorage } from '../../services/localStorageService';
 
 const initialStatePoint = {
   pointWidth: null,

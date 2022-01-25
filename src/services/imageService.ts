@@ -7,7 +7,7 @@ import {
   ISettingImg,
   IInfoImg,
   ISettingsImage,
-} from '../interfaces/items';
+} from '@interfaces/items';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> =>
   new Promise((resolve) => {

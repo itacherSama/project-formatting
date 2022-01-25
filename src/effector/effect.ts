@@ -1,13 +1,13 @@
 import { createEffect } from 'effector';
-import { convertBase64ItemsInFiles } from '../services/base64Service';
+import { convertBase64ItemsInFiles } from '@services/base64Service';
 import {
   getImgFromPreviewFile,
   generateKitImages,
   generateNewSettingsForKitImages,
   transformSettingsInPx,
   transformSettingsInPercent,
-} from '../services/imageService';
-import { IInfoImg, ISettingsImage } from '../interfaces/items';
+} from '@services/imageService';
+import { IInfoImg, ISettingsImage } from '@interfaces/items';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
   const req = await convertBase64ItemsInFiles(data);

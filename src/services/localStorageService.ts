@@ -1,4 +1,4 @@
-import { PossibleStringType } from '../interfaces/items';
+import { PossibleStringType } from '@interfaces/items';
 import { convertFilesInBase64Items } from './base64Service';
 
 const saveData = (localName: string, data: any) => {
