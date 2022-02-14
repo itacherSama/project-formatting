@@ -3,6 +3,8 @@ export interface IobjIdxKitImages {
   idx: number;
 }
 
+export type Nullable<T> = T | null;
+
 export interface IvalueOfSelect {
   name?: string | undefined;
   value: unknown;
@@ -15,8 +17,8 @@ export interface IMyLink {
 }
 
 export interface ICropFormData {
-  height: number;
-  width: number;
+  height: Nullable<number>;
+  width: Nullable<number>;
 }
 
 export interface ICropFormDataAspect {
@@ -25,20 +27,20 @@ export interface ICropFormDataAspect {
 }
 
 export interface IPointPlace {
-  x: number;
-  y: number;
+  x: Nullable<number>;
+  y: Nullable<number>;
 }
 
 export interface IPointOnImg {
-  pointWidth: number;
+  pointWidth: Nullable<number>;
   pointPlace: IPointPlace;
 }
 
 export interface ISettingImg {
-  x: number;
-  y: number;
-  width: number;
-  height: number;
+  x: Nullable<number>;
+  y: Nullable<number>;
+  width: Nullable<number>;
+  height: Nullable<number>;
 }
 
 export interface IInfoImg {
@@ -67,10 +69,35 @@ export interface ISettingStepContent {
 export type PossibleStringType = string | ArrayBuffer | null;
 
 export interface ICropNewData {
-  width?: number;
-  height?: number;
+  width?: Nullable<number>;
+  height?: Nullable<number>;
 }
 
 export interface ISteps {
   [propName: string]: boolean;
+}
+
+export interface IAllNumber {
+  [propName: string]: number;
+}
+
+export interface INewSettingsForKitImages {
+  transformedSettings: ISettingsImage;
+  idx: number;
+}
+
+export interface IKitImageSettings {
+  settingImg: ISettingImg;
+  dataByNaturalSize: IImgSettingsNaturalSize;
+  idx: number;
+}
+
+export interface IPointImgInKitImages {
+  pointOnImg: IPointOnImg;
+  idx: number;
+}
+
+export interface ICancelCropImg {
+  idx: number;
+  idxImg: number;
 }

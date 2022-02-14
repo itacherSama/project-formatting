@@ -1,4 +1,5 @@
 import {
+  IAllNumber,
   ICropFormData,
   ICropNewData,
   IImgSettingsNaturalSize,
@@ -7,7 +8,15 @@ import {
   IPointPlace,
   ISettingImg,
   ISettingsImage,
-} from '@interfaces/items';
+  Nullable,
+} from '@interfaces/interfaces';
+import {
+  checkCoordinates,
+  checkDefaultSettingImg,
+  checkPositionByPoint,
+  checkProportions,
+  throwErrorIfNull,
+} from '@utils/differentFunc';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> =>
   new Promise((resolve) => {
@@ -30,12 +39,18 @@ export const getTypeByPropotion = (proportionWidth: number, proportionHeight: nu
   return types[1];
 };
 
-export const calcPxFromPercent = (naturalSize: number, val: number): number => {
+export const calcPxFromPercent = (naturalSize: number, val: Nullable<number>): Nullable<number> => {
+  if (val === null) {
+    return val;
+  }
   const pixelVal = Math.round(naturalSize * (val / 100));
   return pixelVal;
 };
 
-export const calcPercentFromPx = (naturalSize: number, val: number): number => {
+export const calcPercentFromPx = (naturalSize: number, val: Nullable<number>): Nullable<number> => {
+  if (val === null) {
+    return val;
+  }
   const percentVal = Math.round((val / naturalSize) * 100);
   return percentVal;
 };
@@ -43,11 +58,11 @@ export const calcPercentFromPx = (naturalSize: number, val: number): number => {
 export const transformPxAndPercent = (
   image: HTMLImageElement,
   objCrop: ICropNewData,
-  fnTransform: (naturalSize: number, val: number) => number
+  fnTransform: (naturalSize: number, val: Nullable<number>) => Nullable<number>
 ): ICropNewData => {
   let height = null;
   let width = null;
-  const transformedValues: { width?: number; height?: number } = {};
+  const transformedValues: ICropNewData = {};
   if (objCrop.height) {
     height = fnTransform(image.naturalHeight, objCrop.height);
     transformedValues.height = height;
@@ -59,32 +74,25 @@ export const transformPxAndPercent = (
   return transformedValues;
 };
 
-export const calcAspect = ({ width, height }: ICropFormData): number => {
-  if (height <= 0 || width <= 0) {
+export const calcAspect = ({ width, height }: ICropFormData): Nullable<number> => {
+  if (height === null || height <= 0 || width === null || width <= 0) {
     return 1;
   }
   const aspect = width / height;
   return aspect;
 };
 
-export const generateImagesBySettings = async (img: HTMLImageElement, settings: ISettingImg): Promise<Blob> => {
+export const generateImageBySetting = async (img: HTMLImageElement, settings: ISettingImg): Promise<Blob | never> => {
+  checkDefaultSettingImg(settings);
+  const { width, height, x, y } = settings as unknown as IAllNumber;
+
   const canvas = document.createElement('canvas');
-  canvas.width = settings.width;
-  canvas.height = settings.height;
+  canvas.width = width;
+  canvas.height = height;
 
   const context = canvas.getContext('2d');
 
-  context!.drawImage(
-    img,
-    settings.x,
-    settings.y,
-    settings.width,
-    settings.height,
-    0,
-    0,
-    settings.width,
-    settings.height
-  );
+  context!.drawImage(img, x, y, width, height, 0, 0, width, height);
 
   return new Promise((resolve, reject) => {
     canvas.toBlob(
@@ -112,16 +120,17 @@ export const getPositionByPoint = (
     },
     pointWidth: calcPxFromPercent(imgSettings.naturalHeight, point.pointWidth),
   };
+  throwErrorIfNull(checkPositionByPoint(pointFromPx));
+  throwErrorIfNull(checkProportions(data));
 
-  const radius = pointFromPx.pointWidth;
-
+  const radius = pointFromPx.pointWidth!;
   const minSide = radius * 2;
 
-  const newWidth = Math.max(minSide, data.width);
-  const newHeight = Math.max(minSide, data.height);
+  const newWidth = Math.max(minSide, data.width!);
+  const newHeight = Math.max(minSide, data.height!);
 
-  const newLeft = pointFromPx.pointPlace.x - newWidth / 2;
-  const newTop = pointFromPx.pointPlace.y - newHeight / 2;
+  const newLeft = pointFromPx.pointPlace.x! - newWidth / 2;
+  const newTop = pointFromPx.pointPlace.y! - newHeight / 2;
 
   return {
     ...data,
@@ -141,18 +150,23 @@ export const getPositionByPointDouble = (
     x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y),
   };
+
   const dataFromPx = {
     width: calcPxFromPercent(imgSettings.naturalWidth, data.width),
     height: calcPxFromPercent(imgSettings.naturalHeight, data.height),
   };
-  const halfWidth = dataFromPx.width / 2;
-  const halfHeight = dataFromPx.height / 2;
 
-  let newPoints: any = {
-    newLeft: pointFromPx.x - halfWidth,
-    newTop: pointFromPx.y - halfHeight,
-    newRight: pointFromPx.x + halfWidth,
-    newBot: pointFromPx.y + halfHeight,
+  throwErrorIfNull(checkDefaultSettingImg({ ...pointFromPx, ...dataFromPx }));
+  const { x, y } = pointFromPx as unknown as IAllNumber;
+  const { width, height } = dataFromPx as unknown as IAllNumber;
+  const halfWidth = width / 2;
+  const halfHeight = height / 2;
+
+  let newPoints: IAllNumber = {
+    newLeft: x - halfWidth,
+    newTop: y - halfHeight,
+    newRight: x + halfWidth,
+    newBot: y + halfHeight,
   };
 
   if (imgSettings.naturalWidth < newPoints.newRight) {
@@ -188,18 +202,26 @@ export const generateKitImages = async (
   imgElement: HTMLImageElement,
   kitSettings: ISettingsImage
 ): Promise<IInfoImg[]> => {
-  const kitImages: IInfoImg[] = [];
-  for (let idxEl = 0; idxEl < kitSettings.items.length; idxEl++) {
-    const settings = kitSettings.items[idxEl];
-    const blobImg: Blob = await generateImagesBySettings(imgElement, settings);
-    const fileImg: IInfoImg = {
-      infoByFile: new File([blobImg], `${idxEl}.jpg`),
-    };
-    fileImg.preview = URL.createObjectURL(fileImg.infoByFile);
+  const { items } = kitSettings;
+  const promises = items.map(async (settings: ISettingImg, idx: number): Promise<IInfoImg | null> => {
+    try {
+      const blobImg: Blob = await generateImageBySetting(imgElement, settings);
+      const fileImg: IInfoImg = {
+        infoByFile: new File([blobImg], `${idx}.jpg`),
+      };
+      fileImg.preview = URL.createObjectURL(fileImg.infoByFile);
 
-    kitImages.push(fileImg);
-  }
-  return kitImages;
+      return fileImg;
+    } catch (e) {
+      console.log('ошибка создания набора картинок');
+      return null;
+    }
+  });
+  const filteredPromise: IInfoImg[] = await Promise.all(promises).then((data: Array<IInfoImg | null>) => {
+    return data.filter((el: IInfoImg | null): boolean => el !== null) as IInfoImg[];
+  });
+
+  return filteredPromise;
 };
 
 export const generateNewSettingsForKitImages = (
@@ -210,9 +232,12 @@ export const generateNewSettingsForKitImages = (
   const newKitSettings: any[] = [];
   for (let idxEl = 0; idxEl < settings.length; idxEl++) {
     let currentSetting = settings[idxEl];
-    currentSetting = getPositionByPointDouble(currentSetting, newPoint, imgElement);
-
-    newKitSettings.push(currentSetting);
+    try {
+      currentSetting = getPositionByPointDouble(currentSetting, newPoint, imgElement);
+      newKitSettings.push(currentSetting);
+    } catch (e) {
+      console.log('error getPositionByPoint');
+    }
   }
   return {
     items: newKitSettings,
@@ -234,8 +259,11 @@ export const calcWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): 
     return defaultWidth;
   }
 
-  const [minX, maxX] = calcMinMaxValue(firstObj.x, secondObj.x);
-  const [minY, maxY] = calcMinMaxValue(firstObj.y, secondObj.y);
+  throwErrorIfNull(checkCoordinates(firstObj));
+  throwErrorIfNull(checkCoordinates(secondObj));
+
+  const [minX, maxX] = calcMinMaxValue(firstObj.x!, secondObj.x!);
+  const [minY, maxY] = calcMinMaxValue(firstObj.y!, secondObj.y!);
 
   const newWidth = {
     x: Math.round(maxX - minX),
@@ -247,9 +275,13 @@ export const calcWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): 
   return Math.max(maxNewWidth, defaultWidth);
 };
 
-export const calcWidthPointOnCanvas = (pointWidth: number, canvas: HTMLCanvasElement, func: any): number => {
-  const maxVal = Math.max(canvas.width, canvas.height);
-  const widthPercent = func(maxVal, pointWidth);
+export const calcWidthPointOnCanvas = (
+  pointWidth: number,
+  canvas: HTMLCanvasElement,
+  func: typeof calcPxFromPercent
+): Nullable<number> => {
+  // const maxVal = Math.max(canvas.width, canvas.height);
+  const widthPercent = func(canvas.width, pointWidth);
   return widthPercent;
 };
 
@@ -267,7 +299,7 @@ export const calcPlacePoint = (start: IPointPlace, end: IPointPlace): IPointPlac
   return newPointPlace;
 };
 
-export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) => {
+export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement): Nullable<number> => {
   const widthPointPx = calcWidthPointOnCanvas(pointWidth, canvas, calcPxFromPercent);
   const defaultWidthPoint = 3;
 
@@ -275,29 +307,27 @@ export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement) =
     return defaultWidthPoint;
   }
 
-  console.log('getPxWidthPoint widthPointPx', widthPointPx);
   return widthPointPx;
 };
 
 export const calcPxStatePoint = (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement): IPointOnImg => {
   if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
-    return {
+    const value = {
       pointPlace: {
         x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x),
         y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y),
       },
       pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
     };
+    return value;
   }
 
   return argStatePoint;
 };
 
-export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace) => {
+export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): number => {
   const pointWidth = calcWidthPoint(firstObj, secondObj);
   // const widthPointPercent = calcWidthPointOnCanvas(pointWidth, canvasPreview.current, calcPercentFromPx);
-  console.log('getWidthPoint pointWidth', pointWidth);
-
   return pointWidth;
 };
 

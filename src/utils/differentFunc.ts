@@ -1,4 +1,4 @@
-import { IobjIdxKitImages } from '@interfaces/items';
+import { ICropFormData, IobjIdxKitImages, IPointOnImg, IPointPlace, ISettingImg } from '@interfaces/interfaces';
 
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;
@@ -14,12 +14,6 @@ export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): I
   };
 };
 
-export const deleteItemFromArrByIdx = <T>(state: Array<T>, idx: number): Array<T> => {
-  const newState = [...state];
-  newState.splice(idx, 1);
-  return newState;
-};
-
 export const copyObject = <T>(object: T): T => JSON.parse(JSON.stringify(object));
 
 export const setLengthKitsImagesFunc = <T>(state: Array<T>, length: number, newItem: T): Array<T> => {
@@ -31,4 +25,52 @@ export const setLengthKitsImagesFunc = <T>(state: Array<T>, length: number, newI
     newState.push(...newItems);
   }
   return newState;
+};
+
+export const throwErrorIfNull = (flag: boolean): never | undefined => {
+  if (flag) {
+    throw new Error();
+  }
+  return undefined;
+};
+
+export const checkCoordinates = (pointPlace: IPointPlace): boolean => {
+  const { x, y } = pointPlace;
+  if (x === null || y === null) {
+    return true;
+  }
+  return false;
+};
+
+export const checkProportions = (cropFormData: ICropFormData): boolean => {
+  const { width, height } = cropFormData;
+  if (width === null || height === null) {
+    return true;
+  }
+  return false;
+};
+
+export const checkDefaultSettingImg = (settingImg: ISettingImg): boolean => {
+  const { width, height, x, y } = settingImg;
+  if (checkProportions({ width, height }) || checkCoordinates({ x, y })) {
+    return true;
+  }
+  return false;
+};
+
+export const checkPositionByPoint = (pointOnImg: IPointOnImg): boolean => {
+  const { pointPlace, pointWidth } = pointOnImg;
+  if (pointWidth === null || checkCoordinates(pointPlace)) {
+    return true;
+  }
+  return false;
+};
+
+export const getValueLS = (key: string, cb: any): void => {
+  const val = localStorage.getItem(key);
+  if (typeof val === 'string') {
+    console.log('key', key);
+    const objVal = JSON.parse(val);
+    cb(objVal);
+  }
 };

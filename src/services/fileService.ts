@@ -1,6 +1,6 @@
 import JSZip from 'jszip';
 import { saveAs } from 'file-saver';
-import { IInfoImg } from '@interfaces/items';
+import { IInfoImg } from '@interfaces/interfaces';
 
 export const downloadFiles = (kitsItems: IInfoImg[][]): void => {
   const zip: JSZip = new JSZip();
@@ -26,12 +26,7 @@ export const setFiles = (
   setImages: (images: IInfoImg[]) => void
 ): void => {
   const prevFiles = [...oldFiles];
-  const newFiles = acceptedFiles.map((file: File) =>
-    Object.assign(file, {
-      infoByFile: file,
-      preview: URL.createObjectURL(file),
-    })
-  );
+  const newFiles = acceptedFiles.map((file: File) => ({ infoByFile: file, preview: URL.createObjectURL(file) }));
 
   const connectedFiles = prevFiles.concat(newFiles);
   setImages(connectedFiles);

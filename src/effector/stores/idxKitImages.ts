@@ -1,7 +1,7 @@
 import { createStore } from 'effector';
 
 import { findNewCurrentIdx } from '@utils/differentFunc';
-import { IobjIdxKitImages } from '@interfaces/items';
+import { IobjIdxKitImages } from '@interfaces/interfaces';
 import * as events from '../event';
 
 export const $idxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 })

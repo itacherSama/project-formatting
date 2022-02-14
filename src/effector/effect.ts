@@ -7,38 +7,39 @@ import {
   transformSettingsInPx,
   transformSettingsInPercent,
 } from '@services/imageService';
-import { IInfoImg, ISettingsImage } from '@interfaces/items';
+import { IInfoImg, INewSettingsForKitImages, ISettingsImage } from '@interfaces/interfaces';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
+  console.log(data);
   const req = await convertBase64ItemsInFiles(data);
   return req;
 });
 
-export const fetchSettingsForImagesFx = createEffect((data: any) => data);
+export const fetchSettingsForImagesFx = createEffect(async (data: any) => {
+  return data;
+});
 
 export const generateKitsImages = createEffect(async (data: any): Promise<IInfoImg[][]> => {
   const [images, settingsForKits] = data;
-  const kitsImages = [];
-  for (let idx = 0; idx < settingsForKits.length; idx++) {
-    const imageKitsettings = settingsForKits[idx];
-    const currentImg = images[idx];
-    const kitImages = await handleGenerateKitItemsBySettings(currentImg, imageKitsettings);
-    kitsImages.push(kitImages);
-  }
 
-  return kitsImages;
+  const promises = settingsForKits.map(async (imageKitsettings: ISettingsImage, idx: number): Promise<IInfoImg[]> => {
+    const currentImg = images[idx];
+    const value = await handleGenerateKitItemsBySettings(currentImg, imageKitsettings);
+    return value;
+  });
+
+  return Promise.all(promises);
 });
 
-export const getNewSettingsForKitImages = createEffect(
-  async (data: any): Promise<{ transformedSettings: ISettingsImage; idx: number }> => {
-    const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
-
-    const imgElement = await getImgFromPreviewFile(fileImage.preview);
-    const newSettingsForKitImages = generateNewSettingsForKitImages(imgElement, kitImagesSetting.items, pointOnImg);
-    const transformedSettings = transformSettingsInPercent(newSettingsForKitImages, imgElement);
-    return { transformedSettings, idx };
-  }
-);
+export const getNewSettingsForKitImages = createEffect(async (data: any): Promise<INewSettingsForKitImages> => {
+  const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
+  console.log('kitImagesSetting old', kitImagesSetting);
+  const imgElement = await getImgFromPreviewFile(fileImage.preview);
+  const newSettingsForKitImages = generateNewSettingsForKitImages(imgElement, kitImagesSetting.items, pointOnImg);
+  console.log('newSettingsForKitImages', newSettingsForKitImages);
+  const transformedSettings = transformSettingsInPercent(newSettingsForKitImages, imgElement);
+  return { transformedSettings, idx };
+});
 
 export const generateKitImagesBySettings = createEffect(
   async (data: any): Promise<{ kitImages: IInfoImg[]; idx: number }> => {
@@ -56,5 +57,6 @@ const handleGenerateKitItemsBySettings = async (
   const imgElement = await getImgFromPreviewFile(fileImage.preview!);
   const pxSettings = transformSettingsInPx(kitImagesSetting, imgElement);
   const kitImages = await generateKitImages(imgElement, pxSettings);
+
   return kitImages;
 };

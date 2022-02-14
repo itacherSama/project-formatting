@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import CloseButton from '@components/Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from '@services/imageService';
-import { IInfoImg, ISettingImg } from '@interfaces/items';
+import { IInfoImg, ISettingImg } from '@interfaces/interfaces';
 
 import styles from './Gallery.module.css';
 
@@ -31,8 +31,12 @@ const Gallery: React.FC<{
     settings.length &&
     files.map((file: IInfoImg, idx: number) => {
       const currentSettings = settings[idx];
-      const proportionWidth: number = calcProportion(currentSettings.width, widthForPreview, currentSettings.height);
-      const proportionHeight: number = calcProportion(currentSettings.height, heightForPreview, currentSettings.width);
+      const proportionWidth: number = calcProportion(currentSettings.width!, widthForPreview, currentSettings.height!);
+      const proportionHeight: number = calcProportion(
+        currentSettings.height!,
+        heightForPreview,
+        currentSettings.width!
+      );
 
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (

@@ -4,7 +4,7 @@ import cn from 'classnames';
 
 import { setImages } from '@effector/event';
 import { setFiles } from '@services/fileService';
-import { IInfoImg } from '@interfaces/items';
+import { IInfoImg } from '@interfaces/interfaces';
 import DropzonePreview from './DropzonePreview';
 import styles from './Dropzone.module.css';
 

@@ -1,6 +1,6 @@
 import { createStore, sample } from 'effector';
-import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
-import { IobjIdxKitImages, ICropFormDataAspect } from '@interfaces/items';
+import { transformPxAndPercent, calcPercentFromPx, calcAspect } from '@services/imageService';
+import { IobjIdxKitImages, ICropFormDataAspect } from '@interfaces/interfaces';
 import * as events from './event';
 import * as effects from './effect';
 import { $idxKitImages } from './stores/idxKitImages';
@@ -14,20 +14,18 @@ sample({
   }),
   target: events.setCancelCropImg,
 });
-
+/**/
 // sample({
 //   source: $idxKitImages,
 //   clock: events.setPointImg,
 //   fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
 //   target: events.setPointImgInKitImages,
 // });
-
+/**/
 export const $modalState = createStore<boolean>(false)
   .on(events.activeModal, () => true)
 
   .on(events.disableModal, () => false);
-
-export const $numberImg = createStore<number>(0).on(events.nextNumberImg, (state) => state + 1);
 
 export const $quality = createStore<string>('').on(events.setColor, (state, color) => color);
 
@@ -35,33 +33,26 @@ export const $color = createStore<string>('').on(events.setQuality, (state, qual
 
 export const $isCroppedImages = createStore<boolean>(false).on(events.setIsCroppedImages, (state, flag) => flag);
 
-export const $isLocalDataLoaded = createStore<boolean>(false).on(events.setIsLocalDataLoaded, (state, flag) => flag);
-
 export const $typeCrop = createStore<string>('px').on(events.setTypeCrop, (state, typeCrop) => typeCrop);
+export const $localStorageInited = createStore<boolean>(false).on(events.setLocalStorageInit, () => true);
 
-const getValueLS = async (key: string, cb: any) => {
-  const val = await localStorage.getItem(key);
-  if (typeof val === 'string') {
-    const objVal = JSON.parse(val);
-    cb(objVal);
-  }
-};
+// export const $aspect = createStore<ICropFormDataAspect>(
+//   (function () {
+//     const startValue = { width: 4, height: 3 };
+//     return {
+//       sides: startValue,
+//       value: calcAspect(startValue),
+//     };
+//   })()
+// ).on(events.setAspect, (state, newValue) => {
+//   const newValues = { ...state.sides, ...newValue };
+//
+//   return { sides: newValues, value: calcAspect(newValues) };
+// });
 
-getValueLS('images', effects.fetchImagesFx);
-getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);
-
-export const $aspect = createStore<ICropFormDataAspect>(
-  (function () {
-    const startValue = { width: 4, height: 3 };
-    return {
-      sides: startValue,
-      value: calcAspect(startValue),
-    };
-  })()
-).on(events.setAspect, (state, newValue) => {
-  const newValues = { ...state.sides, ...newValue };
-
-  return { sides: newValues, value: calcAspect(newValues) };
+export const $aspect = createStore<ICropFormDataAspect>({
+  sides: { width: 4, height: 3 },
+  value: 1,
 });
 
 export const $cropDataPx = createStore<any>({

@@ -8,7 +8,7 @@ import Grid from '@material-ui/core/Grid';
 import { useStore } from 'effector-react';
 import { $quality, $color } from '@effector/store';
 import { setColor, setQuality } from '@effector/event';
-import { IvalueOfSelect } from '@interfaces/items';
+import { IvalueOfSelect } from '@interfaces/interfaces';
 
 import styles from './SettingsImg.module.css';
 

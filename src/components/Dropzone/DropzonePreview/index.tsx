@@ -1,5 +1,5 @@
 import React from 'react';
-import { IInfoImg } from '@interfaces/items';
+import { IInfoImg } from '@interfaces/interfaces';
 import Thumb from '@components/Thumb';
 import CloseButton from '@components/Buttons/CloseButton';
 import styles from './DropzonePreview.module.css';

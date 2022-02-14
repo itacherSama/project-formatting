@@ -1,4 +1,4 @@
-import { PossibleStringType, IInfoImg } from '@interfaces/items';
+import { PossibleStringType, IInfoImg } from '@interfaces/interfaces';
 
 export const convertFromBase64 = (el: string, idx: number): Promise<IInfoImg> =>
   fetch(el)
@@ -38,7 +38,7 @@ export const convertBase64ItemsInFiles = (items: string[]): Promise<IInfoImg[]> 
   });
 };
 
-export const convertFilesInBase64Items = (items: IInfoImg[]): Promise<PossibleStringType[]> => {
+export const convertFilesInBase64Items = (items: Array<IInfoImg>): Promise<PossibleStringType[]> => {
   const promiseArr = items.map((el: IInfoImg) => toBase64(el));
 
   const arrItems: PossibleStringType[] = [];

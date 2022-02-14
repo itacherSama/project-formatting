@@ -4,8 +4,8 @@ import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
 import StepButton from '@material-ui/core/StepButton';
 
-import { ISettingStepContent, ISteps } from '@interfaces/items';
-import { FirstPage, ResizePage, DownloadPage } from '@pages';
+import { ISettingStepContent, ISteps } from '@interfaces/interfaces';
+import { FirstPage /* , ResizePage, DownloadPage */ } from '@pages';
 
 const steps = ['Add images', 'Cropping images', 'Download images'];
 
@@ -13,10 +13,10 @@ function getStepContent(settingStepContent: ISettingStepContent) {
   switch (settingStepContent.step) {
     case 0:
       return <FirstPage settingStepContent={settingStepContent} />;
-    case 1:
-      return <ResizePage backStep={settingStepContent.handleBack} nextStep={settingStepContent.handleComplete} />;
-    case 2:
-      return <DownloadPage />;
+    // case 1:
+    // return <ResizePage backStep={settingStepContent.handleBack} nextStep={settingStepContent.handleComplete} />;
+    // case 2:
+    // return <DownloadPage />;
     default:
       return 'Unknown step';
   }

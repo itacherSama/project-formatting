@@ -4,7 +4,7 @@ import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
 import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from '@effector/event';
-import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from '@interfaces/items';
+import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from '@interfaces/interfaces';
 import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '@effector/store';
 import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '@services/imageService';
 import CropForm from './CropForm';
@@ -43,8 +43,13 @@ const Crop: FC<{
     const imgSettings = cropper.getImageData();
 
     if (point.pointWidth) {
-      newData = getPositionByPoint(newData, point, imgSettings);
+      try {
+        newData = getPositionByPoint(newData, point, imgSettings);
+      } catch (e) {
+        console.log('error getPositionByPoint');
+      }
     }
+
     changeActive = true;
 
     cropper.setData(newData);
@@ -55,6 +60,7 @@ const Crop: FC<{
     const cropper: any = getCropper();
     const currenValues = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
+    console.log('onSetCrop');
 
     let newValuesCrop = null;
     let valueByPoint = null;
@@ -67,21 +73,32 @@ const Crop: FC<{
     }
 
     if (point.pointWidth) {
-      valueByPoint = getPositionByPoint(newValuesCrop, point, imgSettings);
+      try {
+        valueByPoint = getPositionByPoint(newValuesCrop, point, imgSettings);
+      } catch (e) {
+        console.log('error getPositionByPoint');
+      }
     }
-
     cropper.setData(valueByPoint || newValuesCrop);
   };
 
   const transformDataByPointCrop = () => {
-    if (point) {
+    console.log('transformDataByPointCrop');
+
+    if (point && point.pointWidth) {
       const cropper: any = getCropper();
       const imgSettings = cropper.getImageData();
       const cropperData = cropper.getData({ rounded: true });
-      const getData = getPositionByPoint(cropperData, point, imgSettings);
 
-      cropper.crop();
-      cropper.setData({ ...getData });
+      if (point.pointWidth) {
+        try {
+          const getData = getPositionByPoint(cropperData, point, imgSettings);
+          cropper.crop();
+          cropper.setData({ ...getData });
+        } catch (e) {
+          console.log('error getPositionByPoint');
+        }
+      }
     }
   };
 
@@ -90,7 +107,7 @@ const Crop: FC<{
     const cropperData = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
 
-    const dataByImg = {
+    const dataByImg: ISettingImg = {
       x: cropperData.x,
       y: cropperData.y,
       width: cropperData.width,

@@ -1,6 +1,7 @@
 import { createStore, sample, guard, combine, restore } from 'effector';
-import { deleteItemFromArrByIdx, setLengthKitsImagesFunc } from '@utils/differentFunc';
-import { IInfoImg, IPointOnImg } from '@interfaces/items';
+import { setLengthKitsImagesFunc } from '@utils/differentFunc';
+import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
+import { deleteItemFromArrByIdxReducer } from '@effector/stores/reducers';
 import * as events from '../event';
 import * as effects from '../effect';
 import { $idxKitImages } from './idxKitImages';
@@ -9,8 +10,10 @@ import { $kitsImagesSetting } from './kitsImagesSetting';
 import { $stateCropPoint } from './stateCropPoint';
 
 export const $kitsImages = createStore<IInfoImg[][]>([])
-  .on(events.setLengthKitsImages, (state, length) => setLengthKitsImagesFunc(state, length, []))
-  .on(events.cancelImg, deleteItemFromArrByIdx)
+  .on(events.setLengthKitsImages, (state, length) => {
+    return setLengthKitsImagesFunc(state, length, []);
+  })
+  .on(events.cancelImg, deleteItemFromArrByIdxReducer)
   .on([events.setKitImages, effects.generateKitImagesBySettings.doneData], (state, { kitImages, idx }) => {
     if (kitImages.length === 0) {
       return state;
@@ -39,7 +42,9 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
 
 guard({
   source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
-  filter: (storeComb: any): any => storeComb[0].length && storeComb[1].length,
+  filter: (storeComb: any): any => {
+    return storeComb[0].length && storeComb[1].length;
+  },
   target: effects.generateKitsImages,
 });
 
@@ -69,7 +74,6 @@ const elementsForGenerateKitImagesBySettings = sample(
   $kitsImagesSetting,
   (arrayStores: any) => {
     const { idx } = arrayStores[0];
-    console.log(arrayStores);
     return {
       idx,
       fileImage: arrayStores[1][idx],
