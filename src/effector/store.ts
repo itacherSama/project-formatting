@@ -1,6 +1,7 @@
-import { createStore, sample } from 'effector';
+import { createStore, guard, sample } from 'effector';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from '@services/imageService';
-import { IobjIdxKitImages, ICropFormDataAspect } from '@interfaces/interfaces';
+import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData } from '@interfaces/interfaces';
+import { RefObject } from 'react';
 import * as events from './event';
 import * as effects from './effect';
 import { $idxKitImages } from './stores/idxKitImages';
@@ -27,13 +28,22 @@ export const $modalState = createStore<boolean>(false)
 
   .on(events.disableModal, () => false);
 
-export const $quality = createStore<string>('').on(events.setColor, (state, color) => color);
+export const $quality = createStore<string>('').on(events.setColor, (state: string, color: string): string => color);
 
-export const $color = createStore<string>('').on(events.setQuality, (state, quality) => quality);
+export const $color = createStore<string>('').on(
+  events.setQuality,
+  (state: string, quality: string): string => quality
+);
 
-export const $isCroppedImages = createStore<boolean>(false).on(events.setIsCroppedImages, (state, flag) => flag);
+export const $isCroppedImages = createStore<boolean>(false).on(
+  events.setIsCroppedImages,
+  (state: boolean, flag: boolean) => flag
+);
 
-export const $typeCrop = createStore<string>('px').on(events.setTypeCrop, (state, typeCrop) => typeCrop);
+export const $typeCrop = createStore<string>('px').on(
+  events.setTypeCrop,
+  (state: string, typeCrop: string): string => typeCrop
+);
 export const $localStorageInited = createStore<boolean>(false).on(events.setLocalStorageInit, () => true);
 
 // export const $aspect = createStore<ICropFormDataAspect>(
@@ -55,31 +65,46 @@ export const $aspect = createStore<ICropFormDataAspect>({
   value: 1,
 });
 
-export const $cropDataPx = createStore<any>({
+export const $cropDataPx = createStore<ICropFormData>({
   width: 200,
   height: 200,
-}).on(events.setCropDataPx, (state, newStateValue) => ({
-  ...state,
-  ...newStateValue,
-}));
+}).on(
+  events.setCropDataPx,
+  (state: ICropFormData, newStateValue: ICropFormData): ICropFormData => ({
+    ...state,
+    ...newStateValue,
+  })
+);
 
-export const $cropDataPercent = createStore<any>({
+export const $cropDataPercent = createStore<ICropFormData>({
   width: 50,
   height: 50,
 });
 
-export const $cropperRef = createStore<any>(null);
+export const $cropperRef = createStore<RefObject<HTMLImageElement>>({ current: null }).on(
+  events.setCropperRef,
+  (state, data) => data
+);
 
 $cropDataPx.on(events.setCropDataPx, (state, data) => ({ ...state, ...data }));
 $cropDataPercent.on(events.setCropDataPercent, (state, data) => ({ ...state, ...data }));
-$cropperRef.on(events.setCropperRef, (state, data) => data);
+
+const checkCropZoneCurrent = guard({
+  clock: events.setCropDataPx,
+  filter: (cropZoneData: RefObject<HTMLImageElement>) => {
+    return Boolean(cropZoneData.current);
+  },
+  source: $cropperRef,
+});
 
 sample({
-  clock: events.setCropDataPx,
-  source: $cropperRef,
-  fn: (cropZoneData, cropData) => {
-    const value = transformPxAndPercent(cropZoneData.current, { ...cropData }, calcPercentFromPx);
+  clock: checkCropZoneCurrent,
+  fn: (cropZoneData: RefObject<HTMLImageElement>, cropData: any): ICropNewData => {
+    console.log('cropZoneData', cropZoneData);
+    console.log('cropData', cropData);
+    const value: ICropNewData = transformPxAndPercent(cropZoneData.current!, cropData, calcPercentFromPx);
     return value;
   },
-  target: events.setCropDataPercent,
+  source: $cropperRef,
+  // target: events.setCropDataPercent,
 });

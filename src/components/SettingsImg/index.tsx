@@ -9,23 +9,20 @@ import { useStore } from 'effector-react';
 import { $quality, $color } from '@effector/store';
 import { setColor, setQuality } from '@effector/event';
 import { IvalueOfSelect } from '@interfaces/interfaces';
-
+import messages from '@messages/index.json';
 import styles from './SettingsImg.module.css';
-
-const qualities = ['low', 'middle', 'high'];
-const colors = ['1', '8', '12', '15', '24'];
 
 const SettingsImg: React.FC = () => {
   const color: string = useStore($color);
   const quality: string = useStore($quality);
 
   const onSetQuality = (event: React.ChangeEvent<IvalueOfSelect>): void => {
-    const qualityValue = event.target.value;
+    const qualityValue = event.target.value as string;
     setQuality(qualityValue);
   };
 
   const onSetColor = (event: React.ChangeEvent<IvalueOfSelect>): void => {
-    const colorValue = event.target.value;
+    const colorValue = event.target.value as string;
     setColor(colorValue);
   };
 
@@ -36,7 +33,7 @@ const SettingsImg: React.FC = () => {
           <FormControl fullWidth>
             <InputLabel id="quality-select-label">Quality</InputLabel>
             <Select id="quality-select" labelId="quality-select-label" value={quality} onChange={onSetColor}>
-              {qualities.map((el: string) => (
+              {messages.qualities.map((el: string) => (
                 <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>
@@ -48,7 +45,7 @@ const SettingsImg: React.FC = () => {
           <FormControl fullWidth>
             <InputLabel id="color-select-label">Colors</InputLabel>
             <Select id="color-select" labelId="color-select-label" value={color} onChange={onSetQuality}>
-              {colors.map((el: string) => (
+              {messages.colors.map((el: string) => (
                 <MenuItem key={el} value={el}>
                   {el}
                 </MenuItem>

@@ -13,7 +13,9 @@
       "@services": ["./services"],
       "@services/*": ["./services/*"],
       "@utils": ["./utils"],
-      "@utils/*": ["./utils/*"]
+      "@utils/*": ["./utils/*"],
+      "@messages/": ["./messages/"],
+      "@messages/*": ["./messages/*"]
     }
   }
 }

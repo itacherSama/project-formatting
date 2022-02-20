@@ -10,7 +10,6 @@ import {
 import { IInfoImg, INewSettingsForKitImages, ISettingsImage } from '@interfaces/interfaces';
 
 export const fetchImagesFx = createEffect(async (data: any) => {
-  console.log(data);
   const req = await convertBase64ItemsInFiles(data);
   return req;
 });

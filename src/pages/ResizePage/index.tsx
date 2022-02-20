@@ -95,16 +95,16 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
           onCancelCropImg={cancelCropImg}
         />
       </div>
-      {/* <CustomModal open={modalState} onCloseModal={onCloseModal}> */}
-      {/*  <div className={styles.crop}> */}
-      {/*    <Crop */}
-      {/*      addCropedImg={addCropedImg} */}
-      {/*      point={currentImgSetting?.point} */}
-      {/*      src={currentImg.preview!} */}
-      {/*      onCloseModal={onCloseModal} */}
-      {/*    /> */}
-      {/*  </div> */}
-      {/* </CustomModal> */}
+      <CustomModal open={modalState} onCloseModal={onCloseModal}>
+        <div className={styles.crop}>
+          <Crop
+            addCropedImg={addCropedImg}
+            point={currentImgSetting?.point}
+            src={currentImg.preview!}
+            onCloseModal={onCloseModal}
+          />
+        </div>
+      </CustomModal>
 
       {images.length > 0 && (
         <div className={styles.buttons}>

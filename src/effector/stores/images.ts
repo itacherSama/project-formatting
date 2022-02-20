@@ -12,17 +12,17 @@ export const $images = createStore<IInfoImg[]>([])
 
 const checkLock = guard({
   source: [$images, $localStorageInited],
-  filter: ([_, localStorageInited]) => localStorageInited,
+  filter: ([_, localStorageInited]): boolean => localStorageInited,
 });
 
 sample({
   clock: checkLock,
   source: $images,
-  fn: (images) => images.length,
+  fn: (images: IInfoImg[]): number => images.length,
   target: events.setLengthKitsImages,
 });
 
-$images.watch((state: IInfoImg[]) => {
+$images.watch((state: IInfoImg[]): void => {
   events.setCurrentIdx(state.length);
   // convertAndSaveDataInLocalStorage('images', state);
 });

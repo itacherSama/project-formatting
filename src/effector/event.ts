@@ -1,35 +1,40 @@
 import { createEvent } from 'effector';
-import { ICancelCropImg, IInfoImg, IKitImageSettings, IPointImgInKitImages, IPointOnImg } from '@interfaces/interfaces';
+import {
+  ICancelCropImg,
+  ICropNewData,
+  IInfoImg,
+  IKitImageSettings,
+  IPointImgInKitImages,
+  IPointOnImg,
+  ISetKitImages,
+  ISettingImg,
+} from '@interfaces/interfaces';
+import { RefObject } from 'react';
 
 export const setImages = createEvent<IInfoImg[]>();
 export const setCurrentCropImage = createEvent<IInfoImg[]>();
 export const setLengthKitsImages = createEvent<number>();
-export const setKitImages = createEvent<any>();
+export const setKitImages = createEvent<ISetKitImages>();
 export const nextKitImages = createEvent();
 export const previousKitImages = createEvent();
 export const setCurrentIdx = createEvent<number>();
 export const activeModal = createEvent();
 export const disableModal = createEvent();
-export const setColor = createEvent<any>();
-export const setQuality = createEvent<any>();
+export const setColor = createEvent<string>();
+export const setQuality = createEvent<string>();
 export const setIsCroppedImages = createEvent<boolean>();
 export const cancelImg = createEvent<number>();
 export const cancelCropImg = createEvent<number>();
 export const setCancelCropImg = createEvent<ICancelCropImg>();
-export const setKitsImages = createEvent<any>();
 export const setTypeCrop = createEvent<string>();
-export const setImagesFromLocalStorage = createEvent<any>();
-export const setkitsImages = createEvent<any>();
 export const setPointImg = createEvent<IPointOnImg>();
 export const setPointImgInKitImages = createEvent<IPointImgInKitImages>();
 export const addKitImageSettings = createEvent<IKitImageSettings>();
-export const setKitsImagesSettings = createEvent<any>();
-export const setIsLocalDataLoaded = createEvent<boolean>();
 export const setActiveChangeSettings = createEvent<boolean>();
 
 export const setAspect = createEvent<any>();
 export const cancelAspect = createEvent<any>();
-export const setCropDataPx = createEvent<any>();
-export const setCropDataPercent = createEvent<any>();
-export const setCropperRef = createEvent<any>();
+export const setCropDataPx = createEvent<ISettingImg>();
+export const setCropDataPercent = createEvent<ICropNewData>();
+export const setCropperRef = createEvent<RefObject<HTMLImageElement>>();
 export const setLocalStorageInit = createEvent();

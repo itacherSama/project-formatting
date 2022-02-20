@@ -10,12 +10,6 @@ export interface IvalueOfSelect {
   value: unknown;
 }
 
-export interface IMyLink {
-  href: string;
-  onClick?: () => void;
-  children?: any;
-}
-
 export interface ICropFormData {
   height: Nullable<number>;
   width: Nullable<number>;
@@ -100,4 +94,9 @@ export interface IPointImgInKitImages {
 export interface ICancelCropImg {
   idx: number;
   idxImg: number;
+}
+
+export interface ISetKitImages {
+  kitImages: IInfoImg[];
+  idx: number;
 }
