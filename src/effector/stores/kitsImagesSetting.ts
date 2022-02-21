@@ -1,6 +1,6 @@
 import { createStore } from 'effector';
-import { setLengthKitsImagesFunc } from '@utils/differentFunc';
 import { ISettingsImage } from '@interfaces/interfaces';
+import { saveDataInLocalStorage } from '@services/localStorageService';
 import {
   addKitImageSettingsReducer,
   deleteItemFromArrByIdxReducer,
@@ -24,6 +24,6 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([])
   })
   .on(events.setLengthKitsImages, setLengthKitsImagesReducer);
 
-$kitsImagesSetting.watch((state: ISettingsImage[]) => {
-  // saveDataInLocalStorage<ISettingsImage>('settingForKitsImages', state);
+window.addEventListener('beforeunload', () => {
+  saveDataInLocalStorage<ISettingsImage>('settingForKitsImages', $kitsImagesSetting.getState());
 });

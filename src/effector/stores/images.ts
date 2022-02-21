@@ -24,5 +24,8 @@ sample({
 
 $images.watch((state: IInfoImg[]): void => {
   events.setCurrentIdx(state.length);
-  // convertAndSaveDataInLocalStorage('images', state);
+});
+
+window.addEventListener('beforeunload', () => {
+  convertAndSaveDataInLocalStorage('images', $images.getState());
 });
