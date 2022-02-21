@@ -311,18 +311,14 @@ export const getPxWidthPoint = (pointWidth: number, canvas: HTMLCanvasElement): 
 };
 
 export const calcPxStatePoint = (argStatePoint: IPointOnImg, canvas: HTMLCanvasElement): IPointOnImg => {
-  if (argStatePoint?.pointPlace?.x && argStatePoint?.pointPlace?.y && argStatePoint.pointWidth && canvas) {
-    const value = {
-      pointPlace: {
-        x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x),
-        y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y),
-      },
-      pointWidth: getPxWidthPoint(argStatePoint.pointWidth, canvas),
-    };
-    return value;
-  }
-
-  return argStatePoint;
+  const value = {
+    pointPlace: {
+      x: calcPxFromPercent(canvas.width, argStatePoint.pointPlace.x),
+      y: calcPxFromPercent(canvas.height, argStatePoint.pointPlace.y),
+    },
+    pointWidth: getPxWidthPoint(argStatePoint.pointWidth!, canvas),
+  };
+  return value;
 };
 
 export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): number => {

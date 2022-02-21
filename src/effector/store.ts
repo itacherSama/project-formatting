@@ -89,22 +89,12 @@ export const $cropperRef = createStore<RefObject<HTMLImageElement>>({ current: n
 $cropDataPx.on(events.setCropDataPx, (state, data) => ({ ...state, ...data }));
 $cropDataPercent.on(events.setCropDataPercent, (state, data) => ({ ...state, ...data }));
 
-const checkCropZoneCurrent = guard({
-  clock: events.setCropDataPx,
-  filter: (cropZoneData: RefObject<HTMLImageElement>) => {
-    return Boolean(cropZoneData.current);
-  },
-  source: $cropperRef,
-});
-
 sample({
-  clock: checkCropZoneCurrent,
-  fn: (cropZoneData: RefObject<HTMLImageElement>, cropData: any): ICropNewData => {
-    console.log('cropZoneData', cropZoneData);
-    console.log('cropData', cropData);
+  clock: events.setCropDataPx,
+  fn: (cropZoneData: RefObject<HTMLImageElement>, cropData: ICropNewData): ICropNewData => {
     const value: ICropNewData = transformPxAndPercent(cropZoneData.current!, cropData, calcPercentFromPx);
     return value;
   },
   source: $cropperRef,
-  // target: events.setCropDataPercent,
+  target: events.setCropDataPercent,
 });

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
@@ -41,7 +41,7 @@ const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);
 
-  React.useEffect(() => {
+  useEffect(() => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages, kitsImages]);
 

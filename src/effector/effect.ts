@@ -32,10 +32,8 @@ export const generateKitsImages = createEffect(async (data: any): Promise<IInfoI
 
 export const getNewSettingsForKitImages = createEffect(async (data: any): Promise<INewSettingsForKitImages> => {
   const { fileImage, kitImagesSetting, pointOnImg, idx } = data;
-  console.log('kitImagesSetting old', kitImagesSetting);
   const imgElement = await getImgFromPreviewFile(fileImage.preview);
   const newSettingsForKitImages = generateNewSettingsForKitImages(imgElement, kitImagesSetting.items, pointOnImg);
-  console.log('newSettingsForKitImages', newSettingsForKitImages);
   const transformedSettings = transformSettingsInPercent(newSettingsForKitImages, imgElement);
   return { transformedSettings, idx };
 });

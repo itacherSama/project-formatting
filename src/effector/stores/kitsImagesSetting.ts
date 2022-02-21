@@ -19,7 +19,6 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([])
   .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
   .on(events.setCancelCropImg, setCancelCropImgReducer)
   .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => {
-    console.log('dataFromLocalStorage', dataFromLocalStorage);
     return dataFromLocalStorage;
   })
   .on(events.setLengthKitsImages, setLengthKitsImagesReducer);

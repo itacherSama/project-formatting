@@ -21,7 +21,6 @@ const Crop: FC<{
   const cropDataPercent = useStore($cropDataPercent);
   const aspect = useStore($aspect);
 
-  // const [savedPxData, setSavedPxData] = useState(cropDataPx);
   let changeActive = false;
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
@@ -60,7 +59,6 @@ const Crop: FC<{
     const cropper: any = getCropper();
     const currenValues = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
-    console.log('onSetCrop');
 
     let newValuesCrop = null;
     let valueByPoint = null;
@@ -83,8 +81,6 @@ const Crop: FC<{
   };
 
   const transformDataByPointCrop = () => {
-    console.log('transformDataByPointCrop');
-
     if (point && point.pointWidth) {
       const cropper: any = getCropper();
       const imgSettings = cropper.getImageData();

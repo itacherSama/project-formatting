@@ -69,7 +69,6 @@ export const checkPositionByPoint = (pointOnImg: IPointOnImg): boolean => {
 export const getValueLS = (key: string, cb: any): void => {
   const val = localStorage.getItem(key);
   if (typeof val === 'string') {
-    console.log('key', key);
     const objVal = JSON.parse(val);
     cb(objVal);
   }

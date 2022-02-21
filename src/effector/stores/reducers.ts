@@ -15,7 +15,6 @@ export const getNewSettingsForKitImagesReducer = (
   state: ISettingsImage[],
   { transformedSettings, idx }: INewSettingsForKitImages
 ): ISettingsImage[] => {
-  console.log('getNewSettingsForKitImages');
   const newState = [...state];
   newState.splice(idx, 1, transformedSettings);
 
@@ -27,7 +26,6 @@ export const addKitImageSettingsReducer = (
   { settingImg, idx, dataByNaturalSize }: IKitImageSettings
 ): ISettingsImage[] => {
   const newState = [...state];
-  console.log('addKitImageSettings');
 
   const { naturalWidth, naturalHeight } = dataByNaturalSize;
   const percentData: any = {
