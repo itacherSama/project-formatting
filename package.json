@@ -39,19 +39,13 @@
   "scripts": {
     "start": "craco start",
     "build": "craco build",
-    "test": "craco test",
-    "lint": "yarn eslint && yarn tsc",
-    "eslint": "eslint --ext .jsx,.js,.ts,.tsx src/",
-    "code-style:fix": "yarn eslint:fix && yarn prettier:write",
-    "eslint:fix": "eslint --ext .jsx,.js,.ts,.tsx --fix src/",
-    "prettier:write": "prettier --write src/",
-    "tsc": "tsc --noEmit --skipLibCheck",
+    "lint": "eslint --ext .jsx,.js,.ts,.tsx src/",
+    "lint:fix": "eslint --ext .jsx,.js,.ts,.tsx --fix src/",
     "prepare": "husky install"
   },
   "lint-staged": {
     "src/**/*.(jsx|js|ts|tsx)": [
-      "eslint --fix ",
-      "prettier --write"
+      "eslint --fix"
     ]
   },
   "eslintConfig": {
@@ -89,7 +83,6 @@
     "@typescript-eslint/eslint-plugin": "^4.28.1",
     "@typescript-eslint/parser": "^4.28.1",
     "craco-alias": "^3.0.1",
-    "eslint": "^7.16.0",
     "eslint-config-airbnb": "^18.2.1",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-import": "^2.22.1",

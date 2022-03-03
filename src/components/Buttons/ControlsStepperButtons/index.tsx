@@ -23,8 +23,7 @@ const ControlsStepperButtons: React.FC<any> = ({
         color="primary"
         disabled={disabledBtnNext}
         variant="contained"
-        onClick={handleComplete}
-      >
+        onClick={handleComplete}>
         ДАЛЕЕ
       </Button>
     )}

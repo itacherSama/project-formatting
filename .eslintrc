@@ -54,6 +54,13 @@
       2,
       "never"
     ],
+    "prettier/prettier": [
+      "error",
+      {},
+      {
+        "usePrettierrc": true
+      }
+    ],
     "no-plusplus": 0,
     "indent": 0,
     "object-property-newline": 0,

@@ -1,11 +1,5 @@
 import React, { useLayoutEffect, useEffect, useCallback, FC, useRef, useState, MouseEvent } from 'react';
-import {
-  calcPercentFromPx,
-  calcPxFromPercent,
-  calcPxStatePoint,
-  calcWidthPoint,
-  getPxWidthPoint,
-} from '@services/imageService';
+import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '@services/imageService';
 import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
 import { setActiveChangeSettings } from '@effector/event';
 import styles from './BlockImgPreview.module.css';

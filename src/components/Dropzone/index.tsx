@@ -24,8 +24,7 @@ const Dropzone: React.FC<{
         [styles.isDragAccept]: isDragAccept,
         [styles.isDragReject]: isDragReject,
       })}
-      {...getRootProps()}
-    >
+      {...getRootProps()}>
       <input {...getInputProps()} />
       <DropzonePreview images={images} onCancel={onCancelImg} />
     </div>

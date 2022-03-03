@@ -45,8 +45,7 @@ const Gallery: React.FC<{
           className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],
-          })}
-        >
+          })}>
           <img alt={`img_${idx}`} className={styles.gridItemImg} src={file.preview} />
 
           <div className={styles.closeBtn}>
