@@ -61,7 +61,10 @@ export const setPointImgInKitImagesReducer = (
   return newState;
 };
 
-export const setCancelCropImgReducer = (state: ISettingsImage[], { idx, idxImg }: ICancelCropImg): ISettingsImage[] => {
+export const setCancelSettingInKitsCropImgReducer = (
+  state: ISettingsImage[],
+  { idx, idxImg }: ICancelCropImg
+): ISettingsImage[] => {
   const newState = [...state];
   const objSettings = newState[idx];
   objSettings.items.splice(idxImg, 1);
@@ -69,7 +72,7 @@ export const setCancelCropImgReducer = (state: ISettingsImage[], { idx, idxImg }
   return newState;
 };
 
-export const setCancelCropImgOnKitsImagesReducer = (
+export const setCancelCropImgInKitsImagesReducer = (
   state: IInfoImg[][],
   { idx, idxImg }: ICancelCropImg
 ): IInfoImg[][] => {

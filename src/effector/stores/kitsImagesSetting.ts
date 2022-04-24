@@ -1,11 +1,11 @@
-import { createStore } from 'effector';
+import { createStore } from 'effector-logger';
 import { ISettingsImage } from '@interfaces/interfaces';
 import { saveDataInLocalStorage } from '@services/localStorageService';
 import {
   addKitImageSettingsReducer,
   deleteItemFromArrByIdxReducer,
   getNewSettingsForKitImagesReducer,
-  setCancelCropImgReducer,
+  setCancelSettingInKitsCropImgReducer,
   setLengthKitsImagesReducer,
   setPointImgInKitImagesReducer,
 } from './reducers';
@@ -17,9 +17,9 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([])
   .on(events.addKitImageSettings, addKitImageSettingsReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
   .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
-  .on(events.setCancelCropImg, setCancelCropImgReducer)
-  .on(effects.fetchSettingsForImagesFx.doneData, (state, dataFromLocalStorage) => {
-    return dataFromLocalStorage;
+  .on(events.setCancelCropImg, setCancelSettingInKitsCropImgReducer)
+  .on(events.fetchSettingsForImages, (state, data: Array<ISettingsImage>) => {
+    return data;
   })
   .on(events.setLengthKitsImages, setLengthKitsImagesReducer);
 

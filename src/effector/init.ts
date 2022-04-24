@@ -4,6 +4,6 @@ import { getValueLS } from '@utils/differentFunc';
 
 export const initLocalStorage = () => {
   getValueLS('images', effects.fetchImagesFx);
-  getValueLS('settingForKitsImages', effects.fetchSettingsForImagesFx);
-  events.setLocalStorageInit();
+  getValueLS('settingForKitsImages', events.fetchSettingsForImages);
+  // events.localStorageInit();
 };

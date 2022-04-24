@@ -1,4 +1,4 @@
-import { createEvent } from 'effector';
+import { createEvent } from 'effector-logger';
 import {
   ICancelCropImg,
   ICropNewData,
@@ -8,6 +8,7 @@ import {
   IPointOnImg,
   ISetKitImages,
   ISettingImg,
+  ISettingsImage,
 } from '@interfaces/interfaces';
 import { RefObject } from 'react';
 
@@ -31,10 +32,11 @@ export const setPointImg = createEvent<IPointOnImg>();
 export const setPointImgInKitImages = createEvent<IPointImgInKitImages>();
 export const addKitImageSettings = createEvent<IKitImageSettings>();
 export const setActiveChangeSettings = createEvent<boolean>();
-
-export const setAspect = createEvent<any>();
-export const cancelAspect = createEvent<any>();
 export const setCropDataPx = createEvent<ISettingImg>();
 export const setCropDataPercent = createEvent<ICropNewData>();
 export const setCropperRef = createEvent<RefObject<HTMLImageElement>>();
-export const setLocalStorageInit = createEvent();
+export const localStorageInit = createEvent();
+export const fetchSettingsForImages = createEvent<Array<ISettingsImage>>();
+
+export const setAspect = createEvent<any>();
+export const cancelAspect = createEvent<any>();

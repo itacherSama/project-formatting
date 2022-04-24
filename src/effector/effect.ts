@@ -1,4 +1,4 @@
-import { createEffect } from 'effector';
+import { createEffect } from 'effector-logger';
 import { convertBase64ItemsInFiles } from '@services/base64Service';
 import {
   getImgFromPreviewFile,
@@ -9,21 +9,17 @@ import {
 } from '@services/imageService';
 import { IInfoImg, INewSettingsForKitImages, ISettingsImage } from '@interfaces/interfaces';
 
-export const fetchImagesFx = createEffect(async (data: any) => {
+export const fetchImagesFx = createEffect(async (data: Array<string>) => {
   const req = await convertBase64ItemsInFiles(data);
   return req;
 });
 
-export const fetchSettingsForImagesFx = createEffect(async (data: any) => {
-  return data;
-});
-
-export const generateKitsImages = createEffect(async (data: any): Promise<IInfoImg[][]> => {
+export const generateKitsImages = createEffect(async (data: [IInfoImg[], ISettingsImage[]]): Promise<IInfoImg[][]> => {
   const [images, settingsForKits] = data;
 
-  const promises = settingsForKits.map(async (imageKitsettings: ISettingsImage, idx: number): Promise<IInfoImg[]> => {
+  const promises = settingsForKits.map(async (imageKitSettings: ISettingsImage, idx: number): Promise<IInfoImg[]> => {
     const currentImg = images[idx];
-    const value = await handleGenerateKitItemsBySettings(currentImg, imageKitsettings);
+    const value = await handleGenerateKitItemsBySettings(currentImg, imageKitSettings);
     return value;
   });
 

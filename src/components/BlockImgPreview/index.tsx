@@ -21,13 +21,7 @@ const BlockImgPreview: FC<{
   const [activeChange, setActiveChange] = useState<boolean>(false);
   const [mouseIntoBlock, setMouseIntoBlock] = useState<boolean>(false);
 
-  const [pxStatePoint, setPxStatePoint] = useState<IPointOnImg>({
-    pointPlace: {
-      x: null,
-      y: null,
-    },
-    pointWidth: null,
-  });
+  const [pxStatePoint, setPxStatePoint] = useState<IPointOnImg>(calcPxStatePoint(statePoint, canvasPreview.current));
 
   const resize = useCallback(() => {
     const canvas = canvasPreview.current;
@@ -164,13 +158,13 @@ const BlockImgPreview: FC<{
     [setStatePoint]
   );
 
-  /*   const handleTouchStart = (): void => {
-      timer = setTimeout(cancelPoint, touchduration);
-    };
-
-    const handleTouchEnd = (): void => {
-      if (timer) clearTimeout(timer);
-    }; */
+  // const handleTouchStart = (): void => {
+  //   timer = setTimeout(cancelPoint, 1000);
+  // };
+  //
+  // const handleTouchEnd = (): void => {
+  //   if (timer) clearTimeout(timer);
+  // };
 
   return (
     <div className={styles.blockImgPreview}>

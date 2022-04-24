@@ -1,10 +1,10 @@
-import { createStore, sample, guard, combine, restore } from 'effector';
+import { createStore, sample, combine, restore } from 'effector-logger';
 import { setLengthKitsImagesFunc } from '@utils/differentFunc';
-import { IInfoImg, IPointImgInKitImages, IPointOnImg } from '@interfaces/interfaces';
+import { IInfoImg, IPointOnImg, ISettingsImage } from '@interfaces/interfaces';
 import {
   deleteItemFromArrByIdxReducer,
   setKitImagesReducer,
-  setCancelCropImgOnKitsImagesReducer,
+  setCancelCropImgInKitsImagesReducer,
   setGeneratedKitsImagesReducer,
 } from '@effector/stores/reducers';
 import * as events from '../event';
@@ -20,14 +20,15 @@ export const $kitsImages = createStore<IInfoImg[][]>([])
   })
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
   .on([events.setKitImages, effects.generateKitImagesBySettings.doneData], setKitImagesReducer)
-  .on(events.setCancelCropImg, setCancelCropImgOnKitsImagesReducer)
+  .on(events.setCancelCropImg, setCancelCropImgInKitsImagesReducer)
   .on(effects.generateKitsImages.doneData, setGeneratedKitsImagesReducer);
 
-guard({
-  source: combine([restore(effects.fetchImagesFx, []), restore(effects.fetchSettingsForImagesFx, [])]),
-  filter: (storeComb: Array<Array<unknown>>): boolean => Boolean(storeComb[0]?.length && storeComb[1]?.length),
-  target: effects.generateKitsImages,
-});
+// guard({
+//   clock: events.localStorageInit,
+//   source: combine([$images, $kitsImagesSetting]),
+//   filter: (storeComb: [IInfoImg[], ISettingsImage[]]): boolean => Boolean(storeComb[0]?.length && storeComb[1]?.length),
+//   target: effects.generateKitsImages,
+// });
 
 const elementsForGenerateSettingsByPoint = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting]),
@@ -44,11 +45,11 @@ const elementsForGenerateSettingsByPoint = sample(
   }
 );
 
-guard({
-  source: elementsForGenerateSettingsByPoint,
-  filter: ({ pointOnImg }): boolean => pointOnImg !== null,
-  target: effects.getNewSettingsForKitImages,
-});
+// guard({
+//   source: elementsForGenerateSettingsByPoint,
+//   filter: ({ pointOnImg }): boolean => pointOnImg !== null,
+//   target: effects.getNewSettingsForKitImages,
+// });
 
 const elementsForGenerateKitImagesBySettings = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting, $stateCropPoint]),
@@ -64,11 +65,11 @@ const elementsForGenerateKitImagesBySettings = sample(
   }
 );
 
-guard({
-  source: elementsForGenerateKitImagesBySettings,
-  filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
-  target: effects.generateKitImagesBySettings,
-});
+// guard({
+//   source: elementsForGenerateKitImagesBySettings,
+//   filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
+//   target: effects.generateKitImagesBySettings,
+// });
 
 $kitsImages.watch((state) => {
   const hasImages = state.some((kit: any) => kit.length);

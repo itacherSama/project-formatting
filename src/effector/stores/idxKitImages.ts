@@ -1,4 +1,4 @@
-import { createStore } from 'effector';
+import { createStore } from 'effector-logger';
 
 import { findNewCurrentIdx } from '@utils/differentFunc';
 import { IobjIdxKitImages } from '@interfaces/interfaces';

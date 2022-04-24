@@ -1,4 +1,4 @@
-import { createStore, guard, sample } from 'effector';
+import { createStore, sample } from 'effector-logger';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from '@services/imageService';
 import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData } from '@interfaces/interfaces';
 import { RefObject } from 'react';
@@ -44,7 +44,6 @@ export const $typeCrop = createStore<string>('px').on(
   events.setTypeCrop,
   (state: string, typeCrop: string): string => typeCrop
 );
-export const $localStorageInited = createStore<boolean>(false).on(events.setLocalStorageInit, () => true);
 
 // export const $aspect = createStore<ICropFormDataAspect>(
 //   (function () {
