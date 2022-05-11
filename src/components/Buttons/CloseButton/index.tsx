@@ -16,7 +16,7 @@ const CloseButton: React.FC<ICloseButton> = ({ idx, onCancel }) => {
   };
 
   return (
-    <IconButton aria-label="add" className={styles.iconButton} color="primary" onClick={handleCansel}>
+    <IconButton className={styles.iconButton} color="primary" onClick={handleCansel}>
       <CloseIcon />
     </IconButton>
   );

@@ -1,4 +1,6 @@
 .iconButton {
   height: inherit;
   width: inherit;
+  padding: 0;
+  transform: translate(10%, -25%);
 }
