@@ -14,7 +14,9 @@ import { $images } from './images';
 import { $kitsImagesSetting } from './kitsImagesSetting';
 import { $stateCropPoint } from './stateCropPoint';
 
-export const $kitsImages = createStore<IInfoImg[][]>([])
+export const $kitsImages = createStore<IInfoImg[][]>([], {
+  name: '$kitsImages',
+})
   .on(events.setLengthKitsImages, (state: IInfoImg[][], length: number) => {
     return setLengthKitsImagesFunc(state, length, []);
   })

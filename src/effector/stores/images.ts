@@ -5,7 +5,9 @@ import { deleteItemFromArrByIdxReducer, setImagesReducer } from './reducers';
 import * as effects from '../effect';
 import * as events from '../event';
 
-export const $images = createStore<IInfoImg[]>([])
+export const $images = createStore<IInfoImg[]>([], {
+  name: '$images',
+})
   .on([events.setImages, effects.fetchImagesFx.doneData], setImagesReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer);
 

@@ -23,27 +23,28 @@ sample({
 //   target: events.setPointImgInKitImages,
 // });
 /**/
-export const $modalState = createStore<boolean>(false)
+export const $modalState = createStore<boolean>(false, {
+  name: '$modalState',
+})
   .on(events.activeModal, () => true)
 
   .on(events.disableModal, () => false);
 
-export const $quality = createStore<string>('').on(events.setColor, (state: string, color: string): string => color);
+export const $quality = createStore<string>('', {
+  name: '$quality',
+}).on(events.setColor, (state: string, color: string): string => color);
 
-export const $color = createStore<string>('').on(
-  events.setQuality,
-  (state: string, quality: string): string => quality
-);
+export const $color = createStore<string>('', {
+  name: '$color',
+}).on(events.setQuality, (state: string, quality: string): string => quality);
 
-export const $isCroppedImages = createStore<boolean>(false).on(
-  events.setIsCroppedImages,
-  (state: boolean, flag: boolean) => flag
-);
+export const $isCroppedImages = createStore<boolean>(false, {
+  name: '$isCroppedImages',
+}).on(events.setIsCroppedImages, (state: boolean, flag: boolean) => flag);
 
-export const $typeCrop = createStore<string>('px').on(
-  events.setTypeCrop,
-  (state: string, typeCrop: string): string => typeCrop
-);
+export const $typeCrop = createStore<string>('px', {
+  name: '$typeCrop',
+}).on(events.setTypeCrop, (state: string, typeCrop: string): string => typeCrop);
 
 // export const $aspect = createStore<ICropFormDataAspect>(
 //   (function () {
@@ -59,15 +60,25 @@ export const $typeCrop = createStore<string>('px').on(
 //   return { sides: newValues, value: calcAspect(newValues) };
 // });
 
-export const $aspect = createStore<ICropFormDataAspect>({
-  sides: { width: 4, height: 3 },
-  value: 1,
-});
+export const $aspect = createStore<ICropFormDataAspect>(
+  {
+    sides: { width: 4, height: 3 },
+    value: 1,
+  },
+  {
+    name: '$aspect',
+  }
+);
 
-export const $cropDataPx = createStore<ICropFormData>({
-  width: 200,
-  height: 200,
-}).on(
+export const $cropDataPx = createStore<ICropFormData>(
+  {
+    width: 200,
+    height: 200,
+  },
+  {
+    name: '$cropDataPx',
+  }
+).on(
   events.setCropDataPx,
   (state: ICropFormData, newStateValue: ICropFormData): ICropFormData => ({
     ...state,
@@ -75,15 +86,22 @@ export const $cropDataPx = createStore<ICropFormData>({
   })
 );
 
-export const $cropDataPercent = createStore<ICropFormData>({
-  width: 50,
-  height: 50,
-});
-
-export const $cropperRef = createStore<RefObject<HTMLImageElement>>({ current: null }).on(
-  events.setCropperRef,
-  (state, data) => data
+export const $cropDataPercent = createStore<ICropFormData>(
+  {
+    width: 50,
+    height: 50,
+  },
+  {
+    name: '$cropDataPercent',
+  }
 );
+
+export const $cropperRef = createStore<RefObject<HTMLImageElement>>(
+  { current: null },
+  {
+    name: '$cropperRef',
+  }
+).on(events.setCropperRef, (state, data) => data);
 
 $cropDataPx.on(events.setCropDataPx, (state, data) => ({ ...state, ...data }));
 $cropDataPercent.on(events.setCropDataPercent, (state, data) => ({ ...state, ...data }));

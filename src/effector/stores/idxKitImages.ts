@@ -4,7 +4,12 @@ import { findNewCurrentIdx } from 'utils/differentFunc';
 import { IobjIdxKitImages } from 'interfaces/interfaces';
 import * as events from '../event';
 
-export const $idxKitImages = createStore<IobjIdxKitImages>({ idx: 0, maxIdx: 0 })
+export const $idxKitImages = createStore<IobjIdxKitImages>(
+  { idx: 0, maxIdx: 0 },
+  {
+    name: '$idxKitImages',
+  }
+)
   .on(events.setCurrentIdx, (state: IobjIdxKitImages, length: number) => ({
     maxIdx: length - 1,
     idx: 0,

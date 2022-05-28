@@ -12,7 +12,9 @@ import {
 import * as events from '../event';
 import * as effects from '../effect';
 
-export const $kitsImagesSetting = createStore<ISettingsImage[]>([])
+export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
+  name: '$kitsImagesSetting',
+})
   .on(effects.getNewSettingsForKitImages.doneData, getNewSettingsForKitImagesReducer)
   .on(events.addKitImageSettings, addKitImageSettingsReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
