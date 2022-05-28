@@ -5,7 +5,7 @@ import { $isCroppedImages, $color, $quality } from '@effector/store';
 import { downloadFiles } from '@services/fileService';
 import { $kitsImages } from '@effector/stores/kitsImages';
 
-const DownloadBtn: React.FC = () => {
+const DownloadBtn = () => {
   const kitsImages = useStore($kitsImages);
   const isCroppedImages: boolean = useStore($isCroppedImages);
   const color: string = useStore($color);

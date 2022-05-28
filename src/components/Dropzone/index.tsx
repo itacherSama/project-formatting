@@ -8,10 +8,11 @@ import { IInfoImg } from '@interfaces/interfaces';
 import DropzonePreview from './DropzonePreview';
 import styles from './Dropzone.module.css';
 
-const Dropzone: React.FC<{
+type Props = {
   images: IInfoImg[];
   onCancelImg: (idx: number) => void;
-}> = ({ images, onCancelImg }) => {
+};
+const Dropzone = ({ images, onCancelImg }: Props) => {
   const { getRootProps, getInputProps, isDragActive, isDragAccept, isDragReject } = useDropzone({
     accept: 'image/*',
     onDrop: (acceptedFiles) => setFiles(acceptedFiles, images, setImages),
@@ -24,7 +25,8 @@ const Dropzone: React.FC<{
         [styles.isDragAccept]: isDragAccept,
         [styles.isDragReject]: isDragReject,
       })}
-      {...getRootProps()}>
+      {...getRootProps()}
+    >
       <input {...getInputProps()} />
       <DropzonePreview images={images} onCancel={onCancelImg} />
     </div>

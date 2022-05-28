@@ -7,7 +7,11 @@ import { ControlsStepperButtons, Dropzone } from '@components';
 import { $images } from '@effector/stores';
 import styles from './FirstPage.module.css';
 
-const FirstPage: React.FC<any> = ({ settingStepContent }) => {
+type Props = {
+  settingStepContent: any;
+};
+
+const FirstPage = ({ settingStepContent }: Props) => {
   const images: IInfoImg[] = useStore($images);
   const disabledBtnNext: boolean = images.length === 0;
   return (

@@ -1,16 +1,16 @@
-import React from 'react';
+import React, { MouseEvent } from 'react';
 import CloseIcon from '@material-ui/icons/Close';
 import IconButton from '@material-ui/core/IconButton';
 
 import styles from './CloseButton.module.css';
 
-interface ICloseButton {
+type Props = {
   onCancel: (idx: number) => void;
   idx: number;
-}
+};
 
-const CloseButton: React.FC<ICloseButton> = ({ idx, onCancel }) => {
-  const handleCansel = (event: React.MouseEvent<HTMLButtonElement>): void => {
+const CloseButton = ({ idx, onCancel }: Props) => {
+  const handleCansel = (event: MouseEvent<HTMLButtonElement>): void => {
     event.stopPropagation();
     onCancel(idx);
   };

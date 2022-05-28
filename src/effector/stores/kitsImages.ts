@@ -1,6 +1,6 @@
-import { createStore, sample, combine, restore } from 'effector-logger';
+import { createStore, sample, combine } from 'effector-logger';
 import { setLengthKitsImagesFunc } from '@utils/differentFunc';
-import { IInfoImg, IPointOnImg, ISettingsImage } from '@interfaces/interfaces';
+import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
 import {
   deleteItemFromArrByIdxReducer,
   setKitImagesReducer,

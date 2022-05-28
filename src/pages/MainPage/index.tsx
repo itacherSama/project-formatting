@@ -1,4 +1,4 @@
-import React, { useState, FC, ReactElement } from 'react';
+import React, { useState } from 'react';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
@@ -7,6 +7,7 @@ import StepButton from '@material-ui/core/StepButton';
 import { ISettingStepContent, ISteps } from '@interfaces/interfaces';
 import { FirstPage, ResizePage, DownloadPage } from '@pages';
 import messages from '@messages/index.json';
+import { RouteComponentProps } from '@reach/router';
 
 function getStepContent(settingStepContent: ISettingStepContent) {
   switch (settingStepContent.step) {
@@ -21,7 +22,7 @@ function getStepContent(settingStepContent: ISettingStepContent) {
   }
 }
 
-const MainPage: FC<any> = (): ReactElement => {
+const MainPage = ({}: RouteComponentProps) => {
   const [activeStep, setActiveStep] = useState(0);
   const [completed, setCompleted] = useState({} as ISteps);
 

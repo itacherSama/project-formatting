@@ -4,10 +4,12 @@ import Thumb from '@components/Thumb';
 import CloseButton from '@components/Buttons/CloseButton';
 import styles from './DropzonePreview.module.css';
 
-const DropzonePreview: React.FC<{
+type Props = {
   images: IInfoImg[];
   onCancel: (idx: number) => void;
-}> = ({ images, onCancel }) => {
+};
+
+const DropzonePreview = ({ images, onCancel }: Props) => {
   const Thumbs = images.map((file: IInfoImg, idx: number) => (
     <div key={`${file.infoByFile.name}`} className={styles.ThumbItem}>
       <Thumb file={file} />

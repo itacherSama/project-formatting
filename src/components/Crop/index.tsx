@@ -1,4 +1,4 @@
-import React, { FC, useEffect, useRef } from 'react';
+import React, { useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
@@ -9,12 +9,14 @@ import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '@effector/sto
 import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '@services/imageService';
 import CropForm from './CropForm';
 
-const Crop: FC<{
+type Props = {
   src: string;
   point: IPointOnImg;
   addCropedImg: (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => void;
   onCloseModal: () => void;
-}> = ({ addCropedImg, src, onCloseModal, point }) => {
+};
+
+const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   const typeCrop = useStore($typeCrop);
   const cropperRef = useRef<HTMLImageElement>(null);
   const cropDataPx = useStore($cropDataPx);

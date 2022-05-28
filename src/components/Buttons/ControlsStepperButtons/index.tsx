@@ -3,14 +3,23 @@ import React from 'react';
 
 import styles from './ControlsStepperButtons.module.css';
 
-const ControlsStepperButtons: React.FC<any> = ({
+type Props = {
+  handleBack: any;
+  handleComplete: any;
+  visibleBtnPrevArr: any;
+  visibleBtnNextArr: any;
+  disabledBtnPrev: boolean;
+  disabledBtnNext: boolean;
+};
+
+const ControlsStepperButtons = ({
   handleBack,
   handleComplete,
   visibleBtnPrevArr,
   visibleBtnNextArr,
   disabledBtnPrev = false,
   disabledBtnNext = false,
-}) => (
+}: Props) => (
   <div>
     {visibleBtnPrevArr.every((el: any) => el === true) && (
       <Button className={styles.button} disabled={disabledBtnPrev} onClick={handleBack}>
@@ -23,7 +32,8 @@ const ControlsStepperButtons: React.FC<any> = ({
         color="primary"
         disabled={disabledBtnNext}
         variant="contained"
-        onClick={handleComplete}>
+        onClick={handleComplete}
+      >
         ДАЛЕЕ
       </Button>
     )}

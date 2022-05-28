@@ -48,6 +48,7 @@
     ],
     "@typescript-eslint/indent": 0,
     "@typescript-eslint/no-var-requires": 0,
+    "@typescript-eslint/explicit-module-boundary-types": 0,
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true}],
     "import/no-mutable-exports": 1,
     "padded-blocks": [
@@ -129,6 +130,7 @@
     "no-await-in-loop": 1,
     "no-console": 0,
     "no-debugger": 1,
+    "no-empty-pattern": 0,
     "func-names": 0,
     "no-multiple-empty-lines": [
       2,

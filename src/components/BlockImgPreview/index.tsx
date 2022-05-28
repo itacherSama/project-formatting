@@ -1,4 +1,4 @@
-import React, { useLayoutEffect, useEffect, useCallback, FC, useRef, useState, MouseEvent } from 'react';
+import React, { useLayoutEffect, useEffect, useCallback, useRef, useState, MouseEvent } from 'react';
 import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '@services/imageService';
 import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
 import { setActiveChangeSettings } from '@effector/event';
@@ -11,11 +11,13 @@ const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {
   return [x, y];
 };
 
-const BlockImgPreview: FC<{
+type Props = {
   statePoint: IPointOnImg;
   currentImg: IInfoImg;
   setStatePoint: (pxStatePoint?: IPointOnImg) => void;
-}> = ({ currentImg, statePoint, setStatePoint }) => {
+};
+
+const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
   const canvasPreview: any = useRef();
   const ImgPreview: any = useRef();
   const [activeChange, setActiveChange] = useState<boolean>(false);

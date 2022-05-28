@@ -4,7 +4,7 @@ import { ICropFormData, ICropNewData } from '@interfaces/interfaces';
 import messages from '@messages/index.json';
 import styles from '../Crop.module.css';
 
-const CropForm: React.FC<{
+type Props = {
   onSetCrop: (data: ICropNewData) => void;
   onSetAspect: (data: ICropNewData) => void;
   getCropImage: () => void;
@@ -13,9 +13,20 @@ const CropForm: React.FC<{
   aspect: ICropFormData;
   typeCrop: string;
   setTypeCrop: (data: string) => void;
-}> = ({ onSetCrop, onSetAspect, cropPx, cropPercent, aspect, typeCrop, getCropImage, setTypeCrop }) => {
+};
+
+const CropForm = ({
+  onSetCrop,
+  onSetAspect,
+  cropPx,
+  cropPercent,
+  aspect,
+  typeCrop,
+  getCropImage,
+  setTypeCrop,
+}: Props) => {
   const onChangeTypeCrop = useCallback(
-    (event: React.ChangeEvent<any>) => {
+    (event: ChangeEvent<any>) => {
       const newTypeCrop = event.target.value;
       setTypeCrop(newTypeCrop);
     },

@@ -7,7 +7,7 @@ import styles from './App.module.css';
 
 initLocalStorage();
 
-const AppRoute: React.FC = () => (
+const AppRoute = () => (
   <div className={styles.container}>
     <div className={styles.content}>
       <Router>

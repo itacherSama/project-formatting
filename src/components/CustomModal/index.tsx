@@ -3,11 +3,13 @@ import Backdrop from '@material-ui/core/Backdrop';
 import Dialog from '@material-ui/core/Dialog';
 import styles from './CustomModal.module.css';
 
-const CustomModal: React.FC<{
+type Props = {
   children: any;
   open: boolean;
   onCloseModal: () => void;
-}> = ({ children, open, onCloseModal }) => {
+};
+
+const CustomModal = ({ children, open, onCloseModal }: Props) => {
   if (!open) return <div />;
 
   return (
@@ -20,7 +22,8 @@ const CustomModal: React.FC<{
       open={open}
       scroll="body"
       closeAfterTransition
-      onClose={onCloseModal}>
+      onClose={onCloseModal}
+    >
       {children}
     </Dialog>
   );

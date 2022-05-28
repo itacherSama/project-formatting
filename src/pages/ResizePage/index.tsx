@@ -29,7 +29,12 @@ import {
 } from '@interfaces/interfaces';
 import styles from './ResizePage.module.css';
 
-const ResizePage: React.FC<any> = ({ nextStep, backStep }) => {
+type Props = {
+  nextStep: any;
+  backStep: any;
+};
+
+const ResizePage = ({ nextStep, backStep }: Props) => {
   const kitsImages = useStore($kitsImages);
   const images: IInfoImg[] = useStore($images);
   const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);

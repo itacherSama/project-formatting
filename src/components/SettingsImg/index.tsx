@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -12,16 +12,16 @@ import { IvalueOfSelect } from '@interfaces/interfaces';
 import messages from '@messages/index.json';
 import styles from './SettingsImg.module.css';
 
-const SettingsImg: React.FC = () => {
+const SettingsImg = () => {
   const color: string = useStore($color);
   const quality: string = useStore($quality);
 
-  const onSetQuality = (event: React.ChangeEvent<IvalueOfSelect>): void => {
+  const onSetQuality = (event: ChangeEvent<IvalueOfSelect>): void => {
     const qualityValue = event.target.value as string;
     setQuality(qualityValue);
   };
 
-  const onSetColor = (event: React.ChangeEvent<IvalueOfSelect>): void => {
+  const onSetColor = (event: ChangeEvent<IvalueOfSelect>): void => {
     const colorValue = event.target.value as string;
     setColor(colorValue);
   };
