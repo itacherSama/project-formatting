@@ -1,5 +1,5 @@
 import React from 'react';
-import { IInfoImg } from '@interfaces/interfaces';
+import { IInfoImg } from 'interfaces/interfaces';
 import styles from './Thumb.module.css';
 
 type Props = {

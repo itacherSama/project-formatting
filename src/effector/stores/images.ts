@@ -1,6 +1,6 @@
 import { createStore, sample } from 'effector-logger';
-import { convertAndSaveDataInLocalStorage } from '@services/localStorageService';
-import { IInfoImg } from '@interfaces/interfaces';
+import { convertAndSaveDataInLocalStorage } from 'services/localStorageService';
+import { IInfoImg } from 'interfaces/interfaces';
 import { deleteItemFromArrByIdxReducer, setImagesReducer } from './reducers';
 import * as effects from '../effect';
 import * as events from '../event';

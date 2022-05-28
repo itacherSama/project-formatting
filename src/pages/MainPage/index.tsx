@@ -4,9 +4,9 @@ import Step from '@material-ui/core/Step';
 import StepContent from '@material-ui/core/StepContent';
 import StepButton from '@material-ui/core/StepButton';
 
-import { ISettingStepContent, ISteps } from '@interfaces/interfaces';
-import { FirstPage, ResizePage, DownloadPage } from '@pages';
-import messages from '@messages/index.json';
+import { ISettingStepContent, ISteps } from 'interfaces/interfaces';
+import { FirstPage, ResizePage, DownloadPage } from 'pages';
+import messages from 'messages/index.json';
 import { RouteComponentProps } from '@reach/router';
 
 function getStepContent(settingStepContent: ISettingStepContent) {

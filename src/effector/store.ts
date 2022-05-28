@@ -1,6 +1,6 @@
 import { createStore, sample } from 'effector-logger';
-import { transformPxAndPercent, calcPercentFromPx, calcAspect } from '@services/imageService';
-import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData } from '@interfaces/interfaces';
+import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
+import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData } from 'interfaces/interfaces';
 import { RefObject } from 'react';
 import * as events from './event';
 import * as effects from './effect';

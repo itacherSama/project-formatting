@@ -1,12 +1,12 @@
 import { createStore, sample, combine } from 'effector-logger';
-import { setLengthKitsImagesFunc } from '@utils/differentFunc';
-import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
+import { setLengthKitsImagesFunc } from 'utils/differentFunc';
+import { IInfoImg, IPointOnImg } from 'interfaces/interfaces';
 import {
   deleteItemFromArrByIdxReducer,
   setKitImagesReducer,
   setCancelCropImgInKitsImagesReducer,
   setGeneratedKitsImagesReducer,
-} from '@effector/stores/reducers';
+} from 'effector/stores/reducers';
 import * as events from '../event';
 import * as effects from '../effect';
 import { $idxKitImages } from './idxKitImages';

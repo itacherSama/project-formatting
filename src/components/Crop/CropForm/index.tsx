@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useCallback } from 'react';
 import { Button, Select, MenuItem, TextField } from '@material-ui/core';
-import { ICropFormData, ICropNewData } from '@interfaces/interfaces';
-import messages from '@messages/index.json';
+import { ICropFormData, ICropNewData } from 'interfaces/interfaces';
+import messages from 'messages/index.json';
 import styles from '../Crop.module.css';
 
 type Props = {

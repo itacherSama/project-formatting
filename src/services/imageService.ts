@@ -9,14 +9,14 @@ import {
   ISettingImg,
   ISettingsImage,
   Nullable,
-} from '@interfaces/interfaces';
+} from 'interfaces/interfaces';
 import {
   checkCoordinates,
   checkDefaultSettingImg,
   checkPositionByPoint,
   checkProportions,
   throwErrorIfNull,
-} from '@utils/differentFunc';
+} from 'utils/differentFunc';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> =>
   new Promise((resolve) => {

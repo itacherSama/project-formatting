@@ -1,7 +1,7 @@
 import React from 'react';
-import { IInfoImg } from '@interfaces/interfaces';
-import Thumb from '@components/Thumb';
-import CloseButton from '@components/Buttons/CloseButton';
+import { IInfoImg } from 'interfaces/interfaces';
+import Thumb from 'components/Thumb';
+import CloseButton from 'components/Buttons/CloseButton';
 import styles from './DropzonePreview.module.css';
 
 type Props = {

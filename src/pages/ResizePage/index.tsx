@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { $modalState } from '@effector/store';
+import { $modalState } from 'effector/store';
 import {
   setCurrentCropImage,
   setKitImages,
@@ -13,20 +13,20 @@ import {
   cancelCropImg,
   setPointImg,
   addKitImageSettings,
-} from '@effector/event';
-import Gallery from '@components/Gallery';
-import Crop from '@components/Crop';
-import CustomModal from '@components/CustomModal';
-import BlockImgPreview from '@components/BlockImgPreview';
-import { convertFromBase64 } from '@services/base64Service';
-import { $idxKitImages, $kitsImagesSetting, $kitsImages, $images } from '@effector/stores';
+} from 'effector/event';
+import Gallery from 'components/Gallery';
+import Crop from 'components/Crop';
+import CustomModal from 'components/CustomModal';
+import BlockImgPreview from 'components/BlockImgPreview';
+import { convertFromBase64 } from 'services/base64Service';
+import { $idxKitImages, $kitsImagesSetting, $kitsImages, $images } from 'effector/stores';
 import {
   IobjIdxKitImages,
   IInfoImg,
   ISettingImg,
   ISettingsImage,
   IImgSettingsNaturalSize,
-} from '@interfaces/interfaces';
+} from 'interfaces/interfaces';
 import styles from './ResizePage.module.css';
 
 type Props = {

@@ -3,9 +3,9 @@ import Masonry from 'react-masonry-component';
 import cn from 'classnames';
 import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
-import CloseButton from '@components/Buttons/CloseButton';
-import { calcProportion, getTypeByPropotion } from '@services/imageService';
-import { IInfoImg, ISettingImg } from '@interfaces/interfaces';
+import CloseButton from 'components/Buttons/CloseButton';
+import { calcProportion, getTypeByPropotion } from 'services/imageService';
+import { IInfoImg, ISettingImg } from 'interfaces/interfaces';
 
 import styles from './Gallery.module.css';
 

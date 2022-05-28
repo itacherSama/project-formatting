@@ -1,6 +1,6 @@
 import { createStore } from 'effector-logger';
-import { ISettingsImage } from '@interfaces/interfaces';
-import { saveDataInLocalStorage } from '@services/localStorageService';
+import { ISettingsImage } from 'interfaces/interfaces';
+import { saveDataInLocalStorage } from 'services/localStorageService';
 import {
   addKitImageSettingsReducer,
   deleteItemFromArrByIdxReducer,

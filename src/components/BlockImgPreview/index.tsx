@@ -1,7 +1,7 @@
 import React, { useLayoutEffect, useEffect, useCallback, useRef, useState, MouseEvent } from 'react';
-import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from '@services/imageService';
-import { IInfoImg, IPointOnImg } from '@interfaces/interfaces';
-import { setActiveChangeSettings } from '@effector/event';
+import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from 'services/imageService';
+import { IInfoImg, IPointOnImg } from 'interfaces/interfaces';
+import { setActiveChangeSettings } from 'effector/event';
 import styles from './BlockImgPreview.module.css';
 
 const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {

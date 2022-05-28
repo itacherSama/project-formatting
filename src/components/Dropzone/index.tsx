@@ -2,9 +2,9 @@ import React from 'react';
 import { useDropzone } from 'react-dropzone';
 import cn from 'classnames';
 
-import { setImages } from '@effector/event';
-import { setFiles } from '@services/fileService';
-import { IInfoImg } from '@interfaces/interfaces';
+import { setImages } from 'effector/event';
+import { setFiles } from 'services/fileService';
+import { IInfoImg } from 'interfaces/interfaces';
 import DropzonePreview from './DropzonePreview';
 import styles from './Dropzone.module.css';
 

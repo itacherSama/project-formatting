@@ -1,4 +1,4 @@
-import { PossibleStringType, IInfoImg } from '@interfaces/interfaces';
+import { PossibleStringType, IInfoImg } from 'interfaces/interfaces';
 
 export const convertFromBase64 = (el: string, idx: number): Promise<IInfoImg> =>
   fetch(el)

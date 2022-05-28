@@ -6,10 +6,10 @@ import {
   IPointImgInKitImages,
   ISetKitImages,
   ISettingsImage,
-} from '@interfaces/interfaces';
-import { calcPercentFromPx } from '@services/imageService';
-import { copyObject, setLengthKitsImagesFunc } from '@utils/differentFunc';
-import { initialStatePoint } from '@effector/stores/initStateStores';
+} from 'interfaces/interfaces';
+import { calcPercentFromPx } from 'services/imageService';
+import { copyObject, setLengthKitsImagesFunc } from 'utils/differentFunc';
+import { initialStatePoint } from 'effector/stores/initStateStores';
 
 export const getNewSettingsForKitImagesReducer = (
   state: ISettingsImage[],

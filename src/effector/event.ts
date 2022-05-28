@@ -9,7 +9,7 @@ import {
   ISetKitImages,
   ISettingImg,
   ISettingsImage,
-} from '@interfaces/interfaces';
+} from 'interfaces/interfaces';
 import { RefObject } from 'react';
 
 export const setImages = createEvent<IInfoImg[]>();

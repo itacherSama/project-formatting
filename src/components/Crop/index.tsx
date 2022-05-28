@@ -3,10 +3,10 @@ import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
-import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from '@effector/event';
-import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from '@interfaces/interfaces';
-import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from '@effector/store';
-import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from '@services/imageService';
+import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from 'effector/event';
+import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/interfaces';
+import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from 'effector/store';
+import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from 'services/imageService';
 import CropForm from './CropForm';
 
 type Props = {

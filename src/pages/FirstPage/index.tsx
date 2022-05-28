@@ -1,10 +1,10 @@
 import React from 'react';
 import { useStore } from 'effector-react';
-import { cancelImg } from '@effector/event';
+import { cancelImg } from 'effector/event';
 
-import { IInfoImg } from '@interfaces/interfaces';
-import { ControlsStepperButtons, Dropzone } from '@components';
-import { $images } from '@effector/stores';
+import { IInfoImg } from 'interfaces/interfaces';
+import { ControlsStepperButtons, Dropzone } from 'components';
+import { $images } from 'effector/stores';
 import styles from './FirstPage.module.css';
 
 type Props = {

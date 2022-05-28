@@ -1,4 +1,4 @@
-import { IInfoImg, PossibleStringType } from '@interfaces/interfaces';
+import { IInfoImg, PossibleStringType } from 'interfaces/interfaces';
 import { convertFilesInBase64Items } from './base64Service';
 
 export const saveDataInLocalStorage = <T>(localName: string, data: Array<T>) => {

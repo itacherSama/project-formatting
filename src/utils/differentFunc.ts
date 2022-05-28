@@ -1,4 +1,4 @@
-import { ICropFormData, IobjIdxKitImages, IPointOnImg, IPointPlace, ISettingImg } from '@interfaces/interfaces';
+import { ICropFormData, IobjIdxKitImages, IPointOnImg, IPointPlace, ISettingImg } from 'interfaces/interfaces';
 
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;

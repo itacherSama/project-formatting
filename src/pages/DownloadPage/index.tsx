@@ -1,5 +1,5 @@
 import React from 'react';
-import { SettingsImg, DownloadBtn } from '@components';
+import { SettingsImg, DownloadBtn } from 'components';
 import styles from './DownloadPage.module.css';
 
 const DownloadPage = () => (
