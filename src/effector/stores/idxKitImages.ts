@@ -11,7 +11,7 @@ export const $idxKitImages = createStore<IobjIdxKitImages>(
   }
 )
   .on(events.setCurrentIdx, (state: IobjIdxKitImages, length: number) => ({
-    maxIdx: length - 1,
+    maxIdx: length > 0 ? length - 1 : 0,
     idx: 0,
   }))
   .on(events.nextKitImages, (state: IobjIdxKitImages) => findNewCurrentIdx(state, '+'))
