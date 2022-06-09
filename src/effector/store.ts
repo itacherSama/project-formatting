@@ -23,6 +23,31 @@ sample({
 //   target: events.setPointImgInKitImages,
 // });
 /**/
+
+type SSS = { images: boolean; settings: boolean };
+
+export const $loadState = createStore<SSS>(
+  {
+    images: false,
+    settings: false,
+  },
+  {
+    name: '$loadState',
+  }
+)
+  .on(events.fetchSettingsForImages, (state: SSS) => {
+    return {
+      ...state,
+      settings: true,
+    };
+  })
+  .on(effects.fetchImagesFx.done, (state: SSS) => {
+    return {
+      ...state,
+      images: true,
+    };
+  });
+
 export const $modalState = createStore<boolean>(false, {
   name: '$modalState',
 })
