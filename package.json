@@ -1,6 +1,8 @@
 {
   "resolutions": {
-    "react-error-overlay": "6.0.9"
+    "react-error-overlay": "6.0.9",
+    "@types/react-dom": "17.0.11",
+    "@types/react": "17.0.39"
   },
   "name": "project-formatting",
   "version": "0.1.0",
