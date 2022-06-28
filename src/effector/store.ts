@@ -1,6 +1,13 @@
 import { createStore, sample } from 'effector-logger';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
-import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData, ILoadState } from 'interfaces/interfaces';
+import {
+  IobjIdxKitImages,
+  ICropFormDataAspect,
+  ICropFormData,
+  ICropNewData,
+  ILoadState,
+  IPointOnImg,
+} from 'interfaces/interfaces';
 import { RefObject } from 'react';
 import * as events from './event';
 import * as effects from './effect';
@@ -15,14 +22,13 @@ sample({
   }),
   target: events.setCancelCropImg,
 });
-/**/
-// sample({
-//   source: $idxKitImages,
-//   clock: events.setPointImg,
-//   fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
-//   target: events.setPointImgInKitImages,
-// });
-/**/
+
+sample({
+  source: $idxKitImages,
+  clock: events.setPointImg,
+  fn: (objIdxCurrentImg: IobjIdxKitImages, pointOnImg: IPointOnImg) => ({ idx: objIdxCurrentImg.idx, pointOnImg }),
+  target: events.setPointImgInKitImages,
+});
 
 export const $loadState = createStore<ILoadState>(
   {

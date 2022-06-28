@@ -23,7 +23,7 @@ const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
   const [activeChange, setActiveChange] = useState<boolean>(false);
   const [mouseIntoBlock, setMouseIntoBlock] = useState<boolean>(false);
 
-  const [pxStatePoint, setPxStatePoint] = useState<IPointOnImg>(calcPxStatePoint(statePoint, canvasPreview.current));
+  const [pxStatePoint, setPxStatePoint] = useState<IPointOnImg>({} as IPointOnImg);
 
   const resize = useCallback(() => {
     const canvas = canvasPreview.current;
