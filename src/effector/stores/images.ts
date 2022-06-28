@@ -11,17 +11,12 @@ export const $images = createStore<IInfoImg[]>([], {
   .on([events.setImages, effects.fetchImagesFx.doneData], setImagesReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer);
 
-// const checkLock = guard({
-//   source: [$images, $localStorageInited],
-//   filter: ([_, localStorageInited]): boolean => localStorageInited,
-// });
-
-// sample({
-//   clock: checkLock,
-//   source: $images,
-//   fn: (images: IInfoImg[]): number => images.length,
-//   target: events.setLengthKitsImages,
-// });
+sample({
+  clock: events.localStorageInit,
+  source: $images,
+  fn: (images: IInfoImg[]): number => images.length,
+  target: events.setLengthKitsImages,
+});
 
 $images.watch((state: IInfoImg[]): void => {
   events.setCurrentIdx(state.length);

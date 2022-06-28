@@ -1,6 +1,6 @@
 import { createStore, sample } from 'effector-logger';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
-import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData } from 'interfaces/interfaces';
+import { IobjIdxKitImages, ICropFormDataAspect, ICropFormData, ICropNewData, ILoadState } from 'interfaces/interfaces';
 import { RefObject } from 'react';
 import * as events from './event';
 import * as effects from './effect';
@@ -24,9 +24,7 @@ sample({
 // });
 /**/
 
-type SSS = { images: boolean; settings: boolean };
-
-export const $loadState = createStore<SSS>(
+export const $loadState = createStore<ILoadState>(
   {
     images: false,
     settings: false,
@@ -35,13 +33,13 @@ export const $loadState = createStore<SSS>(
     name: '$loadState',
   }
 )
-  .on(events.fetchSettingsForImages, (state: SSS) => {
+  .on(events.fetchSettingsForImages, (state: ILoadState) => {
     return {
       ...state,
       settings: true,
     };
   })
-  .on(effects.fetchImagesFx.done, (state: SSS) => {
+  .on(effects.fetchImagesFx.done, (state: ILoadState) => {
     return {
       ...state,
       images: true,

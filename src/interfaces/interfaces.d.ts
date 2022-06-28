@@ -100,3 +100,8 @@ export interface ISetKitImages {
   kitImages: IInfoImg[];
   idx: number;
 }
+
+export interface ILoadState {
+  images: boolean;
+  settings: boolean;
+}

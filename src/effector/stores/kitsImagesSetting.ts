@@ -20,8 +20,8 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
   .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
   .on(events.setCancelCropImg, setCancelSettingInKitsCropImgReducer)
-  .on(events.fetchSettingsForImages, (state, data: Array<ISettingsImage>) => {
-    return data;
+  .on(events.fetchSettingsForImages, (state, data: Array<ISettingsImage> | null) => {
+    return data || state;
   })
   .on(events.setLengthKitsImages, setLengthKitsImagesReducer);
 

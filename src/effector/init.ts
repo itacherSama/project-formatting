@@ -1,9 +1,10 @@
 import * as effects from 'effector/effect';
 import * as events from 'effector/event';
 import { getValueLS } from 'utils/differentFunc';
-import { guard, restore } from 'effector-logger';
+import { guard } from 'effector-logger';
 import { localStorageInit } from 'effector/event';
 import { $loadState } from './store';
+import { ILoadState } from '../interfaces/interfaces';
 
 export const initLocalStorage = (): void => {
   getValueLS('images', effects.fetchImagesFx);
@@ -12,10 +13,8 @@ export const initLocalStorage = (): void => {
 
 guard({
   clock: $loadState,
-  filter: (values: any) => {
-    console.log('values111', values);
-    return true;
-  } /* 2 */,
-
-  target: localStorageInit /* 4 */,
+  filter: (values: ILoadState) => {
+    return values.settings && values.images;
+  },
+  target: localStorageInit,
 });
