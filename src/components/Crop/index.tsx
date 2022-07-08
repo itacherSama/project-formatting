@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
@@ -34,7 +34,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     setCropperRef(cropperRef);
   }, [cropperRef]);
 
-  const onCrop = () => {
+  const onCrop = useCallback(() => {
     if (changeActive) {
       changeActive = false;
       return;
@@ -55,7 +55,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
 
     cropper.setData(newData);
     setCropDataPx(newData);
-  };
+  }, [point]);
 
   const onSetCrop = (newValue: ICropNewData) => {
     const cropper: any = getCropper();

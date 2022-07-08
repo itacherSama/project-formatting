@@ -12,9 +12,10 @@ export const $images = createStore<IInfoImg[]>([], {
   .on(events.cancelImg, deleteItemFromArrByIdxReducer);
 
 sample({
-  clock: events.localStorageInit,
   source: $images,
-  fn: (images: IInfoImg[]): number => images.length,
+  fn: (images: IInfoImg[]): number => {
+    return images.length;
+  },
   target: events.setLengthKitsImages,
 });
 

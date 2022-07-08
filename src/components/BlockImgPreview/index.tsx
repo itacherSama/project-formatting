@@ -34,7 +34,9 @@ const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
       canvas.width = width;
       canvas.height = height;
 
-      setPxStatePoint(calcPxStatePoint(statePoint, canvasPreview.current));
+      if (statePoint?.pointWidth) {
+        setPxStatePoint(calcPxStatePoint(statePoint, canvasPreview.current));
+      }
     }
   }, [statePoint, ImgPreview]);
 
@@ -61,7 +63,9 @@ const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
   }, [resize, ImgPreview]);
 
   useEffect(() => {
-    setPxStatePoint(calcPxStatePoint(statePoint, canvasPreview.current));
+    if (statePoint?.pointWidth) {
+      setPxStatePoint(calcPxStatePoint(statePoint, canvasPreview.current));
+    }
   }, [statePoint]);
 
   useEffect(() => {

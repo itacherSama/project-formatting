@@ -1,6 +1,6 @@
-import { createStore, sample, combine } from 'effector-logger';
+import { createStore, sample, combine, guard } from 'effector-logger';
 import { setLengthKitsImagesFunc } from 'utils/differentFunc';
-import { IInfoImg, IPointOnImg } from 'interfaces/interfaces';
+import { IInfoImg, IPointOnImg, ISettingsImage } from 'interfaces/interfaces';
 import {
   deleteItemFromArrByIdxReducer,
   setKitImagesReducer,
@@ -25,12 +25,12 @@ export const $kitsImages = createStore<IInfoImg[][]>([], {
   .on(events.setCancelCropImg, setCancelCropImgInKitsImagesReducer)
   .on(effects.generateKitsImages.doneData, setGeneratedKitsImagesReducer);
 
-// guard({
-//   clock: events.localStorageInit,
-//   source: combine([$images, $kitsImagesSetting]),
-//   filter: (storeComb: [IInfoImg[], ISettingsImage[]]): boolean => Boolean(storeComb[0]?.length && storeComb[1]?.length),
-//   target: effects.generateKitsImages,
-// });
+guard({
+  clock: events.localStorageInit,
+  source: combine([$images, $kitsImagesSetting]),
+  filter: (storeComb: [IInfoImg[], ISettingsImage[]]): boolean => Boolean(storeComb[0]?.length && storeComb[1]?.length),
+  target: effects.generateKitsImages,
+});
 
 const elementsForGenerateSettingsByPoint = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting]),

@@ -1,4 +1,4 @@
-import { createStore, sample } from 'effector-logger';
+import { createStore, guard, sample } from 'effector-logger';
 import { transformPxAndPercent, calcPercentFromPx, calcAspect } from 'services/imageService';
 import {
   IobjIdxKitImages,
@@ -135,12 +135,34 @@ export const $cropperRef = createStore<RefObject<HTMLImageElement>>(
 $cropDataPx.on(events.setCropDataPx, (state, data) => ({ ...state, ...data }));
 $cropDataPercent.on(events.setCropDataPercent, (state, data) => ({ ...state, ...data }));
 
-sample({
+// sample({
+//   clock: events.setCropDataPx,
+//   fn: (cropZoneData: RefObject<HTMLImageElement>, cropData: ICropNewData): ICropNewData => {
+//     const value: ICropNewData = transformPxAndPercent(cropZoneData.current!, cropData, calcPercentFromPx);
+//     return value;
+//   },
+//   source: $cropperRef,
+//   target: events.setCropDataPercent,
+// });
+
+const checkTypePercent = guard({
   clock: events.setCropDataPx,
-  fn: (cropZoneData: RefObject<HTMLImageElement>, cropData: ICropNewData): ICropNewData => {
+  source: $typeCrop,
+  filter: (type: any) => {
+    if (type === '%') {
+      return true;
+    }
+    return false;
+  },
+});
+
+sample({
+  clock: checkTypePercent,
+  fn: ([cropZoneData, cropData]: [RefObject<HTMLImageElement>, ICropNewData]): ICropNewData => {
+    console.log('[cropZoneData, cropData]', [cropZoneData, cropData]);
     const value: ICropNewData = transformPxAndPercent(cropZoneData.current!, cropData, calcPercentFromPx);
     return value;
   },
-  source: $cropperRef,
-  target: events.setCropDataPercent,
+  source: [$cropperRef, $cropDataPx],
+  // target: events.setCropDataPercent,
 });

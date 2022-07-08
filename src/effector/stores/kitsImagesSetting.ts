@@ -28,3 +28,7 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
 window.addEventListener('beforeunload', () => {
   saveDataInLocalStorage<ISettingsImage>('settingForKitsImages', $kitsImagesSetting.getState());
 });
+
+$kitsImagesSetting.watch((state) => {
+  console.log('$kitsImagesSetting state', state);
+});
