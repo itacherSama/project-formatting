@@ -57,8 +57,8 @@ const CropForm = ({
 
     return (
       <>
-        <TextField label="Width" name="width" type="number" value={crop.width} onChange={onSetValue} />
-        <TextField label="Height" name="height" type="number" value={crop.height} onChange={onSetValue} />
+        <TextField label="Width" name="width" type="number" value={crop?.width} onChange={onSetValue} />
+        <TextField label="Height" name="height" type="number" value={crop?.height} onChange={onSetValue} />
       </>
     );
   }, [typeCrop, cropPx, cropPercent, aspect, onSetValue]);

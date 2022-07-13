@@ -1,12 +1,12 @@
-import React, { useCallback, useEffect, useRef } from 'react';
+import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
 import { useStore } from 'effector-react';
-import { setCropDataPx, setAspect, setCropperRef, setTypeCrop } from 'effector/event';
-import { ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/interfaces';
-import { $aspect, $cropDataPercent, $cropDataPx, $typeCrop } from 'effector/store';
-import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent } from 'services/imageService';
+import { setAspect } from 'effector/event';
+import { ICropFormData, ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/interfaces';
+import { $aspect } from 'effector/store';
+import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent, calcPercentFromPx } from 'services/imageService';
 import CropForm from './CropForm';
 
 type Props = {
@@ -17,11 +17,22 @@ type Props = {
 };
 
 const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
-  const typeCrop = useStore($typeCrop);
+  const [typeCrop, setTypeCrop] = useState<string>('px');
   const cropperRef = useRef<HTMLImageElement>(null);
-  const cropDataPx = useStore($cropDataPx);
-  const cropDataPercent = useStore($cropDataPercent);
+
+  const [cropDataPx, setCropDataPx] = useState<ICropFormData>({
+    width: 200,
+    height: 200,
+  });
+
+  const [cropDataPercent, setCropDataPercent] = useState<ICropFormData>({ width: 50, height: 50 });
+
   const aspect = useStore($aspect);
+
+  const calcPercentCropData = (cropData: ICropNewData) => {
+    const value = transformPxAndPercent(cropperRef.current!, cropData, calcPercentFromPx) as ICropFormData;
+    setCropDataPercent(value);
+  };
 
   let changeActive = false;
   const getCropper = () => {
@@ -29,10 +40,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     const cropper: any = imageElement?.cropper;
     return cropper;
   };
-
-  useEffect(() => {
-    setCropperRef(cropperRef);
-  }, [cropperRef]);
 
   const onCrop = useCallback(() => {
     if (changeActive) {
@@ -53,9 +60,11 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
 
     changeActive = true;
 
-    cropper.setData(newData);
+    calcPercentCropData(newData);
     setCropDataPx(newData);
-  }, [point]);
+
+    cropper.setData(newData);
+  }, [point, typeCrop]);
 
   const onSetCrop = (newValue: ICropNewData) => {
     const cropper: any = getCropper();
@@ -134,7 +143,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
       const cropper: any = getCropper();
       cropper.setAspectRatio(NaN).setData({ ...cropDataPx });
     }
-
     setTypeCrop(newType);
   };
 
@@ -142,8 +150,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     <>
       <Cropper
         ref={cropperRef}
-        autoCrop={false}
-        autoCropArea={1}
+        autoCropArea={0.5}
         background={false}
         crop={onCrop}
         guides={false}
@@ -153,6 +160,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         src={src}
         viewMode={1}
         zoomable={false}
+        autoCrop
         responsive
       />
       <CropForm
