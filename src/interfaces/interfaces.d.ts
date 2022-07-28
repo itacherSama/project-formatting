@@ -16,7 +16,7 @@ export interface ICropFormData {
 }
 
 export interface ICropFormDataAspect {
-  value: number;
+  value: Nullable<number>;
   sides: ICropFormData;
 }
 

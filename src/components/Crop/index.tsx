@@ -2,11 +2,22 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import { useStore } from 'effector-react';
 import { setAspect } from 'effector/event';
-import { ICropFormData, ICropNewData, IImgSettingsNaturalSize, IPointOnImg, ISettingImg } from 'interfaces/interfaces';
-import { $aspect } from 'effector/store';
-import { getPositionByPoint, calcPxFromPercent, transformPxAndPercent, calcPercentFromPx } from 'services/imageService';
+import {
+  ICropFormData,
+  ICropNewData,
+  IImgSettingsNaturalSize,
+  IPointOnImg,
+  ISettingImg,
+  ICropFormDataAspect,
+} from 'interfaces/interfaces';
+import {
+  getPositionByPoint,
+  calcPxFromPercent,
+  transformPxAndPercent,
+  calcPercentFromPx,
+  calcAspect,
+} from 'services/imageService';
 import CropForm from './CropForm';
 
 type Props = {
@@ -27,11 +38,25 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
 
   const [cropDataPercent, setCropDataPercent] = useState<ICropFormData>({ width: 50, height: 50 });
 
-  const aspect = useStore($aspect);
+  const [aspect, setCropAspect] = useState<ICropFormDataAspect>(() => {
+    const startValue = { width: 4, height: 3 };
+    return {
+      sides: startValue,
+      value: calcAspect(startValue),
+    };
+  });
 
   const calcPercentCropData = (cropData: ICropNewData) => {
     const value = transformPxAndPercent(cropperRef.current!, cropData, calcPercentFromPx) as ICropFormData;
     setCropDataPercent(value);
+  };
+
+  const calcAspectCropData = (newValue: any) => {
+    setCropAspect((prevState) => {
+      const newValues = { ...prevState.sides, ...newValue };
+
+      return { sides: newValues, value: calcAspect(newValues) };
+    });
   };
 
   let changeActive = false;
