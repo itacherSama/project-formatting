@@ -2,7 +2,6 @@ import React, { useCallback, useEffect, useRef, useState } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
-import { setAspect } from 'effector/event';
 import {
   ICropFormData,
   ICropNewData,
@@ -66,6 +65,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     return cropper;
   };
 
+  console.log('getCropper', getCropper()?.getData());
   const onCrop = useCallback(() => {
     if (changeActive) {
       changeActive = false;
@@ -155,7 +155,10 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   useEffect(() => {
     const cropper: any = getCropper();
     if (typeCrop === 'aspect') {
-      cropper.setAspectRatio(aspect.value);
+      const natutalSize = cropper.getImageData();
+      cropper
+        .setAspectRatio(aspect.value)
+        .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
     }
   }, [aspect, typeCrop]);
 
@@ -195,7 +198,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         getCropImage={getCropImage}
         setTypeCrop={onTypeCrop}
         typeCrop={typeCrop}
-        onSetAspect={setAspect}
+        onSetAspect={calcAspectCropData}
         onSetCrop={onSetCrop}
       />
     </>
