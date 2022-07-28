@@ -47,11 +47,11 @@ const elementsForGenerateSettingsByPoint = sample(
   }
 );
 
-// guard({
-//   source: elementsForGenerateSettingsByPoint,
-//   filter: ({ pointOnImg }): boolean => pointOnImg !== null,
-//   target: effects.getNewSettingsForKitImages,
-// });
+guard({
+  source: elementsForGenerateSettingsByPoint,
+  filter: ({ pointOnImg }): boolean => pointOnImg !== null,
+  target: effects.getNewSettingsForKitImages,
+});
 
 const elementsForGenerateKitImagesBySettings = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting, $stateCropPoint]),
@@ -67,11 +67,11 @@ const elementsForGenerateKitImagesBySettings = sample(
   }
 );
 
-// guard({
-//   source: elementsForGenerateKitImagesBySettings,
-//   filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
-//   target: effects.generateKitImagesBySettings,
-// });
+guard({
+  source: elementsForGenerateKitImagesBySettings,
+  filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
+  target: effects.generateKitImagesBySettings,
+});
 
 $kitsImages.watch((state) => {
   const hasImages = state.some((kit: any) => kit.length);
