@@ -106,3 +106,8 @@ export interface ILoadState {
   images: boolean;
   settings: boolean;
 }
+
+export interface ICurrentChangeCrop {
+  idImg: number;
+  idCrop: number;
+}

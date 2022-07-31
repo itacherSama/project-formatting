@@ -17,7 +17,7 @@ const heightForPreview = 180;
 type Props = {
   files: IInfoImg[];
   settings: ISettingImg[];
-  onActiveModal: () => void;
+  onActiveModal: (cropNumber?: number) => void;
   onCancelCropImg: (idx: number) => void;
 };
 
@@ -30,6 +30,7 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
   };
   console.log('files', files);
   console.log('settings', settings);
+
   const childElements =
     !!files?.length &&
     !!settings.length &&
@@ -51,7 +52,7 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],
           })}
-          onClick={onActiveModal}
+          onClick={() => onActiveModal(idx)}
         >
           <img alt={`img_${idx}`} className={styles.gridItemImg} src={file.preview} />
 
@@ -66,7 +67,7 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
     <Masonry className={styles.grid} elementType="ul" options={masonryOptions}>
       {childElements}
       <li key="addBtn" className={cn(styles.gridImage, styles.gridItemAdd)}>
-        <IconButton aria-label="add" className={styles.iconButton} color="primary" onClick={onActiveModal}>
+        <IconButton aria-label="add" className={styles.iconButton} color="primary" onClick={() => onActiveModal()}>
           <AddIcon fontSize="large" />
         </IconButton>
       </li>

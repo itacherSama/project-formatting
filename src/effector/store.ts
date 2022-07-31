@@ -1,8 +1,9 @@
 import { createStore, sample } from 'effector-logger';
-import { IobjIdxKitImages, ILoadState, IPointOnImg } from 'interfaces/interfaces';
+import { IobjIdxKitImages, ILoadState, IPointOnImg, ICurrentChangeCrop } from 'interfaces/interfaces';
 import * as events from './event';
 import * as effects from './effect';
 import { $idxKitImages } from './stores/idxKitImages';
+import { setCurrentChangeCrop } from './event';
 
 sample({
   source: $idxKitImages,
@@ -61,3 +62,9 @@ export const $color = createStore<string>('', {
 export const $isCroppedImages = createStore<boolean>(false, {
   name: '$isCroppedImages',
 }).on(events.setIsCroppedImages, (state: boolean, flag: boolean) => flag);
+
+export const $currentChangeCrop = createStore<ICurrentChangeCrop | null>(null, {
+  name: '$currentChangeCrop',
+})
+  .on(events.setCurrentChangeCrop, (state, currentChangeCrop: ICurrentChangeCrop) => currentChangeCrop)
+  .on(events.resetCurrentChangeCrop, (state) => null);

@@ -2,6 +2,7 @@ import { createEvent } from 'effector-logger';
 import {
   ICancelCropImg,
   ICropNewData,
+  ICurrentChangeCrop,
   IInfoImg,
   IKitImageSettings,
   IPointImgInKitImages,
@@ -32,6 +33,5 @@ export const setActiveChangeSettings = createEvent<boolean>('setActiveChangeSett
 export const setCropDataPercent = createEvent<ICropNewData>('setCropDataPercent');
 export const localStorageInit = createEvent('localStorageInit');
 export const fetchSettingsForImages = createEvent<Array<ISettingsImage>>('fetchSettingsForImages');
-
-export const setAspect = createEvent<any>('setAspect');
-export const cancelAspect = createEvent<any>('cancelAspect');
+export const setCurrentChangeCrop = createEvent<ICurrentChangeCrop>('setCurrentChangeCrop');
+export const resetCurrentChangeCrop = createEvent('resetCurrentChangeCrop');

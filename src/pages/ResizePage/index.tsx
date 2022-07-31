@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { $modalState } from 'effector/store';
+import { $currentChangeCrop, $modalState } from 'effector/store';
 import {
   setCurrentCropImage,
   setKitImages,
@@ -13,6 +13,7 @@ import {
   cancelCropImg,
   setPointImg,
   addKitImageSettings,
+  setCurrentChangeCrop,
 } from 'effector/event';
 import Gallery from 'components/Gallery';
 import Crop from 'components/Crop';
@@ -41,7 +42,7 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
-
+  const currentChangeCrop = useStore($currentChangeCrop);
   const currentImg: IInfoImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);
@@ -76,7 +77,15 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
     }
   };
 
-  const onActiveModal = () => {
+  const onActiveModal = (cropNumber?: number) => {
+    if (cropNumber !== undefined) {
+      setCurrentChangeCrop({
+        idImg: idxKitImages.idx,
+        idCrop: cropNumber,
+      });
+    } else {
+      console.log('else');
+    }
     activeModal();
   };
 
@@ -105,6 +114,7 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
           <Crop
             addCropedImg={addCropedImg}
             point={currentImgSetting?.point}
+            // settings={}
             src={currentImg.preview!}
             onCloseModal={onCloseModal}
           />

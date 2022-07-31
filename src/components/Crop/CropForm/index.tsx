@@ -25,7 +25,6 @@ const CropForm = ({
   getCropImage,
   setTypeCrop,
 }: Props) => {
-  console.log('typeCrop', typeCrop);
   const onChangeTypeCrop = useCallback(
     (event: ChangeEvent<any>) => {
       const newTypeCrop = event.target.value;
