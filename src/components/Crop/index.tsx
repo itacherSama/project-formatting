@@ -176,13 +176,9 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     const natutalSize = cropper.getImageData();
 
     if (typeCrop.current === 'aspect') {
-      if (!aspect.used) {
-        cropper
-          .setAspectRatio(aspect.value)
-          .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
-      } else {
-        cropper.setAspectRatio(aspect.value);
-      }
+      cropper
+        .setAspectRatio(aspect.value)
+        .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
     }
   }, [typeCropState, aspect]);
 
