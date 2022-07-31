@@ -111,7 +111,8 @@ export const generateImageBySetting = async (img: HTMLImageElement, settings: IS
 export const getPositionByPoint = (
   data: ICropFormData,
   point: IPointOnImg,
-  imgSettings: IImgSettingsNaturalSize
+  imgSettings: IImgSettingsNaturalSize,
+  typeCrop: string
 ): ISettingImg => {
   const pointFromPx = {
     pointPlace: {
@@ -125,13 +126,21 @@ export const getPositionByPoint = (
 
   const radius = pointFromPx.pointWidth!;
   const minSide = radius * 2;
+  console.log(minSide, data.width!);
+  console.log(minSide, data.height!);
+  console.log('typeCrop', typeCrop);
+
+  if (typeCrop === 'aspect') {
+    if (data.width! < minSide || data.height! < minSide) {
+      throw new Error();
+    }
+  }
 
   const newWidth = Math.max(minSide, data.width!);
   const newHeight = Math.max(minSide, data.height!);
 
-  const newLeft = pointFromPx.pointPlace.x! - newWidth / 2;
-  const newTop = pointFromPx.pointPlace.y! - newHeight / 2;
-
+  const newLeft = pointFromPx.pointPlace.x! - Math.round(newWidth / 2);
+  const newTop = pointFromPx.pointPlace.y! - Math.round(newHeight / 2);
   return {
     ...data,
     width: newWidth,

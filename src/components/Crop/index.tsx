@@ -27,8 +27,13 @@ type Props = {
 };
 
 const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
-  const [typeCrop, setTypeCrop] = useState<string>('px');
   const cropperRef = useRef<HTMLImageElement>(null);
+  const typeCrop = useRef('px');
+  const [typeCropState, setTypeCrop] = useState('px');
+
+  useEffect(() => {
+    typeCrop.current = typeCropState;
+  }, [typeCropState]);
 
   const [cropDataPx, setCropDataPx] = useState<ICropFormData>({
     width: 200,
@@ -42,6 +47,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     return {
       sides: startValue,
       value: calcAspect(startValue),
+      used: false,
     };
   });
 
@@ -54,7 +60,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     setCropAspect((prevState) => {
       const newValues = { ...prevState.sides, ...newValue };
 
-      return { sides: newValues, value: calcAspect(newValues) };
+      return { sides: newValues, value: calcAspect(newValues), used: true };
     });
   };
 
@@ -65,7 +71,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     return cropper;
   };
 
-  console.log('getCropper', getCropper()?.getData());
   const onCrop = useCallback(() => {
     if (changeActive) {
       changeActive = false;
@@ -74,57 +79,71 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     const cropper: any = getCropper();
     let newData = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
+    let error = false;
 
-    if (point.pointWidth) {
+    if (point?.pointWidth) {
       try {
-        newData = getPositionByPoint(newData, point, imgSettings);
+        newData = getPositionByPoint(newData, point, imgSettings, typeCrop.current);
       } catch (e) {
         console.log('error getPositionByPoint');
+        error = true;
       }
     }
-
     changeActive = true;
 
-    calcPercentCropData(newData);
-    setCropDataPx(newData);
+    if (!error) {
+      console.log(123);
 
-    cropper.setData(newData);
-  }, [point, typeCrop]);
+      calcPercentCropData(newData);
+      setCropDataPx(newData);
+      cropper.setData(newData);
+    } else {
+      cropper.setData({ ...cropDataPx });
+    }
+  }, [point, typeCropState]);
 
   const onSetCrop = (newValue: ICropNewData) => {
     const cropper: any = getCropper();
     const currenValues = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
-
+    let error = false;
     let newValuesCrop = null;
     let valueByPoint = null;
 
-    if (typeCrop === '%') {
+    if (typeCrop.current === '%') {
       const transformNewValue = transformPxAndPercent(cropperRef.current!, newValue, calcPxFromPercent);
       newValuesCrop = { ...currenValues, ...transformNewValue };
     } else {
       newValuesCrop = { ...currenValues, ...newValue };
     }
 
-    if (point.pointWidth) {
+    if (point?.pointWidth) {
       try {
-        valueByPoint = getPositionByPoint(newValuesCrop, point, imgSettings);
+        valueByPoint = getPositionByPoint(newValuesCrop, point, imgSettings, typeCrop.current);
       } catch (e) {
         console.log('error getPositionByPoint');
+        error = true;
       }
     }
-    cropper.setData(valueByPoint || newValuesCrop);
+
+    if (!error) {
+      console.log(123);
+
+      cropper.setData(valueByPoint || newValuesCrop);
+    } else {
+      cropper.setData({ ...cropDataPx });
+    }
   };
 
   const transformDataByPointCrop = () => {
-    if (point && point.pointWidth) {
+    if (point?.pointWidth) {
       const cropper: any = getCropper();
       const imgSettings = cropper.getImageData();
       const cropperData = cropper.getData({ rounded: true });
 
-      if (point.pointWidth) {
+      if (point?.pointWidth) {
         try {
-          const getData = getPositionByPoint(cropperData, point, imgSettings);
+          const getData = getPositionByPoint(cropperData, point, imgSettings, typeCrop.current);
           cropper.crop();
           cropper.setData({ ...getData });
         } catch (e) {
@@ -154,20 +173,25 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
 
   useEffect(() => {
     const cropper: any = getCropper();
-    if (typeCrop === 'aspect') {
-      const natutalSize = cropper.getImageData();
-      cropper
-        .setAspectRatio(aspect.value)
-        .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
+    const natutalSize = cropper.getImageData();
+
+    if (typeCrop.current === 'aspect') {
+      if (!aspect.used) {
+        cropper
+          .setAspectRatio(aspect.value)
+          .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
+      } else {
+        cropper.setAspectRatio(aspect.value);
+      }
     }
-  }, [aspect, typeCrop]);
+  }, [typeCropState, aspect]);
 
   useEffect(() => {
     setTypeCrop('px');
   }, []);
 
   const onTypeCrop = (newType: string): void => {
-    if (typeCrop === 'aspect' && newType !== 'aspect') {
+    if (typeCrop.current === 'aspect' && newType !== 'aspect') {
       const cropper: any = getCropper();
       cropper.setAspectRatio(NaN).setData({ ...cropDataPx });
     }
@@ -197,7 +221,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         cropPx={cropDataPx}
         getCropImage={getCropImage}
         setTypeCrop={onTypeCrop}
-        typeCrop={typeCrop}
+        typeCrop={typeCrop.current}
         onSetAspect={calcAspectCropData}
         onSetCrop={onSetCrop}
       />

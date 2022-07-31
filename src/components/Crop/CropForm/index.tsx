@@ -36,13 +36,17 @@ const CropForm = ({
   const onSetValue = useCallback(
     ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
       const { name, value } = target;
-      const newValue = { [name]: parseInt(value, 10) };
-      if (typeCrop === 'aspect') {
-        onSetAspect(newValue);
+      const transformValue = parseInt(value, 10);
+      if (transformValue <= 0) {
         return;
       }
-
-      onSetCrop(newValue);
+      const newValue = { [name]: transformValue };
+      console.log('typeCrop typeCrop', typeCrop);
+      if (typeCrop === 'aspect') {
+        onSetAspect(newValue);
+      } else {
+        onSetCrop(newValue);
+      }
     },
     [onSetAspect, onSetCrop, typeCrop]
   );
