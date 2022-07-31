@@ -28,7 +28,8 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
     columnWidth: 1,
     gutter: 20,
   };
-
+  console.log('files', files);
+  console.log('settings', settings);
   const childElements =
     !!files?.length &&
     !!settings.length &&
@@ -43,12 +44,14 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
 
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (
+        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
         <li
           key={file.infoByFile.lastModified}
           className={cn(styles.gridImage, {
             [styles.gridItemWidth]: currentType === typesBlock[0],
             [styles.gridItemHeight]: currentType === typesBlock[1],
           })}
+          onClick={onActiveModal}
         >
           <img alt={`img_${idx}`} className={styles.gridItemImg} src={file.preview} />
 

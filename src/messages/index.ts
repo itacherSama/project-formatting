@@ -12,8 +12,8 @@ export enum Steps {
   downloadImages = 'Download images',
 }
 
-export enum TypeCropWords {
-  'px',
-  '%',
-  'aspect',
+export enum TypeCrop {
+  px = 'px',
+  percent = '%',
+  aspect = 'aspect',
 }

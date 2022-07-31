@@ -18,6 +18,7 @@ import {
   calcAspect,
 } from 'services/imageService';
 import CropForm from './CropForm';
+import { TypeCrop } from '../../messages';
 
 type Props = {
   src: string;
@@ -28,8 +29,8 @@ type Props = {
 
 const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   const cropperRef = useRef<HTMLImageElement>(null);
-  const typeCrop = useRef('px');
-  const [typeCropState, setTypeCrop] = useState('px');
+  const typeCrop = useRef(TypeCrop.px);
+  const [typeCropState, setTypeCrop] = useState(TypeCrop.px);
 
   useEffect(() => {
     typeCrop.current = typeCropState;
@@ -108,7 +109,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     let newValuesCrop = null;
     let valueByPoint = null;
 
-    if (typeCrop.current === '%') {
+    if (typeCrop.current === TypeCrop.percent) {
       const transformNewValue = transformPxAndPercent(cropperRef.current!, newValue, calcPxFromPercent);
       newValuesCrop = { ...currenValues, ...transformNewValue };
     } else {
@@ -171,7 +172,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     const cropper: any = getCropper();
     const natutalSize = cropper.getImageData();
 
-    if (typeCrop.current === 'aspect') {
+    if (typeCrop.current === TypeCrop.aspect) {
       cropper
         .setAspectRatio(aspect.value)
         .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
@@ -179,11 +180,11 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   }, [typeCropState, aspect]);
 
   useEffect(() => {
-    setTypeCrop('px');
+    setTypeCrop(TypeCrop.percent);
   }, []);
 
-  const onTypeCrop = (newType: string): void => {
-    if (typeCrop.current === 'aspect' && newType !== 'aspect') {
+  const onTypeCrop = (newType: TypeCrop): void => {
+    if (typeCrop.current === TypeCrop.aspect && newType !== TypeCrop.aspect) {
       const cropper: any = getCropper();
       cropper.setAspectRatio(NaN).setData({ ...cropDataPx });
     }

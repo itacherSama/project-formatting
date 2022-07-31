@@ -17,6 +17,7 @@ import {
   checkProportions,
   throwErrorIfNull,
 } from 'utils/differentFunc';
+import { TypeCrop } from '../messages';
 
 export const getImgFromPreviewFile = (preview: string): Promise<HTMLImageElement> =>
   new Promise((resolve) => {
@@ -127,7 +128,7 @@ export const getPositionByPoint = (
   const radius = pointFromPx.pointWidth!;
   const minSide = radius * 2;
 
-  if (typeCrop === 'aspect') {
+  if (typeCrop === TypeCrop.aspect) {
     if (data.width! < minSide || data.height! < minSide) {
       throw new Error();
     }

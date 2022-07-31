@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useCallback } from 'react';
 import { Button, Select, MenuItem, TextField } from '@material-ui/core';
 import { ICropFormData, ICropNewData } from 'interfaces/interfaces';
-import messages from 'messages/index.json';
 import styles from '../Crop.module.css';
+import { TypeCrop } from '../../../messages';
 
 type Props = {
   onSetCrop: (data: ICropNewData) => void;
@@ -12,7 +12,7 @@ type Props = {
   cropPercent: ICropFormData;
   aspect: ICropFormData;
   typeCrop: string;
-  setTypeCrop: (data: string) => void;
+  setTypeCrop: (data: TypeCrop) => void;
 };
 
 const CropForm = ({
@@ -41,7 +41,7 @@ const CropForm = ({
         return;
       }
       const newValue = { [name]: transformValue };
-      if (typeCrop === 'aspect') {
+      if (typeCrop === TypeCrop.aspect) {
         onSetAspect(newValue);
       } else {
         onSetCrop(newValue);
@@ -52,9 +52,9 @@ const CropForm = ({
 
   const generateInputs = useCallback(() => {
     let crop: ICropFormData = cropPx;
-    if (typeCrop === '%') {
+    if (typeCrop === TypeCrop.percent) {
       crop = cropPercent;
-    } else if (typeCrop === 'aspect') {
+    } else if (typeCrop === TypeCrop.aspect) {
       crop = aspect;
     }
 
@@ -70,7 +70,7 @@ const CropForm = ({
     <form autoComplete="off" className={styles.cropForm} noValidate>
       {generateInputs()}
       <Select value={typeCrop} onChange={onChangeTypeCrop}>
-        {messages.typeCropWords.map((word: string) => (
+        {Object.values(TypeCrop).map((word: string) => (
           <MenuItem key={`${word}`} value={word}>
             {word}
           </MenuItem>

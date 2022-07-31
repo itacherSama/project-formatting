@@ -1,6 +1,5 @@
 {
   "qualities": ["low", "middle", "high"],
   "colors": ["1", "8", "12", "15", "24"],
-  "steps": ["Add images", "Cropping images", "Download images"],
-  "typeCropWords": ["px", "%", "aspect"]
+  "steps": ["Add images", "Cropping images", "Download images"]
 }
