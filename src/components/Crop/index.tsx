@@ -92,8 +92,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     changeActive = true;
 
     if (!error) {
-      console.log(123);
-
       calcPercentCropData(newData);
       setCropDataPx(newData);
       cropper.setData(newData);
@@ -127,8 +125,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     }
 
     if (!error) {
-      console.log(123);
-
       cropper.setData(valueByPoint || newValuesCrop);
     } else {
       cropper.setData({ ...cropDataPx });

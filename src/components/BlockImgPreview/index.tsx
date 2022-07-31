@@ -3,6 +3,7 @@ import { calcPercentFromPx, calcPxStatePoint, calcWidthPoint } from 'services/im
 import { IInfoImg, IPointOnImg } from 'interfaces/interfaces';
 import { setActiveChangeSettings } from 'effector/event';
 import styles from './BlockImgPreview.module.css';
+import { initialStatePoint } from '../../effector/stores/initStateStores';
 
 const getOffset = (e: MouseEvent<HTMLCanvasElement>): number[] => {
   const x = e.nativeEvent.offsetX;
@@ -159,7 +160,7 @@ const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
       if (e) {
         e.preventDefault();
       }
-      setStatePoint();
+      setStatePoint(initialStatePoint);
     },
     [setStatePoint]
   );

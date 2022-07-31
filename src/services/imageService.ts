@@ -126,9 +126,6 @@ export const getPositionByPoint = (
 
   const radius = pointFromPx.pointWidth!;
   const minSide = radius * 2;
-  console.log(minSide, data.width!);
-  console.log(minSide, data.height!);
-  console.log('typeCrop', typeCrop);
 
   if (typeCrop === 'aspect') {
     if (data.width! < minSide || data.height! < minSide) {

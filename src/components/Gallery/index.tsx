@@ -7,6 +7,7 @@ import CloseButton from 'components/Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from 'services/imageService';
 import { IInfoImg, ISettingImg } from 'interfaces/interfaces';
 
+import { log } from 'util';
 import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];

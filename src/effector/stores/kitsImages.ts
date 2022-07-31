@@ -37,7 +37,6 @@ const elementsForGenerateSettingsByPoint = sample(
   events.setPointImg,
   (arrayStores: any, pointOnImg: IPointOnImg) => {
     const { idx } = arrayStores[0];
-
     return {
       idx,
       fileImage: arrayStores[1][idx],
@@ -49,7 +48,7 @@ const elementsForGenerateSettingsByPoint = sample(
 
 guard({
   source: elementsForGenerateSettingsByPoint,
-  filter: ({ pointOnImg }): boolean => pointOnImg !== null,
+  filter: ({ pointOnImg }): boolean => pointOnImg.pointWidth !== null,
   target: effects.getNewSettingsForKitImages,
 });
 
@@ -69,7 +68,9 @@ const elementsForGenerateKitImagesBySettings = sample(
 
 guard({
   source: elementsForGenerateKitImagesBySettings,
-  filter: ({ kitImagesSetting, stateCropPoint }) => kitImagesSetting?.point?.pointWidth !== null && stateCropPoint,
+  filter: ({ kitImagesSetting, stateCropPoint }) => {
+    return kitImagesSetting?.point?.pointWidth !== null && stateCropPoint;
+  },
   target: effects.generateKitImagesBySettings,
 });
 

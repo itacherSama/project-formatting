@@ -51,7 +51,6 @@ export const setPointImgInKitImagesReducer = (
 ): ISettingsImage[] => {
   const newState = [...state];
   const objSettings = newState[idx];
-
   if (pointOnImg) {
     objSettings.point = { ...pointOnImg };
   } else {

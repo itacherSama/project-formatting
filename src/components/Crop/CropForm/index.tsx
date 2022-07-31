@@ -41,7 +41,6 @@ const CropForm = ({
         return;
       }
       const newValue = { [name]: transformValue };
-      console.log('typeCrop typeCrop', typeCrop);
       if (typeCrop === 'aspect') {
         onSetAspect(newValue);
       } else {
