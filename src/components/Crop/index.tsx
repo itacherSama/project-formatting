@@ -179,10 +179,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     }
   }, [typeCropState, aspect]);
 
-  useEffect(() => {
-    setTypeCrop(TypeCrop.percent);
-  }, []);
-
   const onTypeCrop = (newType: TypeCrop): void => {
     if (typeCrop.current === TypeCrop.aspect && newType !== TypeCrop.aspect) {
       const cropper: any = getCropper();
@@ -214,7 +210,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         cropPx={cropDataPx}
         getCropImage={getCropImage}
         setTypeCrop={onTypeCrop}
-        typeCrop={typeCrop.current}
+        typeCrop={typeCropState}
         onSetAspect={calcAspectCropData}
         onSetCrop={onSetCrop}
       />
