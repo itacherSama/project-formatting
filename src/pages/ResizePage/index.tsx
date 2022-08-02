@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { $currentChangeCrop, $modalState } from 'effector/store';
+import { /* $currentChangeCrop, */ $modalState } from 'effector/store';
 import {
   setCurrentCropImage,
   setKitImages,
@@ -31,8 +31,8 @@ import {
 import styles from './ResizePage.module.css';
 
 type Props = {
-  nextStep: any;
-  backStep: any;
+  nextStep: () => void;
+  backStep: () => void;
 };
 
 const ResizePage = ({ nextStep, backStep }: Props) => {
@@ -42,7 +42,7 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
   const currenKitImg: any = kitsImages[currentIdxKitImages];
-  const currentChangeCrop = useStore($currentChangeCrop);
+  // const currentChangeCrop = useStore($currentChangeCrop);
   const currentImg: IInfoImg = images[currentIdxKitImages];
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);

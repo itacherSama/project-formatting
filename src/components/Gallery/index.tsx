@@ -7,7 +7,6 @@ import CloseButton from 'components/Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from 'services/imageService';
 import { IInfoImg, ISettingImg } from 'interfaces/interfaces';
 
-import { log } from 'util';
 import styles from './Gallery.module.css';
 
 const typesBlock = ['width', 'height'];
@@ -45,7 +44,6 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
 
       const currentType: string = getTypeByPropotion(proportionWidth, proportionHeight, typesBlock);
       return (
-        // eslint-disable-next-line jsx-a11y/click-events-have-key-events,jsx-a11y/no-noninteractive-element-interactions
         <li
           key={file.infoByFile.lastModified}
           className={cn(styles.gridImage, {

@@ -73,7 +73,7 @@ const BlockImgPreview = ({ currentImg, statePoint, setStatePoint }: Props) => {
     if (pxStatePoint) {
       draw(pxStatePoint);
     }
-  }, [pxStatePoint]);
+  }, [pxStatePoint, draw]);
 
   useEffect(() => {
     setActiveChangeSettings(mouseIntoBlock);

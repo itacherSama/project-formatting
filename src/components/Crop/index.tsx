@@ -30,6 +30,8 @@ type Props = {
 const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const typeCrop = useRef(TypeCrop.px);
+  const changeActive = useRef(false);
+
   const [typeCropState, setTypeCrop] = useState(TypeCrop.px);
 
   useEffect(() => {
@@ -65,7 +67,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     });
   };
 
-  let changeActive = false;
   const getCropper = () => {
     const imageElement: any = cropperRef?.current;
     const cropper: any = imageElement?.cropper;
@@ -73,8 +74,8 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   };
 
   const onCrop = useCallback(() => {
-    if (changeActive) {
-      changeActive = false;
+    if (changeActive.current) {
+      changeActive.current = false;
       return;
     }
     const cropper: any = getCropper();
@@ -90,7 +91,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         error = true;
       }
     }
-    changeActive = true;
+    changeActive.current = true;
 
     if (!error) {
       calcPercentCropData(newData);
@@ -99,7 +100,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     } else {
       cropper.setData({ ...cropDataPx });
     }
-  }, [point, typeCropState]);
+  }, [point, cropDataPx]);
 
   const onSetCrop = (newValue: ICropNewData) => {
     const cropper: any = getCropper();

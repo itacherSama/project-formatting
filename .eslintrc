@@ -121,6 +121,8 @@
     "no-debugger": 1,
     "no-empty-pattern": 0,
     "func-names": 0,
+    "jsx-a11y/click-events-have-key-events": 0,
+    "jsx-a11y/no-noninteractive-element-interactions": 0,
     "no-multiple-empty-lines": [
       2,
       {
@@ -306,6 +308,7 @@
         ]
       }
     },
+
     "react": {
       "pragma": "React",
       "version": "detect"

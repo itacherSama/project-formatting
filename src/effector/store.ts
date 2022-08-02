@@ -3,7 +3,6 @@ import { IobjIdxKitImages, ILoadState, IPointOnImg, ICurrentChangeCrop } from 'i
 import * as events from './event';
 import * as effects from './effect';
 import { $idxKitImages } from './stores/idxKitImages';
-import { setCurrentChangeCrop } from './event';
 
 sample({
   source: $idxKitImages,
@@ -67,4 +66,4 @@ export const $currentChangeCrop = createStore<ICurrentChangeCrop | null>(null, {
   name: '$currentChangeCrop',
 })
   .on(events.setCurrentChangeCrop, (state, currentChangeCrop: ICurrentChangeCrop) => currentChangeCrop)
-  .on(events.resetCurrentChangeCrop, (state) => null);
+  .on(events.resetCurrentChangeCrop, () => null);

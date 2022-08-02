@@ -55,8 +55,8 @@ export interface IImgSettingsNaturalSize {
 
 export interface ISettingStepContent {
   step: number;
-  handleComplete?: () => void;
-  handleBack?: () => void;
+  handleComplete: () => void;
+  handleBack: () => void;
   visibleBtnPrevArr?: Array<boolean>;
   visibleBtnNextArr?: Array<boolean>;
 }
