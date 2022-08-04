@@ -7,6 +7,7 @@ import {
   IPointOnImg,
   IPointPlace,
   ISettingImg,
+  ISettingImgWithNulable,
   ISettingsImage,
   Nullable,
 } from 'interfaces/interfaces';
@@ -83,7 +84,10 @@ export const calcAspect = ({ width, height }: ICropFormData): Nullable<number> =
   return aspect;
 };
 
-export const generateImageBySetting = async (img: HTMLImageElement, settings: ISettingImg): Promise<Blob | never> => {
+export const generateImageBySetting = async (
+  img: HTMLImageElement,
+  settings: ISettingImgWithNulable
+): Promise<Blob | never> => {
   checkDefaultSettingImg(settings);
   const { width, height, x, y } = settings as unknown as IAllNumber;
 
@@ -114,7 +118,7 @@ export const getPositionByPoint = (
   point: IPointOnImg,
   imgSettings: IImgSettingsNaturalSize,
   typeCrop: string
-): ISettingImg => {
+): ISettingImgWithNulable => {
   const pointFromPx = {
     pointPlace: {
       x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
@@ -152,7 +156,7 @@ export const getPositionByPointDouble = (
   data: ICropFormData,
   point: IPointOnImg,
   imgSettings: IImgSettingsNaturalSize
-): ISettingImg => {
+): ISettingImgWithNulable => {
   const pointFromPx = {
     x: calcPxFromPercent(imgSettings.naturalWidth, point.pointPlace.x),
     y: calcPxFromPercent(imgSettings.naturalHeight, point.pointPlace.y),
@@ -210,7 +214,7 @@ export const generateKitImages = async (
   kitSettings: ISettingsImage
 ): Promise<IInfoImg[]> => {
   const { items } = kitSettings;
-  const promises = items.map(async (settings: ISettingImg, idx: number): Promise<IInfoImg | null> => {
+  const promises = items.map(async (settings: ISettingImgWithNulable, idx: number): Promise<IInfoImg | null> => {
     try {
       const blobImg: Blob = await generateImageBySetting(imgElement, settings);
       const fileImg: IInfoImg = {
@@ -233,7 +237,7 @@ export const generateKitImages = async (
 
 export const generateNewSettingsForKitImages = (
   imgElement: HTMLImageElement,
-  settings: ISettingImg[],
+  settings: ISettingImgWithNulable[],
   newPoint: IPointOnImg
 ): ISettingsImage => {
   const newKitSettings: any[] = [];
@@ -334,18 +338,22 @@ export const getWidthPoint = (firstObj: IPointPlace, secondObj?: IPointPlace): n
   return pointWidth;
 };
 
+export const transformSettingInPercent = (setting: ISettingImg, imgElement: IImgSettingsNaturalSize): ISettingImg => {
+  const changedItem = {
+    x: calcPercentFromPx(imgElement.naturalWidth, setting.x),
+    y: calcPercentFromPx(imgElement.naturalHeight, setting.y),
+    width: calcPercentFromPx(imgElement.naturalWidth, setting.width),
+    height: calcPercentFromPx(imgElement.naturalHeight, setting.height),
+  };
+
+  return changedItem;
+};
+
 export const transformSettingsInPercent = (
   { items, point }: ISettingsImage,
-  imgElement: HTMLImageElement
+  imgElement: IImgSettingsNaturalSize
 ): ISettingsImage => {
-  const changedItems = items.map(
-    (el: ISettingImg): ISettingImg => ({
-      x: calcPercentFromPx(imgElement.naturalWidth, el.x),
-      y: calcPercentFromPx(imgElement.naturalHeight, el.y),
-      width: calcPercentFromPx(imgElement.naturalWidth, el.width),
-      height: calcPercentFromPx(imgElement.naturalHeight, el.height),
-    })
-  );
+  const changedItems = items.map((el: ISettingImg): ISettingImg => transformSettingInPercent(el, imgElement));
 
   return {
     point,
@@ -353,18 +361,22 @@ export const transformSettingsInPercent = (
   };
 };
 
+export const transformSettingInPx = (setting: ISettingImg, imgElement: IImgSettingsNaturalSize): ISettingImg => {
+  const changedItems = {
+    x: calcPxFromPercent(imgElement.naturalWidth, setting.x),
+    y: calcPxFromPercent(imgElement.naturalHeight, setting.y),
+    width: calcPxFromPercent(imgElement.naturalWidth, setting.width),
+    height: calcPxFromPercent(imgElement.naturalHeight, setting.height),
+  };
+
+  return changedItems;
+};
+
 export const transformSettingsInPx = (
   { items, point }: ISettingsImage,
-  imgElement: HTMLImageElement
+  imgElement: IImgSettingsNaturalSize
 ): ISettingsImage => {
-  const changedItems = items.map(
-    (el: ISettingImg): ISettingImg => ({
-      x: calcPxFromPercent(imgElement.naturalWidth, el.x),
-      y: calcPxFromPercent(imgElement.naturalHeight, el.y),
-      width: calcPxFromPercent(imgElement.naturalWidth, el.width),
-      height: calcPxFromPercent(imgElement.naturalHeight, el.height),
-    })
-  );
+  const changedItems = items.map((el: ISettingImg): ISettingImgWithNulable => transformSettingInPx(el, imgElement));
 
   return {
     point,

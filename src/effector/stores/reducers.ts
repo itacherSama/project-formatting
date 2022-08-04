@@ -5,9 +5,10 @@ import {
   INewSettingsForKitImages,
   IPointImgInKitImages,
   ISetKitImages,
+  ISettingImg,
   ISettingsImage,
 } from 'interfaces/interfaces';
-import { calcPercentFromPx } from 'services/imageService';
+import { calcPercentFromPx, transformSettingInPercent } from 'services/imageService';
 import { copyObject, setLengthKitsImagesFunc } from 'utils/differentFunc';
 import { initialStatePoint } from 'effector/stores/initStateStores';
 
@@ -27,13 +28,7 @@ export const addKitImageSettingsReducer = (
 ): ISettingsImage[] => {
   const newState = [...state];
 
-  const { naturalWidth, naturalHeight } = dataByNaturalSize;
-  const percentData: any = {
-    x: calcPercentFromPx(naturalWidth, settingImg.x),
-    y: calcPercentFromPx(naturalHeight, settingImg.y),
-    width: calcPercentFromPx(naturalWidth, settingImg.width),
-    height: calcPercentFromPx(naturalHeight, settingImg.height),
-  };
+  const percentData: ISettingImg = transformSettingInPercent(settingImg, dataByNaturalSize);
 
   newState[idx].items.push(percentData);
   return newState;

@@ -31,6 +31,13 @@ export interface IPointOnImg {
   pointPlace: IPointPlace;
 }
 
+export interface ISettingImgWithNulable {
+  x: Nullable<number>;
+  y: Nullable<number>;
+  width: Nullable<number>;
+  height: Nullable<number>;
+}
+
 export interface ISettingImg {
   x: Nullable<number>;
   y: Nullable<number>;
@@ -45,7 +52,12 @@ export interface IInfoImg {
 
 export interface ISettingsImage {
   point: IPointOnImg;
-  items: ISettingImg[];
+  items: ISettingImgWithNulable[];
+}
+
+export interface ISettingImage {
+  point: IPointOnImg;
+  item: ISettingImgWithNulable;
 }
 
 export interface IImgSettingsNaturalSize {
@@ -82,7 +94,7 @@ export interface INewSettingsForKitImages {
 }
 
 export interface IKitImageSettings {
-  settingImg: ISettingImg;
+  settingImg: ISettingImgWithNulable;
   dataByNaturalSize: IImgSettingsNaturalSize;
   idx: number;
 }

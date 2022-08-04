@@ -62,8 +62,8 @@ export const $isCroppedImages = createStore<boolean>(false, {
   name: '$isCroppedImages',
 }).on(events.setIsCroppedImages, (state: boolean, flag: boolean) => flag);
 
-export const $currentChangeCrop = createStore<ICurrentChangeCrop | null>(null, {
-  name: '$currentChangeCrop',
-})
-  .on(events.setCurrentChangeCrop, (state, currentChangeCrop: ICurrentChangeCrop) => currentChangeCrop)
-  .on(events.resetCurrentChangeCrop, () => null);
+// export const $currentChangeCrop = createStore<ICurrentChangeCrop | null>(null, {
+//   name: '$currentChangeCrop',
+// })
+//   .on(events.setCurrentChangeCrop, (state, currentChangeCrop: ICurrentChangeCrop) => currentChangeCrop)
+//   .on(events.resetCurrentChangeCrop, () => null);

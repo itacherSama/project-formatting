@@ -5,7 +5,7 @@ import IconButton from '@material-ui/core/IconButton';
 import AddIcon from '@material-ui/icons/Add';
 import CloseButton from 'components/Buttons/CloseButton';
 import { calcProportion, getTypeByPropotion } from 'services/imageService';
-import { IInfoImg, ISettingImg } from 'interfaces/interfaces';
+import { IInfoImg, ISettingImgWithNulable } from 'interfaces/interfaces';
 
 import styles from './Gallery.module.css';
 
@@ -15,7 +15,7 @@ const heightForPreview = 180;
 
 type Props = {
   files: IInfoImg[];
-  settings: ISettingImg[];
+  settings: ISettingImgWithNulable[];
   onActiveModal: (cropNumber?: number) => void;
   onCancelCropImg: (idx: number) => void;
 };
@@ -27,8 +27,6 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
     columnWidth: 1,
     gutter: 20,
   };
-  console.log('files', files);
-  console.log('settings', settings);
 
   const childElements =
     !!files?.length &&

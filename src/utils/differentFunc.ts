@@ -1,4 +1,10 @@
-import { ICropFormData, IobjIdxKitImages, IPointOnImg, IPointPlace, ISettingImg } from 'interfaces/interfaces';
+import {
+  ICropFormData,
+  IobjIdxKitImages,
+  IPointOnImg,
+  IPointPlace,
+  ISettingImgWithNulable,
+} from 'interfaces/interfaces';
 
 export const findNewCurrentIdx = (state: IobjIdxKitImages, operation: string): IobjIdxKitImages => {
   const newIdx = operation === '-' ? state.idx - 1 : state.idx + 1;
@@ -50,7 +56,7 @@ export const checkProportions = (cropFormData: ICropFormData): boolean => {
   return false;
 };
 
-export const checkDefaultSettingImg = (settingImg: ISettingImg): boolean => {
+export const checkDefaultSettingImg = (settingImg: ISettingImgWithNulable): boolean => {
   const { width, height, x, y } = settingImg;
   if (checkProportions({ width, height }) || checkCoordinates({ x, y })) {
     return true;
