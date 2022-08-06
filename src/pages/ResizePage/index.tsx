@@ -1,11 +1,12 @@
-import React, { useEffect } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
-import { /* $currentChangeCrop, */ $modalState } from 'effector/store';
+import { $modalState } from 'effector/store';
 import {
   setCurrentCropImage,
   setKitImages,
+  changeKitImages,
   nextKitImages,
   previousKitImages,
   activeModal,
@@ -13,7 +14,7 @@ import {
   cancelCropImg,
   setPointImg,
   addKitImageSettings,
-  setCurrentChangeCrop,
+  changeKitImageSettings,
 } from 'effector/event';
 import Gallery from 'components/Gallery';
 import Crop from 'components/Crop';
@@ -41,9 +42,9 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
   const kitsImagesSetting: ISettingsImage[] = useStore($kitsImagesSetting);
   const idxKitImages: IobjIdxKitImages = useStore($idxKitImages);
   const currentIdxKitImages: number = idxKitImages.idx;
-  const currenKitImg: any = kitsImages[currentIdxKitImages];
-  // const currentChangeCrop = useStore($currentChangeCrop);
+  const currenKitImg: IInfoImg[] = kitsImages[currentIdxKitImages];
   const currentImg: IInfoImg = images[currentIdxKitImages];
+  const [currentChangeCrop, setCurrentChangeCrop] = useState<null | number>(null);
   const currentImgSetting: ISettingsImage = kitsImagesSetting[currentIdxKitImages] || {};
   const modalState: boolean = useStore($modalState);
 
@@ -51,19 +52,42 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages, kitsImages]);
 
-  const addCropedImg = (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
-    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
-      addKitImageSettings({
-        settingImg,
-        dataByNaturalSize,
-        idx: currentIdxKitImages,
+  const settingItem = currentChangeCrop ? currentImgSetting.items[currentChangeCrop] : null;
+
+  const resetCurrentChangeCrop = useCallback(() => {
+    setCurrentChangeCrop(null);
+  }, []);
+
+  const addCropedImg = useCallback(
+    (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
+      convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
+        if (currentChangeCrop === null) {
+          addKitImageSettings({
+            settingImg,
+            dataByNaturalSize,
+            idx: currentIdxKitImages,
+          });
+          setKitImages({
+            cropItem: fileImg,
+            idx: currentIdxKitImages,
+          });
+        } else {
+          changeKitImageSettings({
+            settingImg,
+            dataByNaturalSize,
+            idx: currentIdxKitImages,
+            cropId: currentChangeCrop,
+          });
+          changeKitImages({
+            cropItem: fileImg,
+            idx: currentIdxKitImages,
+            cropId: currentChangeCrop,
+          });
+        }
       });
-      setKitImages({
-        kitImages: [...currenKitImg, fileImg],
-        idx: currentIdxKitImages,
-      });
-    });
-  };
+    },
+    [currentChangeCrop, currentIdxKitImages, currenKitImg.length]
+  );
 
   const onPreviousImage = () => {
     previousKitImages();
@@ -79,10 +103,7 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
 
   const onActiveModal = (cropNumber?: number) => {
     if (cropNumber !== undefined) {
-      setCurrentChangeCrop({
-        idImg: idxKitImages.idx,
-        idCrop: cropNumber,
-      });
+      setCurrentChangeCrop(cropNumber);
     } else {
       console.log('else');
     }
@@ -114,7 +135,8 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
           <Crop
             addCropedImg={addCropedImg}
             point={currentImgSetting?.point}
-            // settings={}
+            resetCurrentChangeCrop={resetCurrentChangeCrop}
+            setting={settingItem}
             src={currentImg.preview!}
             onCloseModal={onCloseModal}
           />

@@ -55,11 +55,6 @@ export interface ISettingsImage {
   items: ISettingImgWithNulable[];
 }
 
-export interface ISettingImage {
-  point: IPointOnImg;
-  item: ISettingImgWithNulable;
-}
-
 export interface IImgSettingsNaturalSize {
   naturalWidth: number;
   naturalHeight: number;
@@ -97,6 +92,7 @@ export interface IKitImageSettings {
   settingImg: ISettingImgWithNulable;
   dataByNaturalSize: IImgSettingsNaturalSize;
   idx: number;
+  cropId?: number;
 }
 
 export interface IPointImgInKitImages {
@@ -110,8 +106,10 @@ export interface ICancelCropImg {
 }
 
 export interface ISetKitImages {
-  kitImages: IInfoImg[];
+  kitImages?: IInfoImg[];
+  cropItem?: IInfoImg;
   idx: number;
+  cropId?: number;
 }
 
 export interface ILoadState {

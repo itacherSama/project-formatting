@@ -6,6 +6,8 @@ import {
   setKitImagesReducer,
   setCancelCropImgInKitsImagesReducer,
   setGeneratedKitsImagesReducer,
+  changeKitImagesReducer,
+  setGeneratedKitImagesReducer,
 } from 'effector/stores/reducers';
 import * as events from '../event';
 import * as effects from '../effect';
@@ -21,7 +23,9 @@ export const $kitsImages = createStore<IInfoImg[][]>([], {
     return setLengthKitsImagesFunc(state, length, []);
   })
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
-  .on([events.setKitImages, effects.generateKitImagesBySettings.doneData], setKitImagesReducer)
+  .on(events.setKitImages, setKitImagesReducer)
+  .on(effects.generateKitImagesBySettings.doneData, setGeneratedKitImagesReducer)
+  .on(events.changeKitImages, changeKitImagesReducer)
   .on(events.setCancelCropImg, setCancelCropImgInKitsImagesReducer)
   .on(effects.generateKitsImages.doneData, setGeneratedKitsImagesReducer);
 

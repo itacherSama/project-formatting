@@ -8,6 +8,7 @@ import {
   setCancelSettingInKitsCropImgReducer,
   setLengthKitsImagesReducer,
   setPointImgInKitImagesReducer,
+  changeKitImageSettingsReducer,
 } from './reducers';
 import * as events from '../event';
 import * as effects from '../effect';
@@ -17,6 +18,7 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
 })
   .on(effects.getNewSettingsForKitImages.doneData, getNewSettingsForKitImagesReducer)
   .on(events.addKitImageSettings, addKitImageSettingsReducer)
+  .on(events.changeKitImageSettings, changeKitImageSettingsReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
   .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
   .on(events.setCancelCropImg, setCancelSettingInKitsCropImgReducer)

@@ -15,6 +15,8 @@ export const setImages = createEvent<IInfoImg[]>('setImages');
 export const setCurrentCropImage = createEvent<IInfoImg[]>('setCurrentCropImage');
 export const setLengthKitsImages = createEvent<number>('setLengthKitsImages');
 export const setKitImages = createEvent<ISetKitImages>('setKitImages');
+export const changeKitImages = createEvent<ISetKitImages>('setKitImages');
+
 export const nextKitImages = createEvent('nextKitImages');
 export const previousKitImages = createEvent('previousKitImages');
 export const setCurrentIdx = createEvent<number>('setCurrentIdx');
@@ -29,6 +31,7 @@ export const setCancelCropImg = createEvent<ICancelCropImg>('setCancelCropImg');
 export const setPointImg = createEvent<IPointOnImg>('setPointImg');
 export const setPointImgInKitImages = createEvent<IPointImgInKitImages>('setPointImgInKitImages');
 export const addKitImageSettings = createEvent<IKitImageSettings>('addKitImageSettings');
+export const changeKitImageSettings = createEvent<IKitImageSettings>('changeKitImageSettings');
 export const setActiveChangeSettings = createEvent<boolean>('setActiveChangeSettings');
 export const setCropDataPercent = createEvent<ICropNewData>('setCropDataPercent');
 export const localStorageInit = createEvent('localStorageInit');

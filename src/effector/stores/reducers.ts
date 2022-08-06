@@ -34,6 +34,18 @@ export const addKitImageSettingsReducer = (
   return newState;
 };
 
+export const changeKitImageSettingsReducer = (
+  state: ISettingsImage[],
+  { settingImg, idx, dataByNaturalSize, cropId }: IKitImageSettings
+): ISettingsImage[] => {
+  const newState = [...state];
+
+  const percentData: ISettingImg = transformSettingInPercent(settingImg, dataByNaturalSize);
+
+  newState[idx].items.splice(cropId!, 1, percentData);
+  return newState;
+};
+
 export const deleteItemFromArrByIdxReducer = <T>(state: Array<T>, idx: number): Array<T> => {
   const newState = [...state];
   newState.splice(idx, 1);
@@ -86,12 +98,29 @@ export const setLengthKitsImagesReducer = (state: ISettingsImage[], length: numb
 
 export const setImagesReducer = (state: IInfoImg[], images: IInfoImg[]) => [...images];
 
-export const setKitImagesReducer = (state: IInfoImg[][], { kitImages, idx }: ISetKitImages): IInfoImg[][] => {
-  if (kitImages.length === 0) {
+export const setKitImagesReducer = (state: IInfoImg[][], { idx, cropItem }: ISetKitImages): IInfoImg[][] => {
+  const newState = [...state];
+  const currentKit = newState[idx];
+  currentKit.push(cropItem!);
+  newState.splice(idx, 1, currentKit);
+  return newState;
+};
+
+export const setGeneratedKitImagesReducer = (state: IInfoImg[][], { kitImages, idx }: ISetKitImages): IInfoImg[][] => {
+  if (kitImages?.length === 0) {
     return state;
   }
   const newState = [...state];
-  newState.splice(idx, 1, kitImages);
+  newState.splice(idx, 1, kitImages!);
+  return newState;
+};
+
+export const changeKitImagesReducer = (state: IInfoImg[][], { cropItem, idx, cropId }: ISetKitImages): IInfoImg[][] => {
+  const newState = [...state];
+  const currentKit = newState[idx];
+  currentKit.splice(cropId!, 1, cropItem!);
+
+  newState.splice(idx, 1, currentKit);
   return newState;
 };
 

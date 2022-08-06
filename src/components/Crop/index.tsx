@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from 'react';
+import React, { useCallback, useEffect, useRef, useState, memo } from 'react';
 import Cropper from 'react-cropper';
 import 'cropperjs/dist/cropper.css';
 
@@ -7,7 +7,7 @@ import {
   ICropNewData,
   IImgSettingsNaturalSize,
   IPointOnImg,
-  ISettingImg,
+  ISettingImgWithNulable,
   ICropFormDataAspect,
 } from 'interfaces/interfaces';
 import {
@@ -16,6 +16,7 @@ import {
   transformPxAndPercent,
   calcPercentFromPx,
   calcAspect,
+  transformSettingInPx,
 } from 'services/imageService';
 import CropForm from './CropForm';
 import { TypeCrop } from '../../messages';
@@ -23,15 +24,22 @@ import { TypeCrop } from '../../messages';
 type Props = {
   src: string;
   point: IPointOnImg;
-  addCropedImg: (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => void;
+  addCropedImg: (
+    base64Img: string,
+    settingImg: ISettingImgWithNulable,
+    dataByNaturalSize: IImgSettingsNaturalSize
+  ) => void;
   onCloseModal: () => void;
+  setting: ISettingImgWithNulable | null;
+  resetCurrentChangeCrop: () => void;
 };
 
-const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
+const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentChangeCrop }: Props) => {
   const cropperRef = useRef<HTMLImageElement>(null);
   const typeCrop = useRef(TypeCrop.px);
   const changeActive = useRef(false);
-
+  const [cropReady, setCropReady] = useState(false);
+  console.log('Crop setting', setting);
   const [typeCropState, setTypeCrop] = useState(TypeCrop.px);
 
   useEffect(() => {
@@ -53,6 +61,34 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
       used: false,
     };
   });
+
+  useEffect(() => {
+    const cropper: any = getCropper();
+    const natutalSize = cropper.getImageData();
+
+    if (typeCrop.current === TypeCrop.aspect) {
+      cropper
+        .setAspectRatio(aspect.value)
+        .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
+    }
+  }, [typeCropState, aspect]);
+
+  useEffect(() => {
+    if (setting) {
+      const cropper: any = getCropper();
+      const imgSettings = cropper.getImageData();
+      const transformed = transformSettingInPx(setting, imgSettings);
+      console.log('transformed', transformed);
+      setCropDataPx(transformed);
+      cropper.setData(transformed);
+    }
+  }, [setting, cropReady]);
+
+  useEffect(() => {
+    return () => {
+      resetCurrentChangeCrop();
+    };
+  }, [resetCurrentChangeCrop]);
 
   const calcPercentCropData = (cropData: ICropNewData) => {
     const value = transformPxAndPercent(cropperRef.current!, cropData, calcPercentFromPx) as ICropFormData;
@@ -156,7 +192,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     const cropperData = cropper.getData({ rounded: true });
     const imgSettings = cropper.getImageData();
 
-    const dataByImg: ISettingImg = {
+    const dataByImg: ISettingImgWithNulable = {
       x: cropperData.x,
       y: cropperData.y,
       width: cropperData.width,
@@ -168,17 +204,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
     addCropedImg(base64Img, dataByImg, imgSettings);
     onCloseModal();
   };
-
-  useEffect(() => {
-    const cropper: any = getCropper();
-    const natutalSize = cropper.getImageData();
-
-    if (typeCrop.current === TypeCrop.aspect) {
-      cropper
-        .setAspectRatio(aspect.value)
-        .setData({ width: natutalSize.naturalWidth, height: natutalSize.naturalHeight });
-    }
-  }, [typeCropState, aspect]);
 
   const onTypeCrop = (newType: TypeCrop): void => {
     if (typeCrop.current === TypeCrop.aspect && newType !== TypeCrop.aspect) {
@@ -197,6 +222,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
         crop={onCrop}
         guides={false}
         ready={() => {
+          setCropReady(true);
           transformDataByPointCrop();
         }}
         src={src}
@@ -219,4 +245,4 @@ const Crop = ({ addCropedImg, src, onCloseModal, point }: Props) => {
   );
 };
 
-export default Crop;
+export default memo(Crop);
