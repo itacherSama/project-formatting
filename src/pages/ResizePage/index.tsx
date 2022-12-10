@@ -58,36 +58,33 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
     setCurrentChangeCrop(null);
   }, []);
 
-  const addCropedImg = useCallback(
-    (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
-      convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
-        if (currentChangeCrop === null) {
-          addKitImageSettings({
-            settingImg,
-            dataByNaturalSize,
-            idx: currentIdxKitImages,
-          });
-          setKitImages({
-            cropItem: fileImg,
-            idx: currentIdxKitImages,
-          });
-        } else {
-          changeKitImageSettings({
-            settingImg,
-            dataByNaturalSize,
-            idx: currentIdxKitImages,
-            cropId: currentChangeCrop,
-          });
-          changeKitImages({
-            cropItem: fileImg,
-            idx: currentIdxKitImages,
-            cropId: currentChangeCrop,
-          });
-        }
-      });
-    },
-    [currentChangeCrop, currentIdxKitImages, currenKitImg.length]
-  );
+  const addCropedImg = (base64Img: string, settingImg: ISettingImg, dataByNaturalSize: IImgSettingsNaturalSize) => {
+    convertFromBase64(base64Img, currenKitImg.length).then((fileImg: IInfoImg) => {
+      if (currentChangeCrop === null) {
+        addKitImageSettings({
+          settingImg,
+          dataByNaturalSize,
+          idx: currentIdxKitImages,
+        });
+        setKitImages({
+          cropItem: fileImg,
+          idx: currentIdxKitImages,
+        });
+      } else {
+        changeKitImageSettings({
+          settingImg,
+          dataByNaturalSize,
+          idx: currentIdxKitImages,
+          cropId: currentChangeCrop,
+        });
+        changeKitImages({
+          cropItem: fileImg,
+          idx: currentIdxKitImages,
+          cropId: currentChangeCrop,
+        });
+      }
+    });
+  };
 
   const onPreviousImage = () => {
     previousKitImages();
