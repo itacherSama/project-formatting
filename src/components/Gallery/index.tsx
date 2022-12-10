@@ -25,7 +25,6 @@ const Gallery = ({ files, onActiveModal, onCancelCropImg, settings = [] }: Props
     itemSelector: `.${styles.gridImage}`,
     horizontalOrder: true,
     columnWidth: 1,
-    gutter: 20,
   };
 
   const childElements =

@@ -3,28 +3,24 @@
 }
 
 .gridImage {
-  margin-bottom: 10px;
+  padding: 4px;
 }
 
 .gridImage img {
-  width: inherit;
-  height: inherit;
-}
-
-.gridItemDefault {
-  width: 180px;
-  height: 160px;
+  height: 100%;
+  width: 100%;
 }
 
 .gridItemWidth {
   width: 180px;
 }
+
 .gridItemHeight {
   height: 160px;
 }
 
 .gridItemAdd {
-  width: 150px;
+  width: 160px;
   height: 150px;
 }
 
