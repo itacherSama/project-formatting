@@ -1,8 +1,9 @@
 import React, { ChangeEvent, useCallback } from 'react';
-import { Button, Select, MenuItem, TextField } from '@material-ui/core';
+import { Button, Select, MenuItem } from '@material-ui/core';
 import { ICropFormData, ICropNewData } from 'interfaces/interfaces';
 import styles from '../Crop.module.css';
 import { TypeCrop } from '../../../messages';
+import Input from '../../Input/Input';
 
 type Props = {
   onSetCrop: (data: ICropNewData) => void;
@@ -34,17 +35,11 @@ const CropForm = ({
   );
 
   const onSetValue = useCallback(
-    ({ target }: ChangeEvent<HTMLTextAreaElement>): void => {
-      const { name, value } = target;
-      const transformValue = parseInt(value, 10);
-      if (transformValue <= 0) {
-        return;
-      }
-      const newValue = { [name]: transformValue };
+    (data: ICropNewData): void => {
       if (typeCrop === TypeCrop.aspect) {
-        onSetAspect(newValue);
+        onSetAspect(data);
       } else {
-        onSetCrop(newValue);
+        onSetCrop(data);
       }
     },
     [onSetAspect, onSetCrop, typeCrop]
@@ -60,8 +55,8 @@ const CropForm = ({
 
     return (
       <>
-        <TextField label="Width" name="width" type="number" value={crop?.width} onChange={onSetValue} />
-        <TextField label="Height" name="height" type="number" value={crop?.height} onChange={onSetValue} />
+        <Input currentValue={crop?.width} name="width" onChange={onSetValue} />
+        <Input currentValue={crop?.height} name="height" onChange={onSetValue} />
       </>
     );
   }, [typeCrop, cropPx, cropPercent, aspect, onSetValue]);

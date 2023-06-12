@@ -79,7 +79,7 @@ guard({
 });
 
 $kitsImages.watch((state) => {
-  const hasImages = state.some((kit: any) => kit.length);
+  const hasImages = state.some((kit: IInfoImg[]) => kit.length);
   if (hasImages) {
     events.setIsCroppedImages(hasImages);
   }
