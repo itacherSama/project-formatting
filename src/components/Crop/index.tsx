@@ -1,3 +1,4 @@
+/*eslint-disable*/
 import React, { useCallback, useEffect, useRef, useState, memo } from 'react';
 import Cropper, { ReactCropperElement } from 'react-cropper';
 
@@ -36,7 +37,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
   const [cropReady, setCropReady] = useState(false);
   console.log('Crop setting', setting);
   const [typeCropState, setTypeCrop] = useState(TypeCrop.px);
-  const cropperServiceRef = useRef(new CropService({ cropperRef, typeCropRef, changeActiveRef }));
+  const cropperServiceRef = useRef(new CropService(cropperRef, typeCropRef, changeActiveRef));
   const cropperService = cropperServiceRef.current;
 
   useEffect(() => {
@@ -73,14 +74,9 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
   }, [typeCropState, aspect]);
 
   useEffect(() => {
-    const cropper = cropperService.getCropper();
-
-    if (cropper && setting) {
-      const imgSettings = cropper.getImageData();
-      const transformed = transformSettingInPx(setting, imgSettings);
-      console.log('transformed', transformed);
-      setCropDataPx(transformed);
-      cropper.setData(transformed as any);
+    if (setting) {
+      const transformedData = cropperService.onChangeSettings(setting);
+      setCropDataPx(transformedData);
     }
   }, [setting, cropReady]);
 
@@ -125,11 +121,6 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
     setTypeCrop(newType);
   };
 
-  console.log('cropReady', cropReady);
-  if (!cropReady) {
-    return <div>loading</div>;
-  }
-
   const [optionsCropper, setOptionsCropper] = useState({
     autoCropArea: 0.5,
     background: false,
@@ -142,13 +133,13 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
     responsive: true,
     ready: () => {
       setCropReady(true);
-      console.log(123123);
       cropperService.transformDataByPointCrop(point);
     },
   });
 
   return (
     <>
+      {!cropReady && <div>Loading</div>} {/*сделать нормальный лоадер*/}
       <Cropper ref={cropperRef} {...optionsCropper} />
       <CropForm
         aspect={aspect.sides}
@@ -164,4 +155,4 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
   );
 };
 
-export default memo(Crop);
+export default Crop;

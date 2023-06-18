@@ -1,19 +1,15 @@
 import { MutableRefObject } from 'react';
 import { ReactCropperElement } from 'react-cropper';
-import { calcPxFromPercent, getPositionByPoint, transformPxAndPercent } from './imageService';
+import { calcPxFromPercent, getPositionByPoint, transformPxAndPercent, transformSettingInPx } from './imageService';
 import { ICropNewData, IPointOnImg, ISettingImgWithNulable } from '../interfaces/interfaces';
 import { TypeCrop } from '../messages';
 
 class CropService {
-  cropRef: MutableRefObject<ReactCropperElement>;
-  typeCropRef: MutableRefObject<string>;
-  changeActiveRef: MutableRefObject<boolean>;
-
-  constructor(refs: any) {
-    this.cropRef = refs.cropRef;
-    this.typeCropRef = refs.typeCropRef;
-    this.changeActiveRef = refs.changeActiveRef;
-  }
+  constructor(
+    public cropRef: MutableRefObject<ReactCropperElement | null>,
+    public typeCropRef: MutableRefObject<string>,
+    public changeActiveRef: MutableRefObject<boolean>
+  ) {}
 
   getCropper = () => {
     const imageElement = this.cropRef?.current;
@@ -121,6 +117,15 @@ class CropService {
       const cropper: any = this.getCropper();
       cropper.setAspectRatio(NaN).setData({ ...cropDataPx });
     }
+  };
+
+  onChangeSettings = (setting: any) => {
+    const cropper = this.getCropper();
+    const imgSettings = cropper!.getImageData();
+    const transformed = transformSettingInPx(setting, imgSettings);
+    console.log('transformed', transformed);
+    cropper!.setData(transformed as any);
+    return transformed;
   };
 }
 
