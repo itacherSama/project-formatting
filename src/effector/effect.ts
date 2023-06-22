@@ -50,6 +50,7 @@ export const generateKitImagesBySettings = createEffect({
   name: 'generateKitImagesBySettings',
   handler: async (data: any): Promise<{ kitImages: IInfoImg[]; idx: number }> => {
     const { fileImage, kitImagesSetting, idx } = data;
+    console.log('------------');
     const kitImages = await handleGenerateKitItemsBySettings(fileImage, kitImagesSetting);
 
     return { kitImages, idx };

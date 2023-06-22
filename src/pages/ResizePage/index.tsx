@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { Redirect } from '@reach/router';
 import { useStore } from 'effector-react';
 import Button from '@material-ui/core/Button';
@@ -52,7 +52,10 @@ const ResizePage = ({ nextStep, backStep }: Props) => {
     setCurrentCropImage(kitsImages[currentIdxKitImages]);
   }, [currentIdxKitImages, kitsImages]);
 
-  const settingItem = currentChangeCrop ? currentImgSetting.items[currentChangeCrop] : null;
+  const settingItem = useMemo(
+    () => (currentChangeCrop ? currentImgSetting.items[currentChangeCrop] : null),
+    [currentChangeCrop, currentImgSetting.items]
+  );
 
   const resetCurrentChangeCrop = useCallback(() => {
     setCurrentChangeCrop(null);

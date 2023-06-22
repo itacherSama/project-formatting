@@ -58,8 +58,9 @@ guard({
 
 const elementsForGenerateKitImagesBySettings = sample(
   combine([$idxKitImages, $images, $kitsImagesSetting, $stateCropPoint]),
-  $kitsImagesSetting,
+  events.setPointImg,
   (arrayStores: any) => {
+    console.log('ssssssssssssssssssss');
     const { idx } = arrayStores[0];
     return {
       idx,
@@ -73,7 +74,9 @@ const elementsForGenerateKitImagesBySettings = sample(
 guard({
   source: elementsForGenerateKitImagesBySettings,
   filter: ({ kitImagesSetting, stateCropPoint }) => {
-    return kitImagesSetting?.point?.pointWidth !== null && stateCropPoint;
+    console.log('stateCropPoint', stateCropPoint);
+    console.log('kitImagesSetting', kitImagesSetting);
+    return kitImagesSetting?.point?.pointWidth !== null;
   },
   target: effects.generateKitImagesBySettings,
 });

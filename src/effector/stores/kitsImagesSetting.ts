@@ -20,7 +20,7 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
   .on(events.addKitImageSettings, addKitImageSettingsReducer)
   .on(events.changeKitImageSettings, changeKitImageSettingsReducer)
   .on(events.cancelImg, deleteItemFromArrByIdxReducer)
-  .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
+  // .on(events.setPointImgInKitImages, setPointImgInKitImagesReducer)
   .on(events.setCancelCropImg, setCancelSettingInKitsCropImgReducer)
   .on(events.fetchSettingsForImages, (state, data: Array<ISettingsImage> | null) => {
     return data || state;
@@ -30,6 +30,10 @@ export const $kitsImagesSetting = createStore<ISettingsImage[]>([], {
 window.addEventListener('beforeunload', () => {
   saveDataInLocalStorage<ISettingsImage>('settingForKitsImages', $kitsImagesSetting.getState());
 });
+
+setInterval(() => {
+  console.log('$kitsImagesSetting.getState()', $kitsImagesSetting.getState());
+}, 5000);
 
 $kitsImagesSetting.watch((state) => {
   console.log('$kitsImagesSetting state', state);

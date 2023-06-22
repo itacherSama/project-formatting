@@ -1,9 +1,9 @@
-import React, { ChangeEvent, useCallback } from 'react';
+import React, { ChangeEvent, useCallback, memo, useEffect } from 'react';
 import { Button, Select, MenuItem } from '@material-ui/core';
 import { ICropFormData, ICropNewData } from 'interfaces/interfaces';
 import styles from '../Crop.module.css';
 import { TypeCrop } from '../../../messages';
-import Input from '../../Input/Input';
+import InputsParams from './InputsParams';
 
 type Props = {
   onSetCrop: (data: ICropNewData) => void;
@@ -26,6 +26,7 @@ const CropForm = ({
   getCropImage,
   setTypeCrop,
 }: Props) => {
+  console.log(2131312312321);
   const onChangeTypeCrop = useCallback(
     (event: ChangeEvent<any>) => {
       const newTypeCrop = event.target.value;
@@ -33,7 +34,11 @@ const CropForm = ({
     },
     [setTypeCrop]
   );
+  console.log('1232112');
 
+  useEffect(() => {
+    console.log('create');
+  }, []);
   const onSetValue = useCallback(
     (data: ICropNewData): void => {
       if (typeCrop === TypeCrop.aspect) {
@@ -45,25 +50,16 @@ const CropForm = ({
     [onSetAspect, onSetCrop, typeCrop]
   );
 
-  const generateInputs = useCallback(() => {
-    let crop: ICropFormData = cropPx;
-    if (typeCrop === TypeCrop.percent) {
-      crop = cropPercent;
-    } else if (typeCrop === TypeCrop.aspect) {
-      crop = aspect;
-    }
-
-    return (
-      <>
-        <Input currentValue={crop?.width} name="width" onChange={onSetValue} />
-        <Input currentValue={crop?.height} name="height" onChange={onSetValue} />
-      </>
-    );
-  }, [typeCrop, cropPx, cropPercent, aspect, onSetValue]);
+  let crop: ICropFormData = cropPx;
+  if (typeCrop === TypeCrop.percent) {
+    crop = cropPercent;
+  } else if (typeCrop === TypeCrop.aspect) {
+    crop = aspect;
+  }
 
   return (
     <form autoComplete="off" className={styles.cropForm} noValidate>
-      {generateInputs()}
+      <InputsParams crop={crop} onSetValue={onSetValue} />
       <Select value={typeCrop} onChange={onChangeTypeCrop}>
         {Object.values(TypeCrop).map((word: string) => (
           <MenuItem key={`${word}`} value={word}>
@@ -78,4 +74,4 @@ const CropForm = ({
   );
 };
 
-export default CropForm;
+export default memo(CropForm);

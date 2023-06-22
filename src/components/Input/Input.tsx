@@ -1,5 +1,5 @@
 import { Input as InputMU } from '@material-ui/core';
-import React, { ChangeEvent, useCallback, useEffect, useState } from 'react';
+import React, { ChangeEvent, useCallback, useEffect, useState, memo } from 'react';
 
 type Props = {
   onChange: any;
@@ -34,4 +34,4 @@ const Input = ({ currentValue, name, onChange }: Props) => {
   return <InputMU name={name} type="number" value={value} onChange={onSetValue} />;
 };
 
-export default Input;
+export default memo(Input);

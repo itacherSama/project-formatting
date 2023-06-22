@@ -40,16 +40,17 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
   const cropperServiceRef = useRef(new CropService(cropperRef, typeCropRef, changeActiveRef));
   const cropperService = cropperServiceRef.current;
 
+
   useEffect(() => {
     typeCropRef.current = typeCropState;
   }, [typeCropState]);
 
-  const [cropDataPx, setCropDataPx] = useState<ICropFormData>({
+  const [cropBoxDataPx, setCropDataPx] = useState<ICropFormData>({
     width: 200,
     height: 200,
   });
 
-  const [cropDataPercent, setCropDataPercent] = useState<ICropFormData>({ width: 50, height: 50 });
+  const [cropBoxDataPercent, setCropDataPercent] = useState<ICropFormData>({ width: 50, height: 50 });
 
   const [aspect, setCropAspect] = useState<ICropFormDataAspect>(() => {
     const startValue = { width: 4, height: 3 };
@@ -91,35 +92,36 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
     setCropDataPercent(value);
   };
 
-  const calcAspectCropData = (newValue: any) => {
+  const calcAspectCropData = useCallback((newValue: any) => {
     setCropAspect((prevState) => {
       const newValues = { ...prevState.sides, ...newValue };
 
       return { sides: newValues, value: calcAspect(newValues), used: true };
     });
-  };
+  }, []);
 
   const onCrop = useCallback(() => {
-    const newValues = cropperService.onCrop(point, cropDataPx);
+    const newValues = cropperService.onCrop(point, cropBoxDataPx);
+    console.log('newValues', newValues)
     if (newValues) {
       calcPercentCropData(newValues);
       setCropDataPx(newValues);
     }
-  }, [point, cropDataPx]);
+  }, [point, cropBoxDataPx]);
 
-  const onSetCrop = (newValue: ICropNewData) => {
-    cropperService.onSetCrop(point, newValue, cropDataPx);
-  };
+  const onSetCrop = useCallback((newValue: ICropNewData) => {
+    cropperService.onSetCrop(point, newValue, cropBoxDataPx);
+  }, []);
 
-  const getCropImage = () => {
+  const getCropImage = useCallback(() => {
     cropperService.getCropImage(addCropedImg);
     onCloseModal();
-  };
+  }, []);
 
-  const onTypeCrop = (newType: TypeCrop): void => {
-    cropperService.onTypeCrop(newType, cropDataPx);
+  const onTypeCrop = useCallback((newType: TypeCrop): void => {
+    cropperService.onTypeCrop(newType, cropBoxDataPx);
     setTypeCrop(newType);
-  };
+  }, []);
 
   const [optionsCropper, setOptionsCropper] = useState({
     autoCropArea: 0.5,
@@ -136,15 +138,14 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
       cropperService.transformDataByPointCrop(point);
     },
   });
-
   return (
     <>
       {!cropReady && <div>Loading</div>} {/*сделать нормальный лоадер*/}
       <Cropper ref={cropperRef} {...optionsCropper} />
       <CropForm
         aspect={aspect.sides}
-        cropPercent={cropDataPercent}
-        cropPx={cropDataPx}
+        cropPercent={cropBoxDataPercent}
+        cropPx={cropBoxDataPx}
         getCropImage={getCropImage}
         setTypeCrop={onTypeCrop}
         typeCrop={typeCropState}

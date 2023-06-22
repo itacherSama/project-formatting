@@ -16,6 +16,7 @@ export const getNewSettingsForKitImagesReducer = (
   state: ISettingsImage[],
   { transformedSettings, idx }: INewSettingsForKitImages
 ): ISettingsImage[] => {
+  console.log('123132321321');
   const newState = [...state];
   newState.splice(idx, 1, transformedSettings);
 

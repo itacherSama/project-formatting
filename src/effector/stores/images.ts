@@ -24,5 +24,6 @@ $images.watch((state: IInfoImg[]): void => {
 });
 
 window.addEventListener('beforeunload', () => {
+  console.log('images', $images.getState());
   convertAndSaveDataInLocalStorage('images', $images.getState());
 });
