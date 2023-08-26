@@ -8,6 +8,8 @@ type Props = {
 };
 
 const InputsParam = ({ onSetValue, crop }: Props) => {
+  console.log('crop', crop);
+  console.log('onSetValue', onSetValue);
   return (
     <>
       <Input currentValue={crop?.width} name="width" onChange={onSetValue} />

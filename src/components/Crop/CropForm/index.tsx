@@ -36,9 +36,6 @@ const CropForm = ({
   );
   console.log('1232112');
 
-  useEffect(() => {
-    console.log('create');
-  }, []);
   const onSetValue = useCallback(
     (data: ICropNewData): void => {
       if (typeCrop === TypeCrop.aspect) {

@@ -126,7 +126,7 @@ const Crop = ({ addCropedImg, src, onCloseModal, point, setting, resetCurrentCha
   const [optionsCropper, setOptionsCropper] = useState({
     autoCropArea: 0.5,
     background: false,
-    crop: onCrop,
+    cropmove: onCrop,
     guides: false,
     src,
     viewMode: 1 as Cropper.ViewMode,
